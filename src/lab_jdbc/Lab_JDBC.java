@@ -9,8 +9,9 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
-public class Lab_JDBC {
+public class Lab_JDBC/*extends JFrame */{
 
     final public static void printResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
@@ -24,6 +25,31 @@ public class Lab_JDBC {
             }
             System.out.println("");
         }
+    }
+
+    final public static void closeEverything(ResultSet rs, Statement stmt, Connection conn) {
+
+        try {
+            rs.close();
+            System.out.println("Rozłączono ResultSet");
+        } catch (SQLException ex) {
+            Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            stmt.close();
+            System.out.println("Rozłączono Statement");
+        } catch (SQLException ex) {
+            Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            conn.close();
+            System.out.println("Rozłączono z bazą danych");
+        } catch (SQLException ex) {
+            Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public static void main(String[] args) {
@@ -44,24 +70,20 @@ public class Lab_JDBC {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
+            System.out.println("Udało się stworzyć Statement");
         } catch (SQLException ex) {
             Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         ResultSet rs = null;
+
         try {
-            rs = stmt.executeQuery("SELECT * FROM PRACOWNICY");
+            rs = stmt.executeQuery("SELECT ID_PRAC FROM PRACOWNICY");
+            System.out.println("Udało się stworzyć ResultSet");
         } catch (SQLException ex) {
             Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try {
-            boolean w = rs.next();
-            //System.out.println("w -> " + w);
-        } catch (SQLException ex) {
-            Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         try {
             printResultSet(rs);
         } catch (SQLException ex) {
@@ -69,10 +91,26 @@ public class Lab_JDBC {
         }
 
         try {
-            conn.close();
-            System.out.println("Rozłączono z bazą danych");
+            rs.close();
+            System.out.println("Rozłączono ResultSet");
         } catch (SQLException ex) {
             Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        try {
+            rs = stmt.executeQuery("SELECT NAZWISKO FROM PRACOWNICY");
+            System.out.println("Udało się stworzyć ResultSet");
+        } catch (SQLException ex) {
+            Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            printResultSet(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        closeEverything(rs, stmt, conn);
+
     }
 }
