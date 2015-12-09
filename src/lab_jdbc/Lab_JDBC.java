@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 
-public class Lab_JDBC/*extends JFrame */{
+public class Lab_JDBC extends JFrame {
 
     final public static void printResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
@@ -78,7 +78,7 @@ public class Lab_JDBC/*extends JFrame */{
         ResultSet rs = null;
 
         try {
-            rs = stmt.executeQuery("SELECT ID_PRAC FROM PRACOWNICY");
+            rs = stmt.executeQuery("SELECT ID_PRAC, RPAD(NAZWISKO, 12, ' '), ETAT FROM PRACOWNICY");
             System.out.println("Udało się stworzyć ResultSet");
         } catch (SQLException ex) {
             Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,7 +89,7 @@ public class Lab_JDBC/*extends JFrame */{
         } catch (SQLException ex) {
             Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+/*
         try {
             rs.close();
             System.out.println("Rozłączono ResultSet");
@@ -109,7 +109,8 @@ public class Lab_JDBC/*extends JFrame */{
         } catch (SQLException ex) {
             Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        */
+        //TU NIE TRZEBA ZAMYKAC RS BO JEST ZAMYKANY W CLOSEEVERYTHING
         closeEverything(rs, stmt, conn);
 
     }
