@@ -1,0 +1,8 @@
+# lab_JDBC
+first try of making Java code + SQL DB
+
+TODO:
+[ ] move some code to connector
+[ ] make gui prototype
+[ ] use cases 
+[ ] DFD - Data Flow Diagram
