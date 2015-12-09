@@ -33,7 +33,7 @@ public class Lab_JDBC extends JFrame {
         //setLayout(new FlowLayout());      // set the layout manager
 
         panel = new JPanel();
-        panel.setBackground(Color.red);
+        panel.setBackground(Color.blue);
 
         button = new JButton("Click Me!"); // construct a JButton
         label = new JLabel("Label1");
