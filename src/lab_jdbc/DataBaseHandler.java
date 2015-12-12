@@ -6,6 +6,11 @@ import java.util.logging.*;
 
 public class DataBaseHandler {
 
+    Connection conn;
+    Properties connectionProps;
+    Statement stmt;
+    ResultSet rs;
+
     final public static void printResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -20,7 +25,8 @@ public class DataBaseHandler {
         }
     }
 
-    final public static void closeEverything(ResultSet rs, Statement stmt, Connection conn) {
+    
+    public void closeEverything() {
 
         try {
             rs.close();
@@ -42,71 +48,53 @@ public class DataBaseHandler {
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+
     
-    public static void main(String[] args) {
+    public DataBaseHandler() {
 
-        FrameMaker frame = new FrameMaker("Koksy");
-
-        Connection conn = null;
-        Properties connectionProps = new Properties();
-        connectionProps.put("user", "inf117192");
-        connectionProps.put("password", "inf117192");
+        this.conn = null;
+        this.connectionProps = new Properties();
+        this.connectionProps.put("user", "inf117192");
+        this.connectionProps.put("password", "inf117192");
 
         try {
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@//admlab2-main.cs.put.poznan.pl:1521/dblab01.cs.put.poznan.pl", connectionProps);
+            this.conn = DriverManager.getConnection("jdbc:oracle:thin:@//admlab2-main.cs.put.poznan.pl:1521/dblab01.cs.put.poznan.pl", this.connectionProps);
             System.out.println("Połączono z bazą danych");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, "nie udało się połączyć z bazą danych", ex);
             System.exit(-1);
         }
 
-        Statement stmt = null;
+        this.stmt = null;
         try {
-            stmt = conn.createStatement();
+            this.stmt = this.conn.createStatement();
             System.out.println("Udało się stworzyć Statement");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ResultSet rs = null;
+        this.rs = null;
 
         try {
-            rs = stmt.executeQuery("SELECT ID_PRAC, RPAD(NAZWISKO, 12, ' '), ETAT FROM PRACOWNICY");
+            this.rs = this.stmt.executeQuery("SELECT ID_PRAC, RPAD(NAZWISKO, 12, ' '), ETAT FROM PRACOWNICY");
             System.out.println("Udało się stworzyć ResultSet");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
-            printResultSet(rs);
+            printResultSet(this.rs);
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*
-         try {
-         rs.close();
-         System.out.println("Rozłączono ResultSet");
-         } catch (SQLException ex) {
-         Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
-         }
+    }
+    
 
-         try {
-         rs = stmt.executeQuery("SELECT NAZWISKO FROM PRACOWNICY");
-         System.out.println("Udało się stworzyć ResultSet");
-         } catch (SQLException ex) {
-         Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
-         }
+    public static void main(String[] args) {
 
-         try {
-         printResultSet(rs);
-         } catch (SQLException ex) {
-         Logger.getLogger(Lab_JDBC.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         */
-        //TU NIE TRZEBA ZAMYKAC RS BO JEST ZAMYKANY W CLOSEEVERYTHING
-        closeEverything(rs, stmt, conn);
-
+        FrameMaker frame = new FrameMaker("Koksy");
+        DataBaseHandler db = new DataBaseHandler();
+        db.closeEverything();
     }
 }
