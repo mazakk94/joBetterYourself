@@ -44,8 +44,7 @@ public class DataBaseHandler {
         }
 
     }
-
-    @SuppressWarnings("null")
+    
     public static void main(String[] args) {
 
         FrameMaker frame = new FrameMaker("Koksy");
