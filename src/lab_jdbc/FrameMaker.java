@@ -14,7 +14,7 @@ public class FrameMaker extends JFrame {
 
         frame = new JFrame(title);
         frame.setVisible(true);
-        frame.setSize(1200, 600);
+        frame.setSize(1024, 512);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel();
