@@ -2,7 +2,9 @@
 first try of making Java code + SQL DB
 
 TODO:
-[ ] move some code to connector
+[v] move some code to connector
 [ ] make gui prototype
-[ ] use cases 
+[v] use cases 
 [ ] DFD - Data Flow Diagram
+
+[ ] jframe tutorial

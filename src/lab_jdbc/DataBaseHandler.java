@@ -26,7 +26,7 @@ public class DataBaseHandler {
     }
 
     
-    public void closeEverything() {
+    private void closeEverything() {
 
         try {
             rs.close();
@@ -51,8 +51,8 @@ public class DataBaseHandler {
     }
 
     
-    public DataBaseHandler() {
-
+    private DataBaseHandler() {
+              
         this.conn = null;
         this.connectionProps = new Properties();
         this.connectionProps.put("user", "inf117192");
@@ -90,11 +90,13 @@ public class DataBaseHandler {
         }
     }
     
-
-    public static void main(String[] args) {
-
+    public void initDB(){
+        
         FrameMaker frame = new FrameMaker("Koksy");
         DataBaseHandler db = new DataBaseHandler();
         db.closeEverything();
+        
     }
+    
+    
 }
