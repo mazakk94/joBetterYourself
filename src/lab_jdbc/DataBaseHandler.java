@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
-public class DataBaseHandler {
+final public class DataBaseHandler {
 
     Connection conn;
     Properties connectionProps;
@@ -24,9 +24,18 @@ public class DataBaseHandler {
             System.out.println("");
         }
     }
-
     
-    private void closeEverything() {
+    final public static void askForSomething(String query){
+        /*
+        Tworzymy statement
+        tworzymy resultset
+        
+        usuwamy resultset
+        usuwamy statement
+        */
+    }
+
+    public void closeEverything() {
 
         try {
             rs.close();
@@ -50,9 +59,10 @@ public class DataBaseHandler {
         }
     }
 
-    
-    private DataBaseHandler() {
-              
+    public DataBaseHandler() {
+        
+        //FrameMaker frame = new FrameMaker("Koksy");
+            //niepotrzebne - nowa formatka
         this.conn = null;
         this.connectionProps = new Properties();
         this.connectionProps.put("user", "inf117192");
@@ -89,14 +99,5 @@ public class DataBaseHandler {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void initDB(){
-        
-        FrameMaker frame = new FrameMaker("Koksy");
-        DataBaseHandler db = new DataBaseHandler();
-        db.closeEverything();
-        
-    }
-    
-    
+
 }
