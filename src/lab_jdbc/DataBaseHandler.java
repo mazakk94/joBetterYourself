@@ -14,25 +14,31 @@ final public class DataBaseHandler {
     final public static void printResultSet(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
+        System.out.println("liczba kolumn: " + columnsNumber);
+        System.out.println("current row: "+rs.getRow()+" ");
+        System.out.println(rs.next());
         while (rs.next()) {
             for (int i = 1; i <= columnsNumber; i++) {
+                System.out.print(" | i = " + i);
+                System.out.print(" | current row: "+rs.getRow()+" | ");
                 if (i > 1) {
                     System.out.print(" | ");
                 }
-                System.out.print(rs.getString(i));
+                System.out.print(rs.getInt(i));
+                //System.out.print(rs.getString(i));
             }
             System.out.println("");
         }
     }
-    
-    final public static void askForSomething(String query){
+
+    final public static void askForSomething(String query) {
         /*
-        Tworzymy statement
-        tworzymy resultset
+         Tworzymy statement
+         tworzymy resultset
         
-        usuwamy resultset
-        usuwamy statement
-        */
+         usuwamy resultset
+         usuwamy statement
+         */
     }
 
     public void closeEverything() {
@@ -60,9 +66,9 @@ final public class DataBaseHandler {
     }
 
     public DataBaseHandler() {
-        
+
         //FrameMaker frame = new FrameMaker("Koksy");
-            //niepotrzebne - nowa formatka
+        //niepotrzebne - nowa formatka
         this.conn = null;
         this.connectionProps = new Properties();
         this.connectionProps.put("user", "inf117192");
@@ -78,7 +84,7 @@ final public class DataBaseHandler {
 
         this.stmt = null;
         try {
-            this.stmt = this.conn.createStatement();
+            this.stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             System.out.println("Udało się stworzyć Statement");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +93,7 @@ final public class DataBaseHandler {
         this.rs = null;
 
         try {
-            this.rs = this.stmt.executeQuery("SELECT ID_PRAC, RPAD(NAZWISKO, 12, ' '), ETAT FROM PRACOWNICY");
+            this.rs = this.stmt.executeQuery("SELECT id_prac, id_zesp from pracownicy"); //("SELECT NR, OBCIAZENIE, LICZBA_POWT FROM SERIA"); //RPAD(NAZWISKO, 12, ' ')
             System.out.println("Udało się stworzyć ResultSet");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
