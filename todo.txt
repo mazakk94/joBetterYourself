@@ -3,8 +3,26 @@ first try of making Java code + SQL DB
 
 TODO:
 [v] move some code to connector
-[ ] make gui prototype
+[v] make gui prototype
 [v] use cases 
 [ ] DFD - Data Flow Diagram
 
-[ ] jframe tutorial
+[v] jframe tutorial
+
+[v] make tables working with deimos - localhost
+
+[ ] Calendar
+    [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania
+    [ ] Trening
+        [ ] make table in 'Trening' with option to edit (first just view table)
+        [ ] add some example tables to check how table works - TU ZACZĄĆ (FILMIK YOUTUBE)
+[ ] zapytaj trenera
+
+
+[ ] gui for trainer
+    [ ] create diet 
+    [ ] create training plan
+[ ] podzial na 2 okna w zaleznosci od uzytkownika - 2 panele?
+
+extra:
+[ ] on exit close db

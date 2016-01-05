@@ -1,14 +1,24 @@
 package lab_jdbc;
 
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 public class WindowMaker extends javax.swing.JFrame {
 
+    String result = new String();
+    //private Object dataBase;
+    public DataBaseHandler dataBase;
+
     public WindowMaker() {
+        dataBase = new DataBaseHandler();
         initComponents();
         myInitComponents();
+
     }
 
     @SuppressWarnings({"unchecked", "Convert2Lambda"})
@@ -27,6 +37,11 @@ public class WindowMaker extends javax.swing.JFrame {
         pDailyUpdate = new javax.swing.JTabbedPane();
         pDailyDiet = new javax.swing.JPanel();
         pDailyTraining = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         pDailyMeasurement = new javax.swing.JPanel();
         lWeight = new javax.swing.JLabel();
         lWaist = new javax.swing.JLabel();
@@ -179,15 +194,54 @@ public class WindowMaker extends javax.swing.JFrame {
 
         pDailyUpdate.addTab("Dieta", pDailyDiet);
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+        jTextArea1.getAccessibleContext().setAccessibleDescription("");
+
+        jButton1.setText("Read");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
         javax.swing.GroupLayout pDailyTrainingLayout = new javax.swing.GroupLayout(pDailyTraining);
         pDailyTraining.setLayout(pDailyTrainingLayout);
         pDailyTrainingLayout.setHorizontalGroup(
             pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         pDailyTrainingLayout.setVerticalGroup(
             pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 23, Short.MAX_VALUE))
         );
 
         pDailyUpdate.addTab("Trening", pDailyTraining);
@@ -283,7 +337,7 @@ public class WindowMaker extends javax.swing.JFrame {
                                 .addGap(65, 65, 65)
                                 .addComponent(lForearm))))
                     .addComponent(bSubmitDailyMeasurement, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pDailyMeasurementLayout.setVerticalGroup(
             pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,7 +366,7 @@ public class WindowMaker extends javax.swing.JFrame {
                     .addComponent(sForearm, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addComponent(bSubmitDailyMeasurement, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pDailyUpdate.addTab("Pomiary", pDailyMeasurement);
@@ -327,7 +381,7 @@ public class WindowMaker extends javax.swing.JFrame {
                     .addComponent(jCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lChooseDay, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pDailyUpdate)
+                .addComponent(pDailyUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pCalendarLayout.setVerticalGroup(
@@ -984,6 +1038,14 @@ public class WindowMaker extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bSubmitPrivateActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String wynik = new String();
+        wynik = dataBase.getAnswer("select * from seria");
+        System.out.println("teraz drukuje to w konsoli ale z windowmakera");
+        System.out.println(wynik);
+        jTextArea1.setText(wynik);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void myInitComponents() {
         // boolean fAdvanced = false;
         ImageIcon tab1 = new ImageIcon("img/b1.jpg");
@@ -1000,7 +1062,7 @@ public class WindowMaker extends javax.swing.JFrame {
         iBodyFat.setVisible(false);
     }
 
-    @SuppressWarnings("Convert2Lambda")
+    @SuppressWarnings({"Convert2Lambda", "static-access"})
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1026,7 +1088,15 @@ public class WindowMaker extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        //DataBaseHandler dataBase = new DataBaseHandler();
+        String tmp;
+
+        /*try {
+         tmp = dataBase.printResultSet(dataBase.rs);
+         //jTextArea1.add(result, null);
+         } catch (SQLException ex) {
+         Logger.getLogger(WindowMaker.class.getName()).log(Level.SEVERE, null, ex);
+         }*/
+        //this.result = tmp;
         java.awt.EventQueue.invokeLater(new Runnable() {
             @SuppressWarnings("override")
             public void run() {
@@ -1055,6 +1125,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel iOwcaWK;
     private javax.swing.JLabel iPudzian;
     private javax.swing.JLabel iSportowiec;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JCalendar jCalendar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1072,6 +1143,10 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lArnold;
     private javax.swing.JLabel lBiceps;
     private javax.swing.JLabel lCalf;
