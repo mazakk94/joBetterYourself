@@ -27,3 +27,4 @@ TODO:
 extra:
 [ ] on exit close db
 [ ] przerobić getList i ListofList w jedno (w zależności od columnnumber)
+[ ] na zmianę daty robimy clear()
