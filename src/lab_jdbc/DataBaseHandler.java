@@ -17,7 +17,7 @@ final public class DataBaseHandler {
     //Statement stmt;
     //ResultSet rs;
 
-    final public static String printResultSet(ResultSet rs) throws SQLException {
+    final public static String getResultString(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         String resultString = new String();
         int columnsNumber = rsmd.getColumnCount();
@@ -39,65 +39,19 @@ final public class DataBaseHandler {
         return resultString;
     }
 
-    final public static ArrayList<ArrayList<String>> getResultList(ResultSet rs) throws SQLException {
-        ResultSetMetaData rsmd = rs.getMetaData();
-
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<ArrayList<String>> resultList = new ArrayList<ArrayList<String>>();
-        int columnsNumber = rsmd.getColumnCount();
-
-        while (rs.next()) {
-            @SuppressWarnings("Convert2Diamond")
-            ArrayList<String> subList = new ArrayList<String>();
-            for (int i = 1; i <= columnsNumber; i++) {
-                subList.add(rs.getString(i));
-            }
-            resultList.add(subList);
-        }
-
-        System.out.println("Wykonałem getResultList !!!");
-        return resultList;
-    }
-
-    final public static void printResultList(ResultSet rs) throws SQLException {
-        ResultSetMetaData rsmd = rs.getMetaData();
-
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<ArrayList<String>> resultList = new ArrayList<ArrayList<String>>();
-
-        System.out.println("Zaczynam printResultList ...");
-        int columnsNumber = rsmd.getColumnCount();
-        while (rs.next()) {
-            //List subList = new ArrayList();
-            @SuppressWarnings("Convert2Diamond")
-            ArrayList<String> subList = new ArrayList<String>();
-            for (int i = 1; i <= columnsNumber; i++) {
-                subList.add(rs.getString(i));// = resultString + " " + rs.getString(i);
-            }
-            resultList.add(subList);
-        }
-
-        for (int i = 0; i < resultList.size(); i++) {
-            for (int j = 0; j < resultList.get(i).size(); j++) {
-                System.out.print(resultList.get(i).get(j));
-                System.out.print(" ");
-            }
-            System.out.println("");
-        }
-        System.out.println("Kończę printResultList ...");
-    }
-
     @SuppressWarnings("null")
     public String getAnswer(String query) {
         /*
          Tworzymy statement
          tworzymy resultset
-        
+         zadajemy zapytanie
+         dodajemy je do zmiennej wybranego typu
          usuwamy resultset
          usuwamy statement
+         return zmienna
          */
         String result = null;
-        List resultList = new ArrayList();
+        //List resultList = new ArrayList();
         Statement stmt;
         ResultSet rset;
 
@@ -112,14 +66,13 @@ final public class DataBaseHandler {
         rset = null;
         try { //"select * from seria"
             rset = stmt.executeQuery(query);                                        // where nr = 1 and cwiczenie LIKE 'Zolnierskie'"); //("SELECT NR, OBCIAZENIE, LICZBA_POWT FROM SERIA"); //RPAD(NAZWISKO, 12, ' ')
-            System.out.println("Udało się stworzyć ResultSet dla query = " + query);
-            //result = printResultSet(rset);
-            //resultList = 
-            printResultList(rset);
+            //System.out.println("Udało się stworzyć ResultSet dla query = " + query);
+            result = getResultString(rset);
+            //printResultList(rset);
             //System.out.println("drukuje result czyli to co wyjdzie z tej funkcji");
             //System.out.println(result); //drukuje result czyli to co wyjdzie z tej funkcji
             rset.close();
-            System.out.println("Rozłączono ResultSet");
+            //System.out.println("Rozłączono ResultSet");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,6 +84,107 @@ final public class DataBaseHandler {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
+    }
+
+    final public static ArrayList<ArrayList<String>> getResultListofList(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<ArrayList<String>> resultListofList = new ArrayList<ArrayList<String>>();
+        int columnsNumber = rsmd.getColumnCount();
+
+        while (rs.next()) {
+            @SuppressWarnings("Convert2Diamond")
+            ArrayList<String> subList = new ArrayList<String>();
+            for (int i = 1; i <= columnsNumber; i++) {
+                subList.add(rs.getString(i));
+            }
+            resultListofList.add(subList);
+        }
+
+        System.out.println("Wykonałem getResultList !!!");
+        return resultListofList;
+    }
+
+    @SuppressWarnings("null")
+    public ArrayList<ArrayList<String>> getAnswerListofList(String query) {
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<ArrayList<String>> resultListofList = new ArrayList<ArrayList<String>>();
+
+        Statement stmt;
+        ResultSet rset;
+
+        stmt = null;
+        try {
+            stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        rset = null;
+        try {
+            rset = stmt.executeQuery(query);
+            resultListofList = getResultListofList(rset);
+            rset.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultListofList;
+    }
+
+    final public static ArrayList<String> getResultList(ResultSet rs) throws SQLException {
+        //ResultSetMetaData rsmd = rs.getMetaData();
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> resultList = new ArrayList<String>();
+        //int columnsNumber = rsmd.getColumnCount();
+
+        while (rs.next()) {
+            String item = new String();
+            item = rs.getString(1);
+            resultList.add(item);
+        }
+
+        return resultList;
+    }
+
+    @SuppressWarnings("null")
+    public ArrayList<String> getAnswerList(String query) {
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> resultList = new ArrayList<String>();
+        Statement stmt;
+        ResultSet rset;
+
+        stmt = null;
+        try {
+            stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        rset = null;
+        try {
+            rset = stmt.executeQuery(query);
+            resultList = getResultList(rset);
+            rset.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultList;
     }
 
     public void closeEverything() {
@@ -167,3 +221,31 @@ final public class DataBaseHandler {
     }
 
 }
+
+/*final public static void printResultList(ResultSet rs) throws SQLException {
+ ResultSetMetaData rsmd = rs.getMetaData();
+
+ @SuppressWarnings("Convert2Diamond")
+ ArrayList<ArrayList<String>> resultList = new ArrayList<ArrayList<String>>();
+
+ System.out.println("Zaczynam printResultList ...");
+ int columnsNumber = rsmd.getColumnCount();
+ while (rs.next()) {
+ //List subList = new ArrayList();
+ @SuppressWarnings("Convert2Diamond")
+ ArrayList<String> subList = new ArrayList<String>();
+ for (int i = 1; i <= columnsNumber; i++) {
+ subList.add(rs.getString(i));// = resultString + " " + rs.getString(i);
+ }
+ resultList.add(subList);
+ }
+
+ for (int i = 0; i < resultList.size(); i++) {
+ for (int j = 0; j < resultList.get(i).size(); j++) {
+ System.out.print(resultList.get(i).get(j));
+ System.out.print(" ");
+ }
+ System.out.println("");
+ }
+ System.out.println("Kończę printResultList ...");
+ }*/

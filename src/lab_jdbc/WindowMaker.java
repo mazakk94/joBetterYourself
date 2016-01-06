@@ -1,10 +1,11 @@
 package lab_jdbc;
 
 import java.awt.Color;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+/*import java.sql.ResultSet;
+ import java.sql.SQLException;
+ import java.util.logging.Level;
+ import java.util.logging.Logger;*/
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -42,6 +43,14 @@ public class WindowMaker extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        lTrening = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        eTrainingName = new javax.swing.JTextField();
+        cbChooseBodyPart = new javax.swing.JComboBox();
+        lWhichBodyPart = new javax.swing.JLabel();
+        cbChooseExercise = new javax.swing.JComboBox();
+        lChooseExercise = new javax.swing.JLabel();
         pDailyMeasurement = new javax.swing.JPanel();
         lWeight = new javax.swing.JLabel();
         lWaist = new javax.swing.JLabel();
@@ -220,28 +229,84 @@ public class WindowMaker extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        jButton2.setText("Dodaj serię");
+
+        lTrening.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        lTrening.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lTrening.setText("Uzupełnij swój dzisiejszy trening");
+
+        jLabel1.setText("Nazwa treningu");
+
+        cbChooseBodyPart.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseBodyPart()));
+        cbChooseBodyPart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChooseBodyPartActionPerformed(evt);
+            }
+        });
+
+        lWhichBodyPart.setText("Wybierz partię ciała");
+
+        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--wybierz partię--" }));
+
+        lChooseExercise.setText("Wybierz ćwiczenie");
+
         javax.swing.GroupLayout pDailyTrainingLayout = new javax.swing.GroupLayout(pDailyTraining);
         pDailyTraining.setLayout(pDailyTrainingLayout);
         pDailyTrainingLayout.setHorizontalGroup(
             pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pDailyTrainingLayout.createSequentialGroup()
                 .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(pDailyTrainingLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(108, Short.MAX_VALUE))
+                        .addComponent(lTrening, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lWhichBodyPart, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pDailyTrainingLayout.createSequentialGroup()
+                                .addGap(89, 89, 89)
+                                .addComponent(jButton1))
+                            .addComponent(cbChooseBodyPart, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eTrainingName, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(201, 201, 201))
+            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbChooseExercise, 0, 162, Short.MAX_VALUE)
+                    .addComponent(lChooseExercise, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pDailyTrainingLayout.setVerticalGroup(
             pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addComponent(lTrening, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eTrainingName)
+                    .addComponent(lWhichBodyPart))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbChooseBodyPart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lChooseExercise)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbChooseExercise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(44, 44, 44)
                 .addComponent(jButton1)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 13, Short.MAX_VALUE))
         );
 
         pDailyUpdate.addTab("Trening", pDailyTraining);
@@ -381,7 +446,7 @@ public class WindowMaker extends javax.swing.JFrame {
                     .addComponent(jCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lChooseDay, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pDailyUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addComponent(pDailyUpdate)
                 .addContainerGap())
         );
         pCalendarLayout.setVerticalGroup(
@@ -1038,13 +1103,54 @@ public class WindowMaker extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bSubmitPrivateActionPerformed
 
+    private void printArray(ArrayList<String> list) {
+        //System.out.println("list.size()");
+        //System.out.println(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println("CLICK");
         String wynik = new String();
-        wynik = dataBase.getAnswer("select * from seria");
-        System.out.println("teraz drukuje to w konsoli ale z windowmakera");
-        System.out.println(wynik);
+        wynik = dataBase.getAnswer("select * from cwiczenie");
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> list = dataBase.getAnswerList("select nazwa from cwiczenie");
+        //ArrayList<String> list = new ArrayList<String>();
+        //list = dataBase.getAnswerList("select nazwa from cwiczenie");
+
+        System.out.println("WINDOWMAKER:");
+        printArray(list);
+        //System.out.println(wynik);
         jTextArea1.setText(wynik);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbChooseBodyPartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseBodyPartActionPerformed
+        String part = cbChooseBodyPart.getSelectedItem().toString();
+       // initCbChooseExercise(part)
+
+        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseExercise(part)));
+    }//GEN-LAST:event_cbChooseBodyPartActionPerformed
+
+    private String[] initCbChooseBodyPart() {
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> arraylist = new ArrayList<String>();
+        arraylist = dataBase.getAnswerList("select partia from cwiczenie");
+        String[] list = new String[arraylist.size()];
+        list = arraylist.toArray(list);
+        return list;
+    }
+
+    private String[] initCbChooseExercise(String bodyPart) {
+        String query = "'" + bodyPart + "'";
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> arraylist = new ArrayList<String>();
+        arraylist = dataBase.getAnswerList("select nazwa from cwiczenie where partia like" + query);
+        String[] list = new String[arraylist.size()];
+        list = arraylist.toArray(list);
+        return list;
+    }
 
     private void myInitComponents() {
         // boolean fAdvanced = false;
@@ -1052,6 +1158,7 @@ public class WindowMaker extends javax.swing.JFrame {
         ImageIcon tab2 = new ImageIcon("img/b2.jpg");
         ImageIcon tab3 = new ImageIcon("img/b3.jpg");
         //jTabbedPane1.addTab("", jPanel2);
+        //cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseExercise()));
         pMainPanel.addTab("", tab1, pCalendar,
                 "Does nothing");
         pMainPanel.addTab("", tab2, pAsk,
@@ -1113,12 +1220,15 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JButton bSubmitDailyMeasurement;
     private javax.swing.JButton bSubmitPrivate;
     private javax.swing.JButton bSubmitTarget;
+    private javax.swing.JComboBox cbChooseBodyPart;
+    private javax.swing.JComboBox cbChooseExercise;
     private com.toedter.calendar.JDateChooser eBirthDate;
     private javax.swing.JSpinner eBodyFat;
     private javax.swing.JTextField eFirstName;
     private javax.swing.JSpinner eHeight;
     private javax.swing.JTextField eLastName;
     private javax.swing.JSpinner eNeed;
+    private javax.swing.JTextField eTrainingName;
     private javax.swing.JLabel iArnold;
     private javax.swing.JLabel iBodyFat;
     private javax.swing.JLabel iChudzian;
@@ -1126,7 +1236,9 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel iPudzian;
     private javax.swing.JLabel iSportowiec;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private com.toedter.calendar.JCalendar jCalendar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1152,14 +1264,17 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel lCalf;
     private javax.swing.JLabel lChest;
     private javax.swing.JLabel lChooseDay;
+    private javax.swing.JLabel lChooseExercise;
     private javax.swing.JLabel lChudzian;
     private javax.swing.JLabel lForearm;
     private javax.swing.JLabel lOwcaWK;
     private javax.swing.JLabel lPudzian;
     private javax.swing.JLabel lSportowiec;
     private javax.swing.JLabel lThigh;
+    private javax.swing.JLabel lTrening;
     private javax.swing.JLabel lWaist;
     private javax.swing.JLabel lWeight;
+    private javax.swing.JLabel lWhichBodyPart;
     private javax.swing.JTabbedPane pAccount;
     private javax.swing.JPanel pAdvanced;
     private javax.swing.JPanel pAsk;
