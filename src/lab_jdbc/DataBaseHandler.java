@@ -28,13 +28,16 @@ final public class DataBaseHandler {
             for (int i = 1; i <= columnsNumber; i++) {
                 if (i > 1) {
                     System.out.print(" | ");
+                    resultString = resultString + " ";
                 }
                 //System.out.print(rs.getInt(i));
                 System.out.print(rs.getString(i));
-                resultString = resultString + " " + rs.getString(i);
+                resultString = resultString + rs.getString(i);
             }
-            System.out.println("");
-            resultString = resultString + "\n";
+            if (columnsNumber > 1) {
+                System.out.println("");
+                resultString = resultString + "\n";
+            }
         }
         return resultString;
     }
@@ -66,14 +69,16 @@ final public class DataBaseHandler {
         rset = null;
         try { //"select * from seria"
             rset = stmt.executeQuery(query);                                        // where nr = 1 and cwiczenie LIKE 'Zolnierskie'"); //("SELECT NR, OBCIAZENIE, LICZBA_POWT FROM SERIA"); //RPAD(NAZWISKO, 12, ' ')
-            //System.out.println("Udało się stworzyć ResultSet dla query = " + query);
+            System.out.println("Udało się stworzyć ResultSet dla query = " + query);
             result = getResultString(rset);
-            //printResultList(rset);
-            //System.out.println("drukuje result czyli to co wyjdzie z tej funkcji");
+            System.out.println("drukuje result czyli to co wyjdzie z tej funkcji");
+            System.out.println(result);
+
             //System.out.println(result); //drukuje result czyli to co wyjdzie z tej funkcji
             rset.close();
-            //System.out.println("Rozłączono ResultSet");
+
         } catch (SQLException ex) {
+            System.out.println("Blad w resultSet");
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -84,6 +89,58 @@ final public class DataBaseHandler {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
+    }
+
+    final public static ArrayList<Vector<String>> getResultListofVector(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<Vector<String>> resultListofVector = new ArrayList<Vector<String>>();
+        int columnsNumber = rsmd.getColumnCount();
+
+        while (rs.next()) {
+            @SuppressWarnings("Convert2Diamond")
+            Vector<String> subVector = new Vector<String>();
+            for (int i = 1; i <= columnsNumber; i++) {
+                subVector.add(rs.getString(i));
+            }
+            resultListofVector.add(subVector);
+        }
+
+        System.out.println("Wykonałem getResultVector !!!");
+        return resultListofVector;
+    }
+
+    @SuppressWarnings({"null", "UseOfObsoleteCollectionType"})
+    public ArrayList<Vector<String>> getAnswerListofVector(String query) {
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<Vector<String>> resultListofVector = new ArrayList<Vector<String>>();
+        Statement stmt;
+        ResultSet rset;
+
+        stmt = null;
+        try {
+            stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        rset = null;
+        try {
+            rset = stmt.executeQuery(query);
+            resultListofVector = getResultListofVector(rset);
+            rset.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultListofVector;
     }
 
     final public static ArrayList<ArrayList<String>> getResultListofList(ResultSet rs) throws SQLException {
@@ -111,7 +168,6 @@ final public class DataBaseHandler {
 
         @SuppressWarnings("Convert2Diamond")
         ArrayList<ArrayList<String>> resultListofList = new ArrayList<ArrayList<String>>();
-
         Statement stmt;
         ResultSet rset;
 

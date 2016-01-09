@@ -14,8 +14,14 @@ TODO:
 [ ] Calendar
     [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania
     [ ] Trening
-        [ ] make table in 'Trening' with option to edit (first just view table)
+        [v] first just view table
+        [ ] make table in 'Trening' with option to edit
+            [ ] add row to table with values in editTexts
+            [ ] change name of training
+            [ ] submit changes
         [ ] add some example tables to check how table works - TU ZACZĄĆ (FILMIK YOUTUBE)
+
+
 [ ] zapytaj trenera
 
 
@@ -28,3 +34,4 @@ extra:
 [ ] on exit close db
 [ ] przerobić getList i ListofList w jedno (w zależności od columnnumber)
 [ ] na zmianę daty robimy clear()
+[ ] block changing date when not submitted changes
