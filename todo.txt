@@ -15,7 +15,7 @@ TODO:
     [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania
     [ ] Trening
         [v] first just view table
-        [ ] make table in 'Trening' with option to edit
+        [ ] make table in 'Trening' with option to edit - POTEM DOKOŃCZĘ
             [v] add row to table with values in editTexts - jeszcze info jak niepoprawne dane
             [v] edit chosen row 
             [ ] undo - pamietaj ostatnio usuniety
@@ -25,9 +25,10 @@ TODO:
             [ ] move up/down
             [v] partia w zaleznosci od cwiczenia
             [v] change name of training
-            [ ] submit changes - NAJWAŻNIEJSZE
+            [v] submit changes
         [v] add some example tables to check how table works
-
+    [ ] Pomiary
+        [ ] wyświetla ostatnio dodany pomiar, jak nie ma nic jeszcze dodane to zera
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
 [ ] zapytaj trenera
