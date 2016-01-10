@@ -17,6 +17,10 @@ import javax.swing.table.TableColumn;
 public class WindowMaker extends javax.swing.JFrame {
 
     String result = new String();
+    @SuppressWarnings({"Convert2Diamond", "UseOfObsoleteCollectionType"})
+    // lastDeletedSet = new Vector<String>();
+    int deletedRow = 0;
+
     //private Object dataBase;
     public DataBaseHandler dataBase;
 
@@ -42,6 +46,22 @@ public class WindowMaker extends javax.swing.JFrame {
         jCalendar = new com.toedter.calendar.JCalendar();
         pDailyUpdate = new javax.swing.JTabbedPane();
         pDailyDiet = new javax.swing.JPanel();
+        pDailyMeasurement = new javax.swing.JPanel();
+        lWeight = new javax.swing.JLabel();
+        lWaist = new javax.swing.JLabel();
+        lBiceps = new javax.swing.JLabel();
+        lChest = new javax.swing.JLabel();
+        lThigh = new javax.swing.JLabel();
+        lCalf = new javax.swing.JLabel();
+        lForearm = new javax.swing.JLabel();
+        sWeight = new javax.swing.JSpinner();
+        sBiceps = new javax.swing.JSpinner();
+        sWaist = new javax.swing.JSpinner();
+        sChest = new javax.swing.JSpinner();
+        sThigh = new javax.swing.JSpinner();
+        sCalf = new javax.swing.JSpinner();
+        sForearm = new javax.swing.JSpinner();
+        bSubmitDailyMeasurement = new javax.swing.JButton();
         pDailyTraining = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblExercises = new javax.swing.JTable();
@@ -59,22 +79,10 @@ public class WindowMaker extends javax.swing.JFrame {
         lReps = new javax.swing.JLabel();
         jSubmitTraining = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        pDailyMeasurement = new javax.swing.JPanel();
-        lWeight = new javax.swing.JLabel();
-        lWaist = new javax.swing.JLabel();
-        lBiceps = new javax.swing.JLabel();
-        lChest = new javax.swing.JLabel();
-        lThigh = new javax.swing.JLabel();
-        lCalf = new javax.swing.JLabel();
-        lForearm = new javax.swing.JLabel();
-        sWeight = new javax.swing.JSpinner();
-        sBiceps = new javax.swing.JSpinner();
-        sWaist = new javax.swing.JSpinner();
-        sChest = new javax.swing.JSpinner();
-        sThigh = new javax.swing.JSpinner();
-        sCalf = new javax.swing.JSpinner();
-        sForearm = new javax.swing.JSpinner();
-        bSubmitDailyMeasurement = new javax.swing.JButton();
+        jDeleteSet = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jSubmitSetEdit = new javax.swing.JButton();
+        bUndoDeleteSet = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
@@ -165,7 +173,7 @@ public class WindowMaker extends javax.swing.JFrame {
         pAskLayout.setHorizontalGroup(
             pAskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pAskLayout.createSequentialGroup()
-                .addContainerGap(320, Short.MAX_VALUE)
+                .addContainerGap(470, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(147, 147, 147)
                 .addComponent(jLabel4)
@@ -178,7 +186,7 @@ public class WindowMaker extends javax.swing.JFrame {
                 .addGroup(pAskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
 
         pMainPanel.addTab("", pAsk);
@@ -223,173 +231,6 @@ public class WindowMaker extends javax.swing.JFrame {
         );
 
         pDailyUpdate.addTab("Dieta", pDailyDiet);
-
-        tblExercises.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                { new Integer(1), "asd",  new Integer(12),  new Integer(4)},
-                { new Integer(2), "dsa",  new Integer(12), null}
-            },
-            new String [] {
-                "Nr", "Ćwiczenie", "Obciążenie", "Liczba Powt."
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblExercises.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                tblExercisesMousePressed(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tblExercises);
-
-        bSubmitSet.setText("Dodaj serię //TODO");
-        bSubmitSet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bSubmitSetActionPerformed(evt);
-            }
-        });
-
-        lTrening.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        lTrening.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lTrening.setText("Uzupełnij swój dzisiejszy trening");
-
-        jLabel1.setText("Nazwa treningu");
-
-        cbChooseBodyPart.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseBodyPart()));
-        cbChooseBodyPart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbChooseBodyPartActionPerformed(evt);
-            }
-        });
-
-        lWhichBodyPart.setText("Wybierz partię ciała");
-
-        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--wybierz partię--" }));
-        cbChooseExercise.setEnabled(false);
-        cbChooseExercise.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbChooseExerciseActionPerformed(evt);
-            }
-        });
-
-        lChooseExercise.setForeground(new java.awt.Color(102, 102, 102));
-        lChooseExercise.setText("Wybierz ćwiczenie");
-
-        sSetWeight.setEnabled(false);
-
-        sReps.setEnabled(false);
-
-        lSetWeight.setForeground(new java.awt.Color(102, 102, 102));
-        lSetWeight.setText("Obciążenie");
-
-        lReps.setForeground(new java.awt.Color(102, 102, 102));
-        lReps.setText("Liczba powtórzeń");
-
-        jSubmitTraining.setText("Zatwierdź zmiany //TODO");
-        jSubmitTraining.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSubmitTrainingActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Zmień nazwę//TODO");
-
-        javax.swing.GroupLayout pDailyTrainingLayout = new javax.swing.GroupLayout(pDailyTraining);
-        pDailyTraining.setLayout(pDailyTrainingLayout);
-        pDailyTrainingLayout.setHorizontalGroup(
-            pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lTrening, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(lWhichBodyPart, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                                .addComponent(cbChooseBodyPart, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cbChooseExercise, 0, 162, Short.MAX_VALUE)
-                                .addComponent(lChooseExercise, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(39, 39, 39)
-                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lSetWeight)
-                            .addComponent(sSetWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lReps)
-                            .addComponent(sReps, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 42, Short.MAX_VALUE)
-                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bSubmitSet, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(eTrainingName, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))))
-                        .addGap(11, 11, 11))
-                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 30, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                .addGap(136, 136, 136)
-                .addComponent(jSubmitTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pDailyTrainingLayout.setVerticalGroup(
-            pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                .addComponent(lTrening, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(eTrainingName))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lWhichBodyPart, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lSetWeight, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbChooseBodyPart, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(sSetWeight)
-                    .addComponent(jButton2))
-                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lChooseExercise)
-                            .addComponent(lReps))
-                        .addGap(19, 19, 19)
-                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbChooseExercise, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sReps, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(bSubmitSet, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSubmitTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
-        );
-
-        pDailyUpdate.addTab("Trening", pDailyTraining);
 
         lWeight.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lWeight.setText("Waga");
@@ -437,10 +278,10 @@ public class WindowMaker extends javax.swing.JFrame {
         pDailyMeasurement.setLayout(pDailyMeasurementLayout);
         pDailyMeasurementLayout.setHorizontalGroup(
             pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pDailyMeasurementLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyMeasurementLayout.createSequentialGroup()
+                .addContainerGap(130, Short.MAX_VALUE)
                 .addGroup(pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pDailyMeasurementLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
                         .addGroup(pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -449,7 +290,6 @@ public class WindowMaker extends javax.swing.JFrame {
                                 .addComponent(sThigh, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(34, 34, 34))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyMeasurementLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lThigh)
                         .addGap(46, 46, 46)))
                 .addGroup(pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -482,12 +322,12 @@ public class WindowMaker extends javax.swing.JFrame {
                                 .addGap(65, 65, 65)
                                 .addComponent(lForearm))))
                     .addComponent(bSubmitDailyMeasurement, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(113, 113, 113))
         );
         pDailyMeasurementLayout.setVerticalGroup(
             pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pDailyMeasurementLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(85, 85, 85)
                 .addGroup(pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lWaist, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -511,10 +351,226 @@ public class WindowMaker extends javax.swing.JFrame {
                     .addComponent(sForearm, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addComponent(bSubmitDailyMeasurement, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         pDailyUpdate.addTab("Pomiary", pDailyMeasurement);
+
+        tblExercises.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                { new Integer(1), "asd",  new Integer(12),  new Integer(4)},
+                { new Integer(2), "dsa",  new Integer(12), null}
+            },
+            new String [] {
+                "Nr", "Ćwiczenie", "Obciążenie", "Liczba Powt."
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblExercises.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblExercises.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblExercisesMouseReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblExercises);
+
+        bSubmitSet.setText("Dodaj nowy //TODO");
+        bSubmitSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSubmitSetActionPerformed(evt);
+            }
+        });
+
+        lTrening.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lTrening.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lTrening.setText("Uzupełnij swój dzisiejszy trening");
+
+        jLabel1.setText("Nazwa treningu");
+
+        cbChooseBodyPart.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseBodyPart()));
+        cbChooseBodyPart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChooseBodyPartActionPerformed(evt);
+            }
+        });
+
+        lWhichBodyPart.setText("Wybierz partię ciała");
+
+        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--wybierz partię--" }));
+        cbChooseExercise.setEnabled(false);
+        cbChooseExercise.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChooseExerciseActionPerformed(evt);
+            }
+        });
+
+        lChooseExercise.setForeground(new java.awt.Color(102, 102, 102));
+        lChooseExercise.setText("Wybierz ćwiczenie");
+
+        sSetWeight.setEnabled(false);
+
+        sReps.setEnabled(false);
+
+        lSetWeight.setForeground(new java.awt.Color(102, 102, 102));
+        lSetWeight.setText("Obciążenie");
+
+        lReps.setForeground(new java.awt.Color(102, 102, 102));
+        lReps.setText("Liczba powtórzeń");
+
+        jSubmitTraining.setText("Zapisz zmiany //TODO");
+        jSubmitTraining.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSubmitTrainingActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Zmień nazwę treningu//TODO");
+
+        jDeleteSet.setText("Usuń");
+        jDeleteSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteSetActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Dodawanie/edycja");
+
+        jSubmitSetEdit.setText("Zatwierdź edycję");
+        jSubmitSetEdit.setEnabled(false);
+        jSubmitSetEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSubmitSetEditActionPerformed(evt);
+            }
+        });
+
+        bUndoDeleteSet.setText("Cofnij");
+        bUndoDeleteSet.setEnabled(false);
+        bUndoDeleteSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bUndoDeleteSetActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pDailyTrainingLayout = new javax.swing.GroupLayout(pDailyTraining);
+        pDailyTraining.setLayout(pDailyTrainingLayout);
+        pDailyTrainingLayout.setHorizontalGroup(
+            pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lTrening, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eTrainingName, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(lWhichBodyPart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbChooseBodyPart, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cbChooseExercise, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lChooseExercise, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(39, 39, 39)
+                                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lSetWeight)
+                                    .addComponent(sSetWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lReps)
+                                    .addComponent(sReps, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bUndoDeleteSet, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(bSubmitSet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
+                                    .addComponent(jSubmitSetEdit)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jDeleteSet, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addComponent(jSubmitTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(44, 44, 44))))
+        );
+        pDailyTrainingLayout.setVerticalGroup(
+            pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                .addComponent(lTrening, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(eTrainingName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pDailyTrainingLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lWhichBodyPart, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lSetWeight, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbChooseBodyPart)
+                            .addComponent(sSetWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lChooseExercise)
+                            .addComponent(lReps))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbChooseExercise, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sReps, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jDeleteSet, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                            .addComponent(jSubmitSetEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bUndoDeleteSet)
+                        .addGap(20, 20, 20)
+                        .addComponent(bSubmitSet, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jSubmitTraining, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+
+        pDailyUpdate.addTab("Trening", pDailyTraining);
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -547,9 +603,10 @@ public class WindowMaker extends javax.swing.JFrame {
         );
         pCalendarLayout.setVerticalGroup(
             pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCalendarLayout.createSequentialGroup()
+            .addGroup(pCalendarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pDailyUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pCalendarLayout.createSequentialGroup()
                         .addComponent(lChooseDay, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -557,10 +614,8 @@ public class WindowMaker extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pDailyUpdate))
-                .addContainerGap())
+                        .addComponent(jButton1)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pMainPanel.addTab("", pCalendar);
@@ -852,7 +907,7 @@ public class WindowMaker extends javax.swing.JFrame {
                                     .addComponent(rbChudzian)
                                     .addComponent(rbOwcaWK))
                                 .addGap(10, 10, 10)))))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         pTargetLayout.setVerticalGroup(
             pTargetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -889,7 +944,7 @@ public class WindowMaker extends javax.swing.JFrame {
                         .addComponent(iArnold)
                         .addComponent(iPudzian))
                     .addComponent(iChudzian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pAdvanced, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
         );
@@ -994,7 +1049,7 @@ public class WindowMaker extends javax.swing.JFrame {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bBodyFat)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
                 .addComponent(iBodyFat, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
@@ -1042,7 +1097,7 @@ public class WindowMaker extends javax.swing.JFrame {
                     .addComponent(bSubmitPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPrivateLayout.createSequentialGroup()
-                .addContainerGap(62, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(iBodyFat, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
         );
@@ -1055,11 +1110,15 @@ public class WindowMaker extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1045, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -1244,22 +1303,44 @@ public class WindowMaker extends javax.swing.JFrame {
         //insert wszystko
         if (isReadyToSubmit()) {
             jTextArea1.setText("SUBMIT!");
+
+            DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+
+            //czyszcze tabele
+            //table.setRowCount(0);
+            @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
+            Vector vector = new Vector();
+            /*
+             1. bierzemy ostatni element tabelki i nasz numer to numer tego elementu + 1
+             - jak nie ma nic to dodajemy nowy element z indeksem 1
+             2. "nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString()
+             */
+
+            String nextNr = "1";
+            Integer tmp = 0;
+            if (table.getRowCount() > 0) {
+                System.out.println("wchodze w ifa");
+                nextNr = (String) table.getValueAt(table.getRowCount() - 1, 0);
+                tmp = Integer.parseInt(nextNr);
+                tmp++;
+                nextNr = tmp.toString();
+            }
+
+            System.out.println("Nr = " + nextNr);
+            System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
+            System.out.println("obciazenie = " + sSetWeight.getValue());
+            System.out.println("liczba powtorzen  = " + sReps.getValue());
+            vector.add(nextNr);
+            vector.add(cbChooseExercise.getSelectedItem().toString());
+            vector.add(sSetWeight.getValue());
+            vector.add(sReps.getValue());
+            table.addRow(vector);
+
         } else {
             jTextArea1.setText("NOPE!");
+
+            // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
         }
-
-        DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
-
-        //czyszcze tabele
-        table.setRowCount(0);
-        @SuppressWarnings("UseOfObsoleteCollectionType")
-
-        Vector vector = new Vector();
-        vector.add(1);
-        vector.add("asd");
-        vector.add(2);
-        vector.add(3);
-        table.addRow(vector);
 
         /*
          na klik dodajemy do bazy danych i odświeżamy listę na tabelce, czyli usuwamy wszystkie wiersze i dodajemy je na nowo
@@ -1411,34 +1492,165 @@ public class WindowMaker extends javax.swing.JFrame {
          */
         System.out.println("ZACZYNAM PROPERTYCHANGE");
         String tmpDate = changeDateFormat(jCalendar.getDate().toString());
-        
+
         String query = "select nazwa from trening where data_treningu like " + tmpDate;
-        System.out.println(query);
+        //System.out.println(query);
         String trainingName = dataBase.getAnswer(query);
-        System.out.println(trainingName);
+        //System.out.println(trainingName);
         eTrainingName.setText(trainingName);
 
         System.out.println("KOŃCZĘ PROPERTYCHANGE");
-        
+
         fillTable(tmpDate);
     }//GEN-LAST:event_jCalendarPropertyChange
 
-    private void tblExercisesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExercisesMousePressed
-        //List<Integer> colSize = new ArrayList<Integer>();
-        for (int i = 0; i < 4; i++) {
+    private int[] getColumnsWidths(javax.swing.JTable tblExercises) {
+        int[] sizes = new int[tblExercises.getColumnCount()];
+        for (int i = 0; i < sizes.length; i++) {
             System.out.print(i + ": ");
             System.out.print(tblExercises.getColumnModel().getColumn(i).getWidth());
             System.out.print("\t");
         }
         System.out.println("");
-    }//GEN-LAST:event_tblExercisesMousePressed
+        return sizes;
+    }
+
+    private String getBodyPart(String exercise) {
+        /*
+         mając ćwiczenie trzeba wskazac jaka to partia miesni
+         */
+        String bodyPart = new String();
+        String query = "select partia from cwiczenie where nazwa like '" + exercise + "'";
+        bodyPart = dataBase.getAnswer(query);
+        System.out.println("bodypart = " + bodyPart);
+        return bodyPart;
+    }
 
     private void jSubmitTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitTrainingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jSubmitTrainingActionPerformed
 
+    private void tblExercisesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExercisesMouseReleased
+        int row = tblExercises.getSelectedRow();
+        if (row >= 0) {
+            jSubmitSetEdit.setEnabled(true);
+        }
+        cbChooseBodyPart.setSelectedItem(getBodyPart((String) tblExercises.getValueAt(row, 1)));
+        cbChooseExercise.setSelectedItem(tblExercises.getValueAt(row, 1));
+
+        String strWeight = tblExercises.getValueAt(row, 2).toString();
+        String strReps = tblExercises.getValueAt(row, 3).toString();
+        int intWeight = Integer.parseInt(strWeight);
+        int intReps = Integer.parseInt(strReps);
+        sSetWeight.setValue(intWeight);
+        sReps.setValue(intReps);
+
+        //sSetWeight.setValue((Integer) tblExercises.getValueAt(row, 2));
+        //sReps.setValue((Integer) tblExercises.getValueAt(row, 3));
+        //
+        //String tblExercises.getValueAt(row, col);
+
+    }//GEN-LAST:event_tblExercisesMouseReleased
+
+    private void jSubmitSetEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitSetEditActionPerformed
+
+        int row = tblExercises.getSelectedRow();
+
+        if (row != -1) {
+            if (isReadyToSubmit()) {
+                jTextArea1.setText("SUBMIT!");
+
+                DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+
+                String nr = (String) tblExercises.getValueAt(row, 0);
+
+                @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
+                Vector vector = new Vector();
+
+                System.out.println("Nr = " + nr);
+                System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
+                System.out.println("obciazenie = " + sSetWeight.getValue());
+                System.out.println("liczba powtorzen  = " + sReps.getValue());
+                vector.add(nr);
+                vector.add(cbChooseExercise.getSelectedItem().toString());
+                vector.add(sSetWeight.getValue());
+                vector.add(sReps.getValue());
+                table.insertRow(row, vector);
+                table.removeRow(row + 1);
+
+                jSubmitSetEdit.setEnabled(false);
+                cbChooseBodyPart.setSelectedIndex(0);
+                cbChooseExercise.setSelectedIndex(0);
+                sSetWeight.setValue(0);
+                sReps.setValue(0);
+            } else {
+                jTextArea1.setText("NOPE!");
+
+                cbChooseBodyPart.setSelectedItem(getBodyPart((String) tblExercises.getValueAt(row, 1)));
+                cbChooseExercise.setSelectedItem(tblExercises.getValueAt(row, 1));
+
+                String strWeight = tblExercises.getValueAt(row, 2).toString();
+                String strReps = tblExercises.getValueAt(row, 3).toString();
+                int intWeight = Integer.parseInt(strWeight);
+                int intReps = Integer.parseInt(strReps);
+                sSetWeight.setValue(intWeight);
+                sReps.setValue(intReps);
+
+                // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
+            }
+        }
+
+        //czycimy edity i blokujemy guzik - done
+    }//GEN-LAST:event_jSubmitSetEditActionPerformed
+
+    private void jDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteSetActionPerformed
+        int row = tblExercises.getSelectedRow();
+
+        System.out.println("usuwam wiersz nr: " + row);
+        if (row >= 0) {
+            //String strNr = Integer.toString(row);
+            String nr = tblExercises.getValueAt(row, 0).toString();
+            String exercise = (String) tblExercises.getValueAt(row, 1);
+            String strWeight = tblExercises.getValueAt(row, 2).toString();
+            String strReps = tblExercises.getValueAt(row, 3).toString();
+            /*    
+             lastDeletedSet.add(nr);
+             lastDeletedSet.add(exercise);
+             lastDeletedSet.add(strWeight);
+             lastDeletedSet.add(strReps);
+             */
+            ((DefaultTableModel) tblExercises.getModel()).removeRow(row);
+            deletedRow = row;
+            bUndoDeleteSet.setEnabled(true);
+        }
+    }//GEN-LAST:event_jDeleteSetActionPerformed
+
+    private void bUndoDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoDeleteSetActionPerformed
+        /*
+         dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
+         usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
+         */
+        
+        /*
+        System.out.println("chce przywrócić dane:");
+        DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+        //table.addRow(lastDeletedSet);
+        table.insertRow(deletedRow, lastDeletedSet);
+        System.out.println(lastDeletedSet);
+        for (int i = 0; i < 4; i++) {
+            lastDeletedSet.removeElementAt(0);
+        }
+        
+        bUndoDeleteSet.setEnabled(false);
+        System.out.println("kończę przywracać dane");*/
+        System.out.println("narazie nie zrobione");
+    }//GEN-LAST:event_bUndoDeleteSetActionPerformed
+
     private boolean isReadyToSubmit() {
-        if ((Integer) sSetWeight.getValue() > 0 && (Integer) sReps.getValue() > 0) {
+        if ((Integer) sSetWeight.getValue() >= 0
+                && (Integer) sReps.getValue() > 0
+                && !cbChooseBodyPart.getSelectedItem().toString().equals("--wybierz partię--")
+                && !cbChooseExercise.getSelectedItem().toString().equals("--wybierz ćwiczenie--")) {
             return true;
         } else {
             return false;
@@ -1446,11 +1658,19 @@ public class WindowMaker extends javax.swing.JFrame {
     }
 
     private String[] initCbChooseBodyPart() {
+
         @SuppressWarnings("Convert2Diamond")
         ArrayList<String> arraylist = new ArrayList<String>();
         arraylist = dataBase.getAnswerList("select distinct partia from cwiczenie");
-        String[] list = new String[arraylist.size()];
-        list = arraylist.toArray(list);
+
+        @SuppressWarnings({"Convert2Diamond", "MismatchedQueryAndUpdateOfCollection"})
+        ArrayList<String> tmp = new ArrayList<String>();
+        tmp.add("--wybierz partię--");
+
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
         return list;
     }
 
@@ -1459,8 +1679,15 @@ public class WindowMaker extends javax.swing.JFrame {
         @SuppressWarnings("Convert2Diamond")
         ArrayList<String> arraylist = new ArrayList<String>();
         arraylist = dataBase.getAnswerList("select nazwa from cwiczenie where partia like" + query);
-        String[] list = new String[arraylist.size()];
-        list = arraylist.toArray(list);
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> tmp = new ArrayList<String>();
+        tmp.add("--wybierz ćwiczenie--");
+
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
         return list;
     }
 
@@ -1489,7 +1716,7 @@ public class WindowMaker extends javax.swing.JFrame {
         pAdvanced.setVisible(false);
         iBodyFat.setVisible(false);
 
-        int sizes[] = {30, 150, 70, 70};
+        int sizes[] = {30, 100, 70, 70};
         initTblExercises(sizes);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
     }
@@ -1506,16 +1733,21 @@ public class WindowMaker extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WindowMaker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WindowMaker.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WindowMaker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WindowMaker.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WindowMaker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WindowMaker.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WindowMaker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WindowMaker.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1546,6 +1778,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JButton bSubmitPrivate;
     private javax.swing.JButton bSubmitSet;
     private javax.swing.JButton bSubmitTarget;
+    private javax.swing.JButton bUndoDeleteSet;
     private javax.swing.JComboBox cbChooseBodyPart;
     private javax.swing.JComboBox cbChooseExercise;
     private com.toedter.calendar.JDateChooser eBirthDate;
@@ -1564,8 +1797,10 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JCalendar jCalendar;
+    private javax.swing.JButton jDeleteSet;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1583,6 +1818,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jSubmitSetEdit;
     private javax.swing.JButton jSubmitTraining;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lArnold;

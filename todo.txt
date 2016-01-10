@@ -16,11 +16,19 @@ TODO:
     [ ] Trening
         [v] first just view table
         [ ] make table in 'Trening' with option to edit
-            [ ] add row to table with values in editTexts
+            [v] add row to table with values in editTexts - jeszcze info jak niepoprawne dane
+            [v] edit chosen row 
+            [ ] undo - pamietaj ostatnio usuniety
+                -kilka opcji do sprawdzania :
+                    dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
+                    usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
+            [ ] move up/down
+            [ ] partia w zaleznosci od cwiczenia
             [ ] change name of training
             [ ] submit changes
         [ ] add some example tables to check how table works - TU ZACZĄĆ (FILMIK YOUTUBE)
 
+[ ] pozmieniać kolumny bazy danych, bo jest słaba fhui
 
 [ ] zapytaj trenera
 
