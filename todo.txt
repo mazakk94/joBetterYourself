@@ -23,12 +23,12 @@ TODO:
                     dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
                     usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
             [ ] move up/down
-            [ ] partia w zaleznosci od cwiczenia
-            [ ] change name of training
-            [ ] submit changes
-        [ ] add some example tables to check how table works - TU ZACZĄĆ (FILMIK YOUTUBE)
+            [v] partia w zaleznosci od cwiczenia
+            [v] change name of training
+            [ ] submit changes - NAJWAŻNIEJSZE
+        [v] add some example tables to check how table works
 
-[ ] pozmieniać kolumny bazy danych, bo jest słaba fhui
+[v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
 [ ] zapytaj trenera
 

@@ -276,6 +276,18 @@ final public class DataBaseHandler {
         }
     }
 
+    @SuppressWarnings("null")
+    void update(String query) {
+        Statement stmt = null;
+      
+        try {
+            stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            stmt.executeUpdate(query);
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
 /*final public static void printResultList(ResultSet rs) throws SQLException {

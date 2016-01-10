@@ -537,7 +537,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                              <Component id="jButton2" min="-2" pref="163" max="-2" attributes="0"/>
+                                              <Component id="bChangeTrainingName" min="-2" pref="163" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -550,28 +550,7 @@
                               <EmptySpace pref="38" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel11" min="-2" pref="284" max="-2" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                      <Component id="lWhichBodyPart" max="32767" attributes="0"/>
-                                                      <Component id="cbChooseBodyPart" alignment="1" min="-2" pref="162" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="cbChooseExercise" max="32767" attributes="0"/>
-                                                      <Component id="lChooseExercise" min="-2" pref="162" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lSetWeight" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="sSetWeight" min="-2" pref="68" max="-2" attributes="0"/>
-                                                  <Component id="lReps" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="sReps" min="-2" pref="68" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
+                                      <Component id="jLabel11" min="-2" pref="284" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
@@ -592,6 +571,38 @@
                                       </Group>
                                       <EmptySpace min="44" pref="44" max="-2" attributes="0"/>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="lReps" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="cbChooseBodyPart" min="-2" pref="195" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="lWhichBodyPart" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
+                                                      <Component id="lChooseExercise" min="-2" pref="162" max="-2" attributes="0"/>
+                                                      <Component id="cbChooseExercise" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                                          <Component id="sReps" min="-2" pref="68" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                                          <Component id="lSetWeight" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                                      <Component id="sSetWeight" min="-2" pref="68" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -608,7 +619,7 @@
                                           <Component id="eTrainingName" alignment="3" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton2" min="-2" pref="23" max="-2" attributes="0"/>
+                                      <Component id="bChangeTrainingName" min="-2" pref="23" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jScrollPane2" min="-2" pref="369" max="-2" attributes="0"/>
                                   </Group>
@@ -616,14 +627,14 @@
                                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                       <Component id="jLabel11" min="-2" pref="24" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lWhichBodyPart" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lSetWeight" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="lWhichBodyPart" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lSetWeight" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="cbChooseBodyPart" max="32767" attributes="0"/>
-                                          <Component id="sSetWeight" min="-2" pref="31" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="cbChooseBodyPart" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                          <Component id="sSetWeight" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -707,7 +718,7 @@
                           <Font name="Verdana" size="14" style="1"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
-                        <Property name="text" type="java.lang.String" value="Uzupe&#x142;nij sw&#xf3;j dzisiejszy trening"/>
+                        <Property name="text" type="java.lang.String" value="Uzupe&#x142;nij sw&#xf3;j trening"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -787,10 +798,13 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSubmitTrainingActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton2">
+                    <Component class="javax.swing.JButton" name="bChangeTrainingName">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Zmie&#x144; nazw&#x119; treningu//TODO"/>
+                        <Property name="text" type="java.lang.String" value="Zmie&#x144; nazw&#x119; treningu"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bChangeTrainingNameActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jDeleteSet">
                       <Properties>
