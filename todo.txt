@@ -31,8 +31,11 @@ TODO:
         [ ] wyświetla ostatnio dodany pomiar, jak nie ma nic jeszcze dodane to zera
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
-[ ] zapytaj trenera
+[ ] Zapytaj trenera
 
+[ ] Konto
+
+[ ] Synchronicznie musi być wszystko na kilku apkach
 
 [ ] gui for trainer
     [ ] create diet 

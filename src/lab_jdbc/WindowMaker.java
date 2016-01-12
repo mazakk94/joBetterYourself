@@ -443,7 +443,7 @@ public class WindowMaker extends javax.swing.JFrame {
         lReps.setForeground(new java.awt.Color(102, 102, 102));
         lReps.setText("Liczba powtórzeń");
 
-        jSubmitTraining.setText("Zapisz zmiany //TODO");
+        jSubmitTraining.setText("Zapisz zmiany");
         jSubmitTraining.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSubmitTrainingActionPerformed(evt);
