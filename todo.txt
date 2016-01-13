@@ -12,6 +12,7 @@ TODO:
 [v] make tables working with deimos - localhost
 
 [ ] Calendar
+    [ ] ma być widać gdzie jest dodana dieta/trening/pomiary
     [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania
     [ ] Trening
         [v] first just view table
@@ -28,7 +29,9 @@ TODO:
             [v] submit changes
         [v] add some example tables to check how table works
     [ ] Pomiary
-        [ ] wyświetla ostatnio dodany pomiar, jak nie ma nic jeszcze dodane to zera
+        [v] wyświetla ostatnio dodany pomiar, jak nie ma nic jeszcze dodane to zera
+        [V] zapis do bazy wypełnionych pól
+        [ ] na zmiany spinnera settext przycisku
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
 [ ] Zapytaj trenera

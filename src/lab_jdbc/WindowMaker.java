@@ -1142,8 +1142,46 @@ public class WindowMaker extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void updateMeasurement(String date, String typPomiaru, javax.swing.JSpinner sWeight) {
+        System.out.println("JESTEM W UPDATE MEASUREMENT");
+        String query = "SELECT wartosc FROM `pomiar` where data_dodania like " + date + " and typ_pomiaru like " + typPomiaru;//'waga'";
+        System.out.println(query);
+        @SuppressWarnings("LocalVariableHidesMemberVariable")
+        String result = dataBase.getAnswer(query);
+        boolean insert = false;
+        if (result.length() > 0) { //istnieje
+            query = "UPDATE pomiar SET wartosc='" + sWeight.getValue() + "' WHERE data_dodania like " + date + "and typ_pomiaru like " + typPomiaru;// 'Waga'";
+            System.out.println(query);
+            insert = true;
+        } else {
+            query = "INSERT INTO `pomiar` (`typ_pomiaru`, `wartosc`, `data_dodania`) "
+                    + "VALUES (" + typPomiaru + ", " + sWeight.getValue() + ", "
+                    + date + ")";
+            System.out.println(query);
+            insert = true;
+        }
+        if (insert) {
+            dataBase.update(query);
+        }
+    }
+
+
     private void bSubmitDailyMeasurementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDailyMeasurementActionPerformed
-        // TODO add your handling code here:
+
+        String query = new String();
+        String date = changeDateFormat(jCalendar.getDate().toString());
+
+        updateMeasurement(date, "'Waga'", sWeight);
+        updateMeasurement(date, "'Pas'", sWaist);
+        updateMeasurement(date, "'Biceps'", sBiceps);
+        updateMeasurement(date, "'Klatka'", sChest);
+        updateMeasurement(date, "'Udo'", sThigh);
+        updateMeasurement(date, "'Łydka'", sCalf);
+        updateMeasurement(date, "'Przedramię'", sForearm);
+        //jak sie udalo dodac to:
+        bSubmitDailyMeasurement.setText("Zmiany wprowadzone!");
+
+
     }//GEN-LAST:event_bSubmitDailyMeasurementActionPerformed
 
     private void bSubmitTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitTargetActionPerformed
@@ -1321,6 +1359,7 @@ public class WindowMaker extends javax.swing.JFrame {
         //insert wszystko
         if (isReadyToSubmit()) {
             jTextArea1.setText("SUBMIT!");
+            jSubmitTraining.setText("Zapisz zmiany");
 
             DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
 
@@ -1369,6 +1408,51 @@ public class WindowMaker extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pDailyUpdateMouseClicked
 
+    private void fillMeasurements(String date) {
+        System.out.println(date);
+        String query1 = "SELECT wartosc FROM `pomiar` where data_dodania <= ";
+        String query2 = " and typ_pomiaru like ";
+        String query = query1 + date + query2;
+        query2 = "ORDER BY data_dodania DESC limit 1";
+
+        String Waga = dataBase.getAnswer(query + " 'Waga' " + query2);
+        System.out.println(Waga);
+        if (Waga.length() > 0) {
+            int foo = Integer.parseInt(Waga);
+            sWeight.setValue(foo);
+        }
+        String Pas = dataBase.getAnswer(query + " 'pas' " + query2);
+        if (Pas.length() > 0) {
+            int foo = Integer.parseInt(Pas);
+            sWaist.setValue(foo);
+        }
+        String Biceps = dataBase.getAnswer(query + " 'Biceps' " + query2);
+        if (Biceps.length() > 0) {
+            int foo = Integer.parseInt(Biceps);
+            sBiceps.setValue(foo);
+        }
+        String Klatka = dataBase.getAnswer(query + " 'Klatka' " + query2);
+        if (Klatka.length() > 0) {
+            int foo = Integer.parseInt(Klatka);
+            sChest.setValue(foo);
+        }
+        String Udo = dataBase.getAnswer(query + " 'Udo' " + query2);
+        if (Udo.length() > 0) {
+            int foo = Integer.parseInt(Udo);
+            sThigh.setValue(foo);
+        }
+        String Lydka = dataBase.getAnswer(query + " 'Lydka' " + query2);
+        if (Lydka.length() > 0) {
+            int foo = Integer.parseInt(Lydka);
+            sCalf.setValue(foo);
+        }
+        String Przedramie = dataBase.getAnswer(query + " 'Przedramie' " + query2);
+        if (Przedramie.length() > 0) {
+            int foo = Integer.parseInt(Przedramie);
+            sForearm.setValue(foo);
+        }
+    }
+
     private void fillTable(String date) {
         String dateString = date;
         System.out.println(dateString);
@@ -1391,14 +1475,6 @@ public class WindowMaker extends javax.swing.JFrame {
             table.addRow(subVector);
 
         }
-        /*@SuppressWarnings("UseOfObsoleteCollectionType")
-         Vector vector = new Vector();
-         vector.add(1);
-         vector.add("asd");
-         vector.add(2);
-         vector.add(3);
-         table.addRow(vector);
-         */
     }
 
     private String generateSubmitQuery() {
@@ -1557,6 +1633,9 @@ public class WindowMaker extends javax.swing.JFrame {
         System.out.println("KOŃCZĘ PROPERTYCHANGE");
 
         fillTable(tmpDate);
+        fillMeasurements(tmpDate);
+        bSubmitDailyMeasurement.setText("Zatwierdź");
+        jSubmitTraining.setText("Zapisz zmiany");
     }//GEN-LAST:event_jCalendarPropertyChange
 
     private int[] getColumnsWidths(javax.swing.JTable tblExercises) {
@@ -1604,6 +1683,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private void tblExercisesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExercisesMouseReleased
         int row = tblExercises.getSelectedRow();
+        jSubmitTraining.setText("Zapisz zmiany");
         if (row >= 0) {
             jSubmitSetEdit.setEnabled(true);
         }
@@ -1630,6 +1710,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         if (row != -1) {
             if (isReadyToSubmit()) {
+                jSubmitTraining.setText("Zapisz zmiany");
                 jTextArea1.setText("SUBMIT!");
 
                 DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
@@ -1680,6 +1761,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         System.out.println("usuwam wiersz nr: " + row);
         if (row >= 0) {
+            jSubmitTraining.setText("Zapisz zmiany");
             //String strNr = Integer.toString(row);
             String nr = tblExercises.getValueAt(row, 0).toString();
             String exercise = (String) tblExercises.getValueAt(row, 1);
@@ -1698,6 +1780,10 @@ public class WindowMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_jDeleteSetActionPerformed
 
     private void bUndoDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoDeleteSetActionPerformed
+
+        //jak uda sie cofnac to:
+        jSubmitTraining.setText("Zapisz zmiany");
+
         /*
          dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
          usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
@@ -1727,6 +1813,7 @@ public class WindowMaker extends javax.swing.JFrame {
         if (result.length() > 0) { //istnieje
             query = "UPDATE trening SET nazwa='" + eTrainingName.getText() + "' WHERE data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
             System.out.println("zmiany zostaly wprowadzone");
+            jSubmitTraining.setText("Zmiany wprowadzone!");
             insert = true;
         } else if (eTrainingName.getText().length() > 0) {
             query = "INSERT INTO `trening` (`nazwa`, `data_treningu`) VALUES ('" + eTrainingName.getText() + "', " + changeDateFormat(jCalendar.getDate().toString()) + ")";
@@ -1820,6 +1907,7 @@ public class WindowMaker extends javax.swing.JFrame {
         int sizes[] = {40, 150, 60, 70};
         initTblExercises(sizes);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
+        fillMeasurements(changeDateFormat(jCalendar.getDate().toString()));
     }
 
     @SuppressWarnings({"Convert2Lambda", "static-access"})
