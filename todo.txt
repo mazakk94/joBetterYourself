@@ -14,6 +14,10 @@ TODO:
 [ ] Calendar
     [ ] ma być widać gdzie jest dodana dieta/trening/pomiary
     [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania
+        [ ] musi byc tylko liczba gramów do edycji
+        [ ] automatycznie daje 100g
+        [ ] wyszukiwanie textedit
+        [ ] schowaj headery
     [ ] Trening
         [v] first just view table
         [ ] make table in 'Trening' with option to edit - POTEM DOKOŃCZĘ
@@ -31,13 +35,19 @@ TODO:
     [ ] Pomiary
         [v] wyświetla ostatnio dodany pomiar, jak nie ma nic jeszcze dodane to zera
         [V] zapis do bazy wypełnionych pól
-        [ ] na zmiany spinnera settext przycisku
+        [v] na zmiany spinnera settext przycisku
+        [ ] pokazywać ile brakuje do celu
+
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
 [ ] Zapytaj trenera
 
 [ ] Konto
-
+    [ ] Dane osobowe:
+        [ ] dodać zapotrzebowanie WBT
+        [ ] backend cały
+    [ ] Cel - dodawanie tylko chyba
+      
 [ ] Synchronicznie musi być wszystko na kilku apkach
 
 [ ] gui for trainer

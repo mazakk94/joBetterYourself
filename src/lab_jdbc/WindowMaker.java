@@ -11,8 +11,13 @@ import java.util.Vector;
  import java.util.logging.Logger;*/
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.DefaultFormatter;
 
 public class WindowMaker extends javax.swing.JFrame {
 
@@ -46,6 +51,15 @@ public class WindowMaker extends javax.swing.JFrame {
         jCalendar = new com.toedter.calendar.JCalendar();
         pDailyUpdate = new javax.swing.JTabbedPane();
         pDailyDiet = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblProducts = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
+        bSubmitDiet = new javax.swing.JButton();
+        lFindProduct = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         pDailyMeasurement = new javax.swing.JPanel();
         lWeight = new javax.swing.JLabel();
         lWaist = new javax.swing.JLabel();
@@ -220,15 +234,121 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
+        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                { new Integer(1), "kurczak",  new Integer(100),  new Integer(100),  new Integer(0),  new Integer(21),  new Integer(2), null},
+                { new Integer(2), "ryż",  new Integer(100),  new Integer(650),  new Integer(70),  new Integer(5),  new Integer(0), null}
+            },
+            new String [] {
+                "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze", "edycja"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProducts.setCellSelectionEnabled(true);
+        tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tblProductsPropertyChange(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblProducts);
+
+        jLabel20.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Uzupełnij dziennik żywieniowy");
+
+        bSubmitDiet.setText("Zapisz zmiany");
+        bSubmitDiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSubmitDietActionPerformed(evt);
+            }
+        });
+
+        lFindProduct.setText("Znajdź produkt:");
+
+        jButton2.setText("Dodaj");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "0", "0", "0", "0", "0"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable1);
+
         javax.swing.GroupLayout pDailyDietLayout = new javax.swing.GroupLayout(pDailyDiet);
         pDailyDiet.setLayout(pDailyDietLayout);
         pDailyDietLayout.setHorizontalGroup(
             pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pDailyDietLayout.createSequentialGroup()
+                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pDailyDietLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pDailyDietLayout.createSequentialGroup()
+                                    .addGap(38, 38, 38)
+                                    .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jButton2))
+                                .addGroup(pDailyDietLayout.createSequentialGroup()
+                                    .addGap(26, 26, 26)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 22, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pDailyDietLayout.setVerticalGroup(
             pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyDietLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1)
+                    .addComponent(jButton2))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(130, 130, 130))
         );
 
         pDailyUpdate.addTab("Dieta", pDailyDiet);
@@ -284,7 +404,7 @@ public class WindowMaker extends javax.swing.JFrame {
         pDailyMeasurementLayout.setHorizontalGroup(
             pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyMeasurementLayout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
+                .addContainerGap(396, Short.MAX_VALUE)
                 .addGroup(pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pDailyMeasurementLayout.createSequentialGroup()
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -521,17 +641,12 @@ public class WindowMaker extends javax.swing.JFrame {
                                     .addComponent(cbChooseBodyPart, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lWhichBodyPart, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbChooseExercise, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
                                 .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                                            .addGap(32, 32, 32)
-                                            .addComponent(sReps, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(pDailyTrainingLayout.createSequentialGroup()
-                                            .addGap(32, 32, 32)
-                                            .addComponent(lSetWeight)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyTrainingLayout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addComponent(sSetWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(sReps, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lSetWeight))
+                                    .addComponent(sSetWeight, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(pDailyTrainingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(bUndoDeleteSet, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(bSubmitSet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1834,6 +1949,84 @@ public class WindowMaker extends javax.swing.JFrame {
         updateTrainingName();
     }//GEN-LAST:event_bChangeTrainingNameActionPerformed
 
+    private void bSubmitDietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDietActionPerformed
+        System.out.println("trzeba zrobić zapis do bazy");
+    }//GEN-LAST:event_bSubmitDietActionPerformed
+
+    private void tblProductsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblProductsPropertyChange
+        bSubmitDiet.setText("Zapisz zmiany");
+    }//GEN-LAST:event_tblProductsPropertyChange
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void listenButton() {
+        @SuppressWarnings("Convert2Diamond")
+        List<JComponent> compList = new ArrayList<JComponent>();
+
+        compList.add(sWeight.getEditor());
+        compList.add(sWaist.getEditor());
+        compList.add(sBiceps.getEditor());
+        compList.add(sChest.getEditor());
+        compList.add(sThigh.getEditor());
+        compList.add(sCalf.getEditor());
+        compList.add(sForearm.getEditor());
+
+        @SuppressWarnings("Convert2Diamond")
+        List<JFormattedTextField> fieldList = new ArrayList<JFormattedTextField>();
+        List<DefaultFormatter> formatters = new ArrayList<DefaultFormatter>();
+        for (int i = 0; i < compList.size(); i++) {
+            fieldList.add((JFormattedTextField) compList.get(i).getComponent(0));
+            formatters.add((DefaultFormatter) fieldList.get(i).getFormatter());
+            formatters.get(i).setCommitsOnValidEdit(true);
+        }
+
+        sWeight.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+        sWaist.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+        sBiceps.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+        sChest.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+        sThigh.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+        sCalf.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+        sForearm.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                bSubmitDailyMeasurement.setText("Zatwierdź");
+            }
+        });
+
+    }
+
     private boolean isReadyToSubmit() {
         if ((Integer) sSetWeight.getValue() >= 0
                 && (Integer) sReps.getValue() > 0
@@ -1879,7 +2072,7 @@ public class WindowMaker extends javax.swing.JFrame {
         return list;
     }
 
-    private void initTblExercises(int[] columnSizes) {
+    private void initTbl(int[] columnSizes, javax.swing.JTable tblExercises) {
         System.out.println("ustalam rozmiar tablicy");
         int columnCount = tblExercises.getColumnCount();
         for (int i = 0; i < columnCount; i++) {
@@ -1904,10 +2097,13 @@ public class WindowMaker extends javax.swing.JFrame {
         pAdvanced.setVisible(false);
         iBodyFat.setVisible(false);
 
-        int sizes[] = {40, 150, 60, 70};
-        initTblExercises(sizes);
+        int exerciseSizes[] = {40, 150, 60, 70};
+        initTbl(exerciseSizes, tblExercises);
+        int productSizes[] = {10, 100, 20, 20, 20, 20, 20, 20};
+        initTbl(productSizes, tblProducts);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
         fillMeasurements(changeDateFormat(jCalendar.getDate().toString()));
+        listenButton();
     }
 
     @SuppressWarnings({"Convert2Lambda", "static-access"})
@@ -1965,6 +2161,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JToggleButton bBodyFat;
     private javax.swing.JButton bChangeTrainingName;
     private javax.swing.JButton bSubmitDailyMeasurement;
+    private javax.swing.JButton bSubmitDiet;
     private javax.swing.JButton bSubmitPrivate;
     private javax.swing.JButton bSubmitSet;
     private javax.swing.JButton bSubmitTarget;
@@ -1985,6 +2182,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel iPudzian;
     private javax.swing.JLabel iSportowiec;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private com.toedter.calendar.JCalendar jCalendar;
     private javax.swing.JButton jDeleteSet;
     private javax.swing.JLabel jLabel1;
@@ -1999,6 +2197,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2008,9 +2207,13 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jSubmitSetEdit;
     private javax.swing.JButton jSubmitTraining;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lArnold;
     private javax.swing.JLabel lBiceps;
     private javax.swing.JLabel lCalf;
@@ -2018,6 +2221,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel lChooseDay;
     private javax.swing.JLabel lChooseExercise;
     private javax.swing.JLabel lChudzian;
+    private javax.swing.JLabel lFindProduct;
     private javax.swing.JLabel lForearm;
     private javax.swing.JLabel lOwcaWK;
     private javax.swing.JLabel lPudzian;
@@ -2066,5 +2270,6 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JSpinner sWaist;
     private javax.swing.JSpinner sWeight;
     private javax.swing.JTable tblExercises;
+    private javax.swing.JTable tblProducts;
     // End of variables declaration//GEN-END:variables
 }
