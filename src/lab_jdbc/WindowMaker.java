@@ -1,6 +1,9 @@
 package lab_jdbc;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,12 +13,19 @@ import java.util.Vector;
  import java.util.logging.Level;
  import java.util.logging.Logger;*/
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.DefaultFormatter;
 
@@ -33,7 +43,70 @@ public class WindowMaker extends javax.swing.JFrame {
         dataBase = new DataBaseHandler();
         initComponents();
         myInitComponents();
+    }
 
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        @SuppressWarnings("override")
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+            if (isSelected) {
+                //
+            } else {
+                //
+            }
+            setText(value.toString());
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+
+        protected JButton button;
+
+        private String label;
+
+        private boolean isPushed;
+
+        public ButtonEditor(JCheckBox checkBox) {
+            super(checkBox);
+            button = new JButton();
+            button.setOpaque(true);
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    fireEditingStopped();
+                }
+            });
+        }
+
+        public Component getTableCellEditorComponent(JTable table, Object value,
+                boolean isSelected, int row, int column) {
+            label = "Usuń";
+            button.setText(label);
+            isPushed = true;
+            return button;
+        }
+
+        public Object getCellEditorValue() {
+            if (isPushed) {
+                System.out.println("Usuwam " + label);
+            }
+            isPushed = false;
+            return new String(label);
+        }
+
+        public boolean stopCellEditing() {
+            isPushed = false;
+            return super.stopCellEditing();
+        }
+
+        protected void fireEditingStopped() {
+            super.fireEditingStopped();
+        }
     }
 
     @SuppressWarnings({"unchecked", "Convert2Lambda"})
@@ -56,10 +129,15 @@ public class WindowMaker extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         bSubmitDiet = new javax.swing.JButton();
         lFindProduct = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel23 = new javax.swing.JLabel();
         pDailyMeasurement = new javax.swing.JPanel();
         lWeight = new javax.swing.JLabel();
         lWaist = new javax.swing.JLabel();
@@ -236,18 +314,18 @@ public class WindowMaker extends javax.swing.JFrame {
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), "kurczak",  new Integer(100),  new Integer(100),  new Integer(0),  new Integer(21),  new Integer(2), null},
-                { new Integer(2), "ryż",  new Integer(100),  new Integer(650),  new Integer(70),  new Integer(5),  new Integer(0), null}
+                { new Integer(1), "kurczak",  new Integer(100),  new Integer(100),  new Integer(0),  new Integer(21),  new Integer(2), new String("Usuń")},
+                { new Integer(2), "ryż",  new Integer(100),  new Integer(650),  new Integer(70),  new Integer(5),  new Integer(0), new String("Usuń")}
             },
             new String [] {
-                "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze", "edycja"
+                "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze", "Edycja"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -258,7 +336,7 @@ public class WindowMaker extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblProducts.setCellSelectionEnabled(true);
+        tblProducts.setRowHeight(24);
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblProducts.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -299,6 +377,18 @@ public class WindowMaker extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jTable1);
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel21.setText("Kategoria");
+
+        jLabel22.setText("Produkt");
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(100), Integer.valueOf(0), null, Integer.valueOf(1)));
+
+        jLabel23.setText("g");
+
         javax.swing.GroupLayout pDailyDietLayout = new javax.swing.GroupLayout(pDailyDiet);
         pDailyDiet.setLayout(pDailyDietLayout);
         pDailyDietLayout.setHorizontalGroup(
@@ -315,40 +405,64 @@ public class WindowMaker extends javax.swing.JFrame {
                                 .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(pDailyDietLayout.createSequentialGroup()
-                                    .addGap(38, 38, 38)
-                                    .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton2))
-                                .addGroup(pDailyDietLayout.createSequentialGroup()
-                                    .addGap(26, 26, 26)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 22, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pDailyDietLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pDailyDietLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel23)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(pDailyDietLayout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton2)
+                        .addGap(102, 102, 102)))
                 .addContainerGap())
         );
         pDailyDietLayout.setVerticalGroup(
             pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyDietLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1)
-                    .addComponent(jButton2))
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pDailyDietLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pDailyDietLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(130, 130, 130))
+                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyDietLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSubmitDiet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pDailyUpdate.addTab("Dieta", pDailyDiet);
@@ -2081,6 +2195,40 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
+    private void initTbl2(int[] columnSizes, javax.swing.JTable tblProducts) {
+
+        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {new Integer(1), "kurczak", new Integer(100), new Integer(100), new Integer(0), new Integer(21), new Integer(2), new String("Usuń")},
+                    {new Integer(2), "ryż", new Integer(100), new Integer(650), new Integer(70), new Integer(5), new Integer(0), new String("Usuń")}
+                },
+                new String[]{
+                    "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze", "Edycja"
+                }
+        ) {
+            Class[] types = new Class[]{
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class,
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class,
+                java.lang.Integer.class, java.lang.Object.class };
+            boolean[] canEdit = new boolean[]{
+                false, false, true, false, false, false, false, false
+            };
+
+        });
+
+        System.out.println("ustalam rozmiar tablicy");
+        int columnCount = tblExercises.getColumnCount();
+        for (int i = 0; i < columnCount; i++) {
+            System.out.println(i + " = " + columnSizes[i]);
+            tblExercises.getColumnModel().getColumn(i).setPreferredWidth(columnSizes[i]);
+        }
+
+        tblProducts.getColumn("Edycja").setCellRenderer(new ButtonRenderer());
+        tblProducts.getColumn("Edycja").setCellEditor(
+                new ButtonEditor(new JCheckBox()));
+
+    }
+
     private void myInitComponents() {
         // boolean fAdvanced = false;
         ImageIcon tab1 = new ImageIcon("img/b1.jpg");
@@ -2100,7 +2248,7 @@ public class WindowMaker extends javax.swing.JFrame {
         int exerciseSizes[] = {40, 150, 60, 70};
         initTbl(exerciseSizes, tblExercises);
         int productSizes[] = {10, 100, 20, 20, 20, 20, 20, 20};
-        initTbl(productSizes, tblProducts);
+        initTbl2(productSizes, tblProducts);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
         fillMeasurements(changeDateFormat(jCalendar.getDate().toString()));
         listenButton();
@@ -2184,6 +2332,8 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JCalendar jCalendar;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JButton jDeleteSet;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2198,6 +2348,9 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2209,11 +2362,11 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JButton jSubmitSetEdit;
     private javax.swing.JButton jSubmitTraining;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lArnold;
     private javax.swing.JLabel lBiceps;
     private javax.swing.JLabel lCalf;
