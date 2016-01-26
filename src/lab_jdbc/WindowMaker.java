@@ -69,7 +69,7 @@ public class WindowMaker extends javax.swing.JFrame {
         protected JButton button;
 
         private String label;
-
+        private boolean pushed = true;
         private boolean isPushed;
 
         public ButtonEditor(JCheckBox checkBox) {
@@ -77,12 +77,14 @@ public class WindowMaker extends javax.swing.JFrame {
             button = new JButton();
             button.setOpaque(true);
             button.addActionListener(new ActionListener() {
+                @SuppressWarnings("override")
                 public void actionPerformed(ActionEvent e) {
                     fireEditingStopped();
                 }
             });
         }
 
+        @SuppressWarnings("override")
         public Component getTableCellEditorComponent(JTable table, Object value,
                 boolean isSelected, int row, int column) {
             label = "Usuń";
@@ -91,19 +93,51 @@ public class WindowMaker extends javax.swing.JFrame {
             return button;
         }
 
+        @SuppressWarnings({"override", "RedundantStringConstructorCall"})
         public Object getCellEditorValue() {
             if (isPushed) {
-                System.out.println("Usuwam " + label);
+
+                int row = tblProducts.getSelectedRow();
+                System.out.println("jest " + tblProducts.getRowCount() + " wierszy");
+                System.out.println("usuwam wiersz nr: " + row);
+                if (row >= 0) {
+                    System.out.println(tblProducts.getValueAt(row, 0).toString());
+                    System.out.println(tblProducts.getValueAt(row, 1).toString());
+                    System.out.println(tblProducts.getValueAt(row, 2).toString());
+                    System.out.println(tblProducts.getValueAt(row, 3).toString());
+                    /*    
+                     lastDeletedSet.add(nr);
+                     lastDeletedSet.add(exercise);
+                     lastDeletedSet.add(strWeight);
+                     lastDeletedSet.add(strReps);
+                     */
+                    ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
+                }
+                /*
+                 if (tblProducts.getRowCount() > 0 && tblProducts.getSelectedRow() != -1) {
+                 //System.out.println("1");
+                 //System.out.println("Usuwam " + (tblProducts.getSelectedRow()));
+                 //System.out.println("2");
+                 DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
+                 System.out.println("\n" + model.getRowCount());
+                 System.out.println(tblProducts.getSelectedRow());
+                 model.removeRow(tblProducts.getSelectedRow());
+                 System.out.println(tblProducts.getSelectedRow());
+                 ////System.out.println("3");
+                 }
+                 */
             }
             isPushed = false;
-            return new String(label);
+            return new String("Usuń");
         }
 
+        @SuppressWarnings("override")
         public boolean stopCellEditing() {
             isPushed = false;
             return super.stopCellEditing();
         }
 
+        @SuppressWarnings("override")
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
@@ -129,15 +163,16 @@ public class WindowMaker extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         bSubmitDiet = new javax.swing.JButton();
         lFindProduct = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        bAddProduct = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
+        tblNeeds = new javax.swing.JTable();
+        cbChooseCategory = new javax.swing.JComboBox();
+        cbChooseProduct = new javax.swing.JComboBox();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        sGrams = new javax.swing.JSpinner();
         jLabel23 = new javax.swing.JLabel();
+        bDeleteProduct = new javax.swing.JButton();
         pDailyMeasurement = new javax.swing.JPanel();
         lWeight = new javax.swing.JLabel();
         lWaist = new javax.swing.JLabel();
@@ -314,18 +349,18 @@ public class WindowMaker extends javax.swing.JFrame {
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1), "kurczak",  new Integer(100),  new Integer(100),  new Integer(0),  new Integer(21),  new Integer(2), new String("Usuń")},
-                { new Integer(2), "ryż",  new Integer(100),  new Integer(650),  new Integer(70),  new Integer(5),  new Integer(0), new String("Usuń")}
+                { new Integer(1), "kurczak",  new Integer(100),  new Integer(100),  new Integer(0),  new Integer(21),  new Integer(2)},
+                { new Integer(2), "ryż",  new Integer(100),  new Integer(650),  new Integer(70),  new Integer(5),  new Integer(0)}
             },
             new String [] {
-                "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze", "Edycja"
+                "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, false, false, false
+                false, false, true, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -338,6 +373,11 @@ public class WindowMaker extends javax.swing.JFrame {
         });
         tblProducts.setRowHeight(24);
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductsMouseClicked(evt);
+            }
+        });
         tblProducts.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tblProductsPropertyChange(evt);
@@ -358,36 +398,63 @@ public class WindowMaker extends javax.swing.JFrame {
 
         lFindProduct.setText("Znajdź produkt:");
 
-        jButton2.setText("Dodaj");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        bAddProduct.setText("Dodaj");
+        bAddProduct.setEnabled(false);
+        bAddProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                bAddProductActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblNeeds.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {new String("Dodano:"), null, null, null, null},
+                {new String("Pozostało:"), null, null, null, null},
+                {new String("Zapotrzebowanie:"), null, null, null, null}
             },
             new String [] {
                 "0", "0", "0", "0", "0"
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        tblNeeds.setEnabled(false);
+        tblNeeds.setTableHeader(null);
+        jScrollPane4.setViewportView(tblNeeds);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbChooseCategory.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseCategory()));
+        cbChooseCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChooseCategoryActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbChooseProduct.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--wybierz produkt--" }));
+        cbChooseProduct.setEnabled(false);
+        cbChooseProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbChooseProductActionPerformed(evt);
+            }
+        });
 
         jLabel21.setText("Kategoria");
 
         jLabel22.setText("Produkt");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(100), Integer.valueOf(0), null, Integer.valueOf(1)));
+        sGrams.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(100), Integer.valueOf(0), null, Integer.valueOf(1)));
+        sGrams.setEnabled(false);
+        sGrams.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                sGramsPropertyChange(evt);
+            }
+        });
 
         jLabel23.setText("g");
+
+        bDeleteProduct.setText("Usuń");
+        bDeleteProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteProductActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pDailyDietLayout = new javax.swing.GroupLayout(pDailyDiet);
         pDailyDiet.setLayout(pDailyDietLayout);
@@ -399,70 +466,70 @@ public class WindowMaker extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pDailyDietLayout.createSequentialGroup()
-                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pDailyDietLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pDailyDietLayout.createSequentialGroup()
                                 .addGap(26, 26, 26)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pDailyDietLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21))
-                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pDailyDietLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel23)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(pDailyDietLayout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel22)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(37, 37, 37)
-                        .addComponent(jButton2)
-                        .addGap(102, 102, 102)))
+                                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                                        .addComponent(jLabel21)
+                                        .addGap(96, 96, 96))
+                                    .addComponent(cbChooseCategory, 0, 156, Short.MAX_VALUE))
+                                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jLabel22))
+                                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbChooseProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(sGrams, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel23)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(pDailyDietLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pDailyDietLayout.createSequentialGroup()
+                                    .addGap(26, 26, 26)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyDietLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 22, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pDailyDietLayout.setVerticalGroup(
             pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyDietLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pDailyDietLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyDietLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbChooseCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbChooseProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sGrams, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bAddProduct)
+                    .addComponent(lFindProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSubmitDiet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(bSubmitDiet, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pDailyUpdate.addTab("Dieta", pDailyDiet);
@@ -2069,11 +2136,137 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private void tblProductsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblProductsPropertyChange
         bSubmitDiet.setText("Zapisz zmiany");
+
     }//GEN-LAST:event_tblProductsPropertyChange
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private boolean isReadyToAddProduct() {
+        if ((Integer) sGrams.getValue() >= 0
+                && !cbChooseProduct.getSelectedItem().toString().equals("--wybierz produkt--")
+                && !cbChooseCategory.getSelectedItem().toString().equals("--wybierz katerogię--")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void bAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddProductActionPerformed
+        //insert wszystko
+        if (isReadyToAddProduct()) {
+            jTextArea1.setText("SUBMIT!");
+            //jSubmitTraining.setText("Zapisz zmiany");
+
+            DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
+
+            //czyszcze tabele
+            //table.setRowCount(0);
+            @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
+            Vector vector = new Vector();
+
+            String nextNr = "1";
+            Integer tmp = 0;
+            if (table.getRowCount() > 0) {
+                System.out.println("wchodze w ifa");
+                nextNr = String.valueOf(table.getValueAt(table.getRowCount() - 1, 0));
+                tmp = Integer.parseInt(nextNr);
+                tmp++;
+                nextNr = tmp.toString();
+            }
+
+            String query = "";
+            System.out.println("Nr = " + nextNr);
+            System.out.println("nazwa produktu = " + cbChooseProduct.getSelectedItem().toString());
+            int w = (int) sGrams.getValue();
+            float weight = (float) w;
+            System.out.println("waga = " + sGrams.getValue());
+            String product2 = cbChooseProduct.getSelectedItem().toString();
+            String product = "'" + product2 + "'";
+            query = "select round(" + (weight / 100) + "*kcal) from produkty where nazwa like " + product;
+            String kcal = dataBase.getAnswer(query);
+            query = "select round(" + (weight / 100) + "*w) from produkty where nazwa like " + product;
+            String carbs = dataBase.getAnswer(query);
+            query = "select round(" + (weight / 100) + "*b) from produkty where nazwa like " + product;
+            String proteins = dataBase.getAnswer(query);
+            query = "select round(" + (weight / 100) + "*t) from produkty where nazwa like " + product;
+            String fats = dataBase.getAnswer(query);
+
+            System.out.println(nextNr);
+            System.out.println(product2);
+            System.out.println(sGrams.getValue());
+            System.out.println(kcal);
+            System.out.println(carbs);
+            System.out.println(proteins);
+            System.out.println(fats);
+
+            vector.add(nextNr);
+            vector.add(product2);
+            vector.add(sGrams.getValue());
+            vector.add(kcal);
+            vector.add(carbs);
+            vector.add(proteins);
+            vector.add(fats);
+            vector.add(new String("Usuń"));
+            table.addRow(vector);
+
+            needsTblCalculate();
+
+        } else {
+            jTextArea1.setText("NOPE!");
+
+            // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
+        }
+
+    }//GEN-LAST:event_bAddProductActionPerformed
+
+    private void cbChooseCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseCategoryActionPerformed
+        String category = cbChooseCategory.getSelectedItem().toString();
+        cbChooseProduct.setEnabled(true);
+        //lChooseExercise.setForeground(Color.black);
+        cbChooseProduct.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseProduct(category)));
+    }//GEN-LAST:event_cbChooseCategoryActionPerformed
+
+    private void cbChooseProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseProductActionPerformed
+        // lSetWeight.setForeground(Color.black);
+        //lReps.setForeground(Color.black);
+        sGrams.setEnabled(true);
+    }//GEN-LAST:event_cbChooseProductActionPerformed
+
+    private void sGramsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sGramsPropertyChange
+        bAddProduct.setEnabled(true);
+    }//GEN-LAST:event_sGramsPropertyChange
+
+    private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
+        int row = tblProducts.getSelectedRow();
+
+        System.out.println("wyswietlam wiersz nr: " + row);
+        if (row >= 0) {
+            System.out.println(tblProducts.getValueAt(row, 0).toString());
+            System.out.println(tblProducts.getValueAt(row, 1).toString());
+            System.out.println(tblProducts.getValueAt(row, 2).toString());
+            System.out.println(tblProducts.getValueAt(row, 3).toString());
+
+            needsTblCalculate();
+        }
+    }//GEN-LAST:event_tblProductsMouseClicked
+
+    private void bDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteProductActionPerformed
+        int row = tblProducts.getSelectedRow();
+
+        System.out.println("usuwam wiersz nr: " + row);
+        if (row >= 0) {
+            //String strNr = Integer.toString(row);
+            System.out.println(tblProducts.getValueAt(row, 0).toString());
+            System.out.println(tblProducts.getValueAt(row, 1).toString());
+            System.out.println(tblProducts.getValueAt(row, 2).toString());
+            System.out.println(tblProducts.getValueAt(row, 3).toString());
+            /*    
+             lastDeletedSet.add(nr);
+             lastDeletedSet.add(exercise);
+             lastDeletedSet.add(strWeight);
+             lastDeletedSet.add(strReps);
+             */
+            ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
+        }
+    }//GEN-LAST:event_bDeleteProductActionPerformed
 
     private void listenButton() {
         @SuppressWarnings("Convert2Diamond")
@@ -2152,6 +2345,39 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
+    private String[] initCbChooseCategory() {
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> arraylist = new ArrayList<String>();
+        arraylist = dataBase.getAnswerList("SELECT distinct kategoria FROM produkty order by kategoria asc");
+
+        @SuppressWarnings({"Convert2Diamond", "MismatchedQueryAndUpdateOfCollection"})
+        ArrayList<String> tmp = new ArrayList<String>();
+        tmp.add("--wybierz kategorię--");
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
+        return list;
+    }
+
+    private String[] initCbChooseProduct(String category) {
+
+        String query = "'" + category + "'";
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> arraylist = new ArrayList<String>();
+        arraylist = dataBase.getAnswerList("select nazwa from produkty where kategoria like" + query + " order by nazwa");
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> tmp = new ArrayList<String>();
+        tmp.add("--wybierz produkt--");
+
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
+        return list;
+    }
+
     private String[] initCbChooseBodyPart() {
 
         @SuppressWarnings("Convert2Diamond")
@@ -2195,38 +2421,67 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
-    private void initTbl2(int[] columnSizes, javax.swing.JTable tblProducts) {
+    private void updateMacros() {
+        int rowlen = tblProducts.getRowCount();
+        int selectedRow = tblProducts.getSelectedRow();
+        if (selectedRow > -1) {
+            System.out.println("wybrany wiersz: " + selectedRow);
+            String nazwa = tblProducts.getValueAt(selectedRow, 1).toString();
+            String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
+            ArrayList<ArrayList<String>> list = new  ArrayList<ArrayList<String>>();
+            list = dataBase.getAnswerListofList(query);
+            System.out.println("wyswietlam wynik wyszukiwania po nazwie: ");
+            for (int i = 0; i < list.get(0).size(); i++) {
+                System.out.println(list.get(0).get(i));
+            }
 
-        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                    {new Integer(1), "kurczak", new Integer(100), new Integer(100), new Integer(0), new Integer(21), new Integer(2), new String("Usuń")},
-                    {new Integer(2), "ryż", new Integer(100), new Integer(650), new Integer(70), new Integer(5), new Integer(0), new String("Usuń")}
-                },
-                new String[]{
-                    "ID", "Produkt", "Ilość", "kcal", "Węglowodany", "Białko", "Tłuszcze", "Edycja"
-                }
-        ) {
-            Class[] types = new Class[]{
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class,
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class,
-                java.lang.Integer.class, java.lang.Object.class };
-            boolean[] canEdit = new boolean[]{
-                false, false, true, false, false, false, false, false
-            };
-
-        });
-
-        System.out.println("ustalam rozmiar tablicy");
-        int columnCount = tblExercises.getColumnCount();
-        for (int i = 0; i < columnCount; i++) {
-            System.out.println(i + " = " + columnSizes[i]);
-            tblExercises.getColumnModel().getColumn(i).setPreferredWidth(columnSizes[i]);
+            int gramatura = Integer.parseInt(tblProducts.getValueAt(selectedRow, 2).toString());
+            System.out.println("wyrzucam wartosc z tabeli (G): "+gramatura);
+            /*
+            2 - kcal
+            3 - wegle
+            4 - bialko
+            5 - tluszcze
+            
+            */
         }
+        /*for (int row = 0; row < rowlen; row++) {
+         System.out.println("Nazwa: " + tblProducts.getValueAt(row, 1));
+         System.out.println("Waga: "+ tblProducts.getValueAt(row, 2));
+            
+         }
+         System.out.println("LISTA o dlugosci:"+list.size());
+         System.out.println(list.get(0));
+         */
 
-        tblProducts.getColumn("Edycja").setCellRenderer(new ButtonRenderer());
-        tblProducts.getColumn("Edycja").setCellEditor(
-                new ButtonEditor(new JCheckBox()));
+        /*
+         pobieramy wartosc 'nazwa' z tabelki
+         wczytujemy sobie po tej wartosci z tabeli 'produkty'
+         aktualizujemy tabele (gramy*wartosc_z_tabeli)/100
+        
+         */
+    }
 
+    private void needsTblCalculate() {
+        int rowlen = tblProducts.getRowCount();
+
+        updateMacros();
+
+        int kcal = 0;
+        int w = 0;
+        int b = 0;
+        int t = 0;
+
+        for (int row = 0; row < rowlen; row++) {
+            kcal += Integer.parseInt(tblProducts.getValueAt(row, 3).toString());
+            w += Integer.parseInt(tblProducts.getValueAt(row, 4).toString());
+            b += Integer.parseInt(tblProducts.getValueAt(row, 5).toString());
+            t += Integer.parseInt(tblProducts.getValueAt(row, 6).toString());
+        }
+        System.out.println("Kcal = " + kcal);
+        System.out.println("W = " + w);
+        System.out.println("B = " + b);
+        System.out.println("T = " + t);
     }
 
     private void myInitComponents() {
@@ -2248,7 +2503,9 @@ public class WindowMaker extends javax.swing.JFrame {
         int exerciseSizes[] = {40, 150, 60, 70};
         initTbl(exerciseSizes, tblExercises);
         int productSizes[] = {10, 100, 20, 20, 20, 20, 20, 20};
-        initTbl2(productSizes, tblProducts);
+        initTbl(productSizes, tblProducts);
+        int needsSizes[] = {100, 30, 30, 30, 30};
+        initTbl(needsSizes, tblNeeds);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
         fillMeasurements(changeDateFormat(jCalendar.getDate().toString()));
         listenButton();
@@ -2305,9 +2562,11 @@ public class WindowMaker extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAddProduct;
     private javax.swing.JToggleButton bAdvanced;
     private javax.swing.JToggleButton bBodyFat;
     private javax.swing.JButton bChangeTrainingName;
+    private javax.swing.JButton bDeleteProduct;
     private javax.swing.JButton bSubmitDailyMeasurement;
     private javax.swing.JButton bSubmitDiet;
     private javax.swing.JButton bSubmitPrivate;
@@ -2315,7 +2574,9 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JButton bSubmitTarget;
     private javax.swing.JButton bUndoDeleteSet;
     private javax.swing.JComboBox cbChooseBodyPart;
+    private javax.swing.JComboBox cbChooseCategory;
     private javax.swing.JComboBox cbChooseExercise;
+    private javax.swing.JComboBox cbChooseProduct;
     private com.toedter.calendar.JDateChooser eBirthDate;
     private javax.swing.JSpinner eBodyFat;
     private javax.swing.JTextField eFirstName;
@@ -2330,10 +2591,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel iPudzian;
     private javax.swing.JLabel iSportowiec;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private com.toedter.calendar.JCalendar jCalendar;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JButton jDeleteSet;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2362,10 +2620,8 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JButton jSubmitSetEdit;
     private javax.swing.JButton jSubmitTraining;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lArnold;
     private javax.swing.JLabel lBiceps;
@@ -2410,6 +2666,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JSpinner sCalf;
     private javax.swing.JSpinner sChest;
     private javax.swing.JSpinner sForearm;
+    private javax.swing.JSpinner sGrams;
     private javax.swing.JSpinner sReps;
     private javax.swing.JSpinner sSetWeight;
     private javax.swing.JSpinner sTargetBiceps;
@@ -2423,6 +2680,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JSpinner sWaist;
     private javax.swing.JSpinner sWeight;
     private javax.swing.JTable tblExercises;
+    private javax.swing.JTable tblNeeds;
     private javax.swing.JTable tblProducts;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,12 +13,15 @@ TODO:
 
 [ ] Calendar
     [ ] ma być widać gdzie jest dodana dieta/trening/pomiary
- !!!!!!!!!!!!!!!!!!!!   [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania - TUTAJ zrób kilka produktów żeby sie wczytywały do comboboxów
-        [ ] blokada celli w tabelce
-        [ ] musi byc tylko liczba gramów do edycji
-        [ ] automatycznie daje 100g
-        [ ] wyszukiwanie textedit
-        [ ] schowaj headery w liczniku zapotrzebowania
+    [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania 
+        [v] blokada celli w tabelce
+        [v] musi byc tylko liczba gramów do edycji
+        [v] null przy usuwaniu ostatniego elementu
+        [v] automatycznie daje 100g
+        [v] schowaj headery w liczniku zapotrzebowania
+        [ ] zapis do bazy
+        [ ] jak zmienię gramaturę to zmienia się calculate
+        [ ] TUTAJ - zapotrzebowanie policz
     [ ] Trening
         [v] first just view table
         [ ] make table in 'Trening' with option to edit - POTEM DOKOŃCZĘ
@@ -61,4 +64,5 @@ extra:
 [ ] przerobić getList i ListofList w jedno (w zależności od columnnumber)
 [ ] na zmianę daty robimy clear()
 [ ] block changing date when not submitted changes
-[ ] spinner po lewej żeby gramy ładnie było widać
+[ ] [dieta] spinner po lewej żeby gramy ładnie było widać
+[ ] [dieta] pokazac jakos ze mozna zmieniac tylko gramy

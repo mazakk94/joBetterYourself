@@ -206,6 +206,7 @@ final public class DataBaseHandler {
             String item = new String();
             item = rs.getString(1);
             resultList.add(item);
+            System.out.println("Dodaje: "+item);
         }
 
         return resultList;
