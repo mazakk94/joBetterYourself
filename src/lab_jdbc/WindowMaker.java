@@ -2423,27 +2423,29 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private void updateMacros() {
         int rowlen = tblProducts.getRowCount();
-        int selectedRow = tblProducts.getSelectedRow();
-        if (selectedRow > -1) {
-            System.out.println("wybrany wiersz: " + selectedRow);
-            String nazwa = tblProducts.getValueAt(selectedRow, 1).toString();
-            String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
-            ArrayList<ArrayList<String>> list = new  ArrayList<ArrayList<String>>();
-            list = dataBase.getAnswerListofList(query);
-            System.out.println("wyswietlam wynik wyszukiwania po nazwie: ");
-            for (int i = 0; i < list.get(0).size(); i++) {
-                System.out.println(list.get(0).get(i));
-            }
+        if (rowlen > 0) {
+            int selectedRow = tblProducts.getSelectedRow();
+            if (selectedRow > -1) {
+                System.out.println("wybrany wiersz: " + selectedRow);
+                String nazwa = tblProducts.getValueAt(selectedRow, 1).toString();
+                String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
+                ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+                list = dataBase.getAnswerListofList(query);
+                System.out.println("wyswietlam wynik wyszukiwania po nazwie: ");
+                for (int i = 0; i < list.get(0).size(); i++) {
+                    System.out.println(list.get(0).get(i));
+                }
 
-            int gramatura = Integer.parseInt(tblProducts.getValueAt(selectedRow, 2).toString());
-            System.out.println("wyrzucam wartosc z tabeli (G): "+gramatura);
-            /*
-            2 - kcal
-            3 - wegle
-            4 - bialko
-            5 - tluszcze
+                int gramatura = Integer.parseInt(tblProducts.getValueAt(selectedRow, 2).toString());
+                System.out.println("wyrzucam wartosc z tabeli (G): " + gramatura);
+                /*
+                 2 - kcal
+                 3 - wegle
+                 4 - bialko
+                 5 - tluszcze
             
-            */
+                 */
+            }
         }
         /*for (int row = 0; row < rowlen; row++) {
          System.out.println("Nazwa: " + tblProducts.getValueAt(row, 1));
@@ -2504,6 +2506,7 @@ public class WindowMaker extends javax.swing.JFrame {
         initTbl(exerciseSizes, tblExercises);
         int productSizes[] = {10, 100, 20, 20, 20, 20, 20, 20};
         initTbl(productSizes, tblProducts);
+        ((DefaultTableModel) tblProducts.getModel()).setRowCount(0);
         int needsSizes[] = {100, 30, 30, 30, 30};
         initTbl(needsSizes, tblNeeds);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);

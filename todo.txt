@@ -20,7 +20,7 @@ TODO:
         [v] automatycznie daje 100g
         [v] schowaj headery w liczniku zapotrzebowania
         [ ] zapis do bazy
-        [ ] jak zmienię gramaturę to zmienia się calculate
+!!!!!!! [ ] jak zmienię gramaturę to zmienia się calculate - listenera dodać trzeba - TUTAJ
         [ ] TUTAJ - zapotrzebowanie policz
     [ ] Trening
         [v] first just view table
