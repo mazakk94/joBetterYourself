@@ -21,9 +21,13 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -43,6 +47,27 @@ public class WindowMaker extends javax.swing.JFrame {
         dataBase = new DataBaseHandler();
         initComponents();
         myInitComponents();
+    }
+
+    private void fillTblProducts(String tmpDate) {
+        String dateString = tmpDate;
+        //System.out.println(dateString);
+        String query = new String();
+        query = "SELECT nazwa, ilosc FROM `posilek` where data like " + dateString;
+
+        @SuppressWarnings({"UseOfObsoleteCollectionType", "Convert2Diamond"})
+        ArrayList<Vector<String>> arrayList = new ArrayList<Vector<String>>();
+        arrayList = dataBase.getAnswerListofVector(query);
+
+        DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
+        table.setRowCount(0);
+        
+        for (int i = 0; i < arrayList.size(); i++) {
+            table.addRow(new String[]{"","","","","","",""});
+            table.setValueAt(arrayList.get(i).get(0), i, 1);
+            table.setValueAt(arrayList.get(i).get(1), i, 2);
+        }
+        updateMacros();
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -98,13 +123,13 @@ public class WindowMaker extends javax.swing.JFrame {
             if (isPushed) {
 
                 int row = tblProducts.getSelectedRow();
-                System.out.println("jest " + tblProducts.getRowCount() + " wierszy");
-                System.out.println("usuwam wiersz nr: " + row);
+                //System.out.println("jest " + tblProducts.getRowCount() + " wierszy");
+                //System.out.println("usuwam wiersz nr: " + row);
                 if (row >= 0) {
-                    System.out.println(tblProducts.getValueAt(row, 0).toString());
-                    System.out.println(tblProducts.getValueAt(row, 1).toString());
-                    System.out.println(tblProducts.getValueAt(row, 2).toString());
-                    System.out.println(tblProducts.getValueAt(row, 3).toString());
+                    //System.out.println(tblProducts.getValueAt(row, 0).toString());
+                    //System.out.println(tblProducts.getValueAt(row, 1).toString());
+                    //System.out.println(tblProducts.getValueAt(row, 2).toString());
+                    //System.out.println(tblProducts.getValueAt(row, 3).toString());
                     /*    
                      lastDeletedSet.add(nr);
                      lastDeletedSet.add(exercise);
@@ -115,15 +140,15 @@ public class WindowMaker extends javax.swing.JFrame {
                 }
                 /*
                  if (tblProducts.getRowCount() > 0 && tblProducts.getSelectedRow() != -1) {
-                 //System.out.println("1");
-                 //System.out.println("Usuwam " + (tblProducts.getSelectedRow()));
-                 //System.out.println("2");
+                 ////System.out.println("1");
+                 ////System.out.println("Usuwam " + (tblProducts.getSelectedRow()));
+                 ////System.out.println("2");
                  DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
-                 System.out.println("\n" + model.getRowCount());
-                 System.out.println(tblProducts.getSelectedRow());
+                 //System.out.println("\n" + model.getRowCount());
+                 //System.out.println(tblProducts.getSelectedRow());
                  model.removeRow(tblProducts.getSelectedRow());
-                 System.out.println(tblProducts.getSelectedRow());
-                 ////System.out.println("3");
+                 //System.out.println(tblProducts.getSelectedRow());
+                 //////System.out.println("3");
                  }
                  */
             }
@@ -1439,21 +1464,21 @@ public class WindowMaker extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateMeasurement(String date, String typPomiaru, javax.swing.JSpinner sWeight) {
-        System.out.println("JESTEM W UPDATE MEASUREMENT");
+        //System.out.println("JESTEM W UPDATE MEASUREMENT");
         String query = "SELECT wartosc FROM `pomiar` where data_dodania like " + date + " and typ_pomiaru like " + typPomiaru;//'waga'";
-        System.out.println(query);
+        //System.out.println(query);
         @SuppressWarnings("LocalVariableHidesMemberVariable")
         String result = dataBase.getAnswer(query);
         boolean insert = false;
         if (result.length() > 0) { //istnieje
             query = "UPDATE pomiar SET wartosc='" + sWeight.getValue() + "' WHERE data_dodania like " + date + "and typ_pomiaru like " + typPomiaru;// 'Waga'";
-            System.out.println(query);
+            //System.out.println(query);
             insert = true;
         } else {
             query = "INSERT INTO `pomiar` (`typ_pomiaru`, `wartosc`, `data_dodania`) "
                     + "VALUES (" + typPomiaru + ", " + sWeight.getValue() + ", "
                     + date + ")";
-            System.out.println(query);
+            //System.out.println(query);
             insert = true;
         }
         if (insert) {
@@ -1614,15 +1639,15 @@ public class WindowMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_bSubmitPrivateActionPerformed
 
     private void printArray(ArrayList<String> list) {
-        //System.out.println("list.size()");
-        //System.out.println(list.size());
+        ////System.out.println("list.size()");
+        ////System.out.println(list.size());
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+            //System.out.println(list.get(i));
         }
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("CLICK");
+        //System.out.println("CLICK");
         String wynik = new String();
         wynik = dataBase.getAnswer("select * from cwiczenie");
         @SuppressWarnings("Convert2Diamond")
@@ -1630,9 +1655,9 @@ public class WindowMaker extends javax.swing.JFrame {
         //ArrayList<String> list = new ArrayList<String>();
         //list = dataBase.getAnswerList("select nazwa from cwiczenie");
 
-        System.out.println("WINDOWMAKER:");
+        //System.out.println("WINDOWMAKER:");
         printArray(list);
-        //System.out.println(wynik);
+        ////System.out.println(wynik);
         jTextArea1.setText(wynik);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1672,17 +1697,17 @@ public class WindowMaker extends javax.swing.JFrame {
             String nextNr = "1";
             Integer tmp = 0;
             if (table.getRowCount() > 0) {
-                System.out.println("wchodze w ifa");
+                //System.out.println("wchodze w ifa");
                 nextNr = (String) table.getValueAt(table.getRowCount() - 1, 0);
                 tmp = Integer.parseInt(nextNr);
                 tmp++;
                 nextNr = tmp.toString();
             }
 
-            System.out.println("Nr = " + nextNr);
-            System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
-            System.out.println("obciazenie = " + sSetWeight.getValue());
-            System.out.println("liczba powtorzen  = " + sReps.getValue());
+            //System.out.println("Nr = " + nextNr);
+            //System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
+            //System.out.println("obciazenie = " + sSetWeight.getValue());
+            //System.out.println("liczba powtorzen  = " + sReps.getValue());
             vector.add(nextNr);
             vector.add(cbChooseExercise.getSelectedItem().toString());
             vector.add(sSetWeight.getValue());
@@ -1705,14 +1730,14 @@ public class WindowMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_pDailyUpdateMouseClicked
 
     private void fillMeasurements(String date) {
-        System.out.println(date);
+        //System.out.println(date);
         String query1 = "SELECT wartosc FROM `pomiar` where data_dodania <= ";
         String query2 = " and typ_pomiaru like ";
         String query = query1 + date + query2;
         query2 = "ORDER BY data_dodania DESC limit 1";
 
         String Waga = dataBase.getAnswer(query + " 'Waga' " + query2);
-        System.out.println(Waga);
+        //System.out.println(Waga);
         if (Waga.length() > 0) {
             int foo = Integer.parseInt(Waga);
             sWeight.setValue(foo);
@@ -1749,9 +1774,9 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
-    private void fillTable(String date) {
+    private void fillTblExercises(String date) {
         String dateString = date;
-        System.out.println(dateString);
+        //System.out.println(dateString);
         String query = new String();
         //query = "SELECT `NR`, `CWICZENIE`, `OBCIAZENIE`, `LICZBA_POWT` FROM `seria` WHERE data_treningu = " + dateString;
         query = "SELECT `NR`, `CWICZENIE`, `OBCIAZENIE`, `LICZBA_POWT` FROM `seria` where data_treningu like " + dateString + " ORDER BY `NR` ASC";
@@ -1771,6 +1796,33 @@ public class WindowMaker extends javax.swing.JFrame {
             table.addRow(subVector);
 
         }
+    }
+
+    private String generateSubmitFoodQuery() {
+        String query = "INSERT INTO `posilek` (`ILOSC`, `DATA`, `NAZWA`) VALUES\n";
+        String rowQuery = new String();
+        String finalQuery = new String();
+        finalQuery += query;
+
+        for (int row = 0; row < tblProducts.getRowCount(); row++) {
+
+            rowQuery = "(";
+            rowQuery += tblProducts.getValueAt(row, 2).toString(); //ilosc kcal
+            rowQuery += ", ";
+            rowQuery += changeDateFormat(jCalendar.getDate().toString());
+            rowQuery += ", '";
+            rowQuery += tblProducts.getValueAt(row, 1).toString(); //nazwa
+            rowQuery += "'"; //nazwa
+
+            if (row != tblProducts.getRowCount() - 1) {
+                rowQuery += "),\n";
+            } else {
+                rowQuery += ");";
+            }
+
+            finalQuery += rowQuery;
+        }
+        return finalQuery;
     }
 
     private String generateSubmitQuery() {
@@ -1849,8 +1901,8 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private String castMonth(String month) {
         Month enumMonth = Month.fromString(month);
-        //System.out.println("wypluwam enummonth");
-        //System.out.println(enumMonth);
+        ////System.out.println("wypluwam enummonth");
+        ////System.out.println(enumMonth);
         //enumMonth
         String resultMonth = new String();
         switch (enumMonth) {
@@ -1891,7 +1943,7 @@ public class WindowMaker extends javax.swing.JFrame {
                 resultMonth = "12";
                 break;
             default:
-                System.out.println("Something went wrong");
+                //System.out.println("Something went wrong");
                 break;
         }
         return resultMonth;
@@ -1901,14 +1953,14 @@ public class WindowMaker extends javax.swing.JFrame {
         String resultDate = new String();
 
         String tmpDate = jCalendar.getDate().toString();
-        //System.out.println(tmpDate);
+        ////System.out.println(tmpDate);
         String tmpYear = tmpDate.substring(tmpDate.length() - 4, tmpDate.length());
         String tmpMonth = castMonth(tmpDate.substring(4, 7));
         String tmpDay = tmpDate.substring(8, 10);
         resultDate = "'" + tmpYear + "-" + tmpMonth + "-" + tmpDay + "'";
-        //System.out.println(tmpYear);
+        ////System.out.println(tmpYear);
 
-        //System.out.println(tmpDay);
+        ////System.out.println(tmpDay);
         return resultDate; //resultDate
     }
 
@@ -1917,21 +1969,22 @@ public class WindowMaker extends javax.swing.JFrame {
          -opcjonalnie - jak nic nie ma to wyświetlamy komunikat, że nic nie ma
          kolorujemy te miejsca w kalendarzu, które mają jakiś trening lub dietę (obwódka i kolor)
          */
-        System.out.println("ZACZYNAM PROPERTYCHANGE");
+        //System.out.println("ZACZYNAM PROPERTYCHANGE");
         String tmpDate = changeDateFormat(jCalendar.getDate().toString());
 
+        // DLA TRENINGU
         String query = "select nazwa from trening where data_treningu like " + tmpDate;
-        //System.out.println(query);
         String trainingName = dataBase.getAnswer(query);
-        //System.out.println(trainingName);
         eTrainingName.setText(trainingName);
-
-        System.out.println("KOŃCZĘ PROPERTYCHANGE");
-
-        fillTable(tmpDate);
+        fillTblExercises(tmpDate);
         fillMeasurements(tmpDate);
         bSubmitDailyMeasurement.setText("Zatwierdź");
         jSubmitTraining.setText("Zapisz zmiany");
+
+        //DLA DIETY
+        fillTblProducts(tmpDate);
+
+
     }//GEN-LAST:event_jCalendarPropertyChange
 
     private int[] getColumnsWidths(javax.swing.JTable tblExercises) {
@@ -1941,7 +1994,7 @@ public class WindowMaker extends javax.swing.JFrame {
             System.out.print(tblExercises.getColumnModel().getColumn(i).getWidth());
             System.out.print("\t");
         }
-        System.out.println("");
+        //System.out.println("");
         return sizes;
     }
 
@@ -1952,7 +2005,7 @@ public class WindowMaker extends javax.swing.JFrame {
         String bodyPart = new String();
         String query = "select partia from cwiczenie where nazwa like '" + exercise + "'";
         bodyPart = dataBase.getAnswer(query);
-        System.out.println("bodypart = " + bodyPart);
+        //System.out.println("bodypart = " + bodyPart);
         return bodyPart;
     }
 
@@ -1965,15 +2018,15 @@ public class WindowMaker extends javax.swing.JFrame {
         if (tblExercises.getRowCount() > 0) {
 
             String deleteQuery = "DELETE FROM seria WHERE data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
-            System.out.println(deleteQuery);
+            //System.out.println(deleteQuery);
             dataBase.update(deleteQuery);
             String insertQuery = generateSubmitQuery();
-            System.out.println(insertQuery);
+            //System.out.println(insertQuery);
             dataBase.update(insertQuery);
 
             updateTrainingName();
         } else {
-            System.out.println("nie mam nic do dodania!");
+            //System.out.println("nie mam nic do dodania!");
         }
     }//GEN-LAST:event_jSubmitTrainingActionPerformed
 
@@ -2016,10 +2069,10 @@ public class WindowMaker extends javax.swing.JFrame {
                 @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
                 Vector vector = new Vector();
 
-                System.out.println("Nr = " + nr);
-                System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
-                System.out.println("obciazenie = " + sSetWeight.getValue());
-                System.out.println("liczba powtorzen  = " + sReps.getValue());
+                //System.out.println("Nr = " + nr);
+                //System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
+                //System.out.println("obciazenie = " + sSetWeight.getValue());
+                //System.out.println("liczba powtorzen  = " + sReps.getValue());
                 vector.add(nr);
                 vector.add(cbChooseExercise.getSelectedItem().toString());
                 vector.add(sSetWeight.getValue());
@@ -2055,7 +2108,7 @@ public class WindowMaker extends javax.swing.JFrame {
     private void jDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteSetActionPerformed
         int row = tblExercises.getSelectedRow();
 
-        System.out.println("usuwam wiersz nr: " + row);
+        //System.out.println("usuwam wiersz nr: " + row);
         if (row >= 0) {
             jSubmitTraining.setText("Zapisz zmiany");
             //String strNr = Integer.toString(row);
@@ -2086,34 +2139,34 @@ public class WindowMaker extends javax.swing.JFrame {
          */
 
         /*
-         System.out.println("chce przywrócić dane:");
+         //System.out.println("chce przywrócić dane:");
          DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
          //table.addRow(lastDeletedSet);
          table.insertRow(deletedRow, lastDeletedSet);
-         System.out.println(lastDeletedSet);
+         //System.out.println(lastDeletedSet);
          for (int i = 0; i < 4; i++) {
          lastDeletedSet.removeElementAt(0);
          }
         
          bUndoDeleteSet.setEnabled(false);
-         System.out.println("kończę przywracać dane");*/
-        System.out.println("narazie nie zrobione");
+         //System.out.println("kończę przywracać dane");*/
+        //System.out.println("narazie nie zrobione");
     }//GEN-LAST:event_bUndoDeleteSetActionPerformed
 
     private void updateTrainingName() {
         String query = "SELECT nazwa FROM `trening` where data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
-        //System.out.println(query);
+        ////System.out.println(query);
         @SuppressWarnings("LocalVariableHidesMemberVariable")
         String result = dataBase.getAnswer(query);
         boolean insert = false;
         if (result.length() > 0) { //istnieje
             query = "UPDATE trening SET nazwa='" + eTrainingName.getText() + "' WHERE data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
-            System.out.println("zmiany zostaly wprowadzone");
+            //System.out.println("zmiany zostaly wprowadzone");
             jSubmitTraining.setText("Zmiany wprowadzone!");
             insert = true;
         } else if (eTrainingName.getText().length() > 0) {
             query = "INSERT INTO `trening` (`nazwa`, `data_treningu`) VALUES ('" + eTrainingName.getText() + "', " + changeDateFormat(jCalendar.getDate().toString()) + ")";
-            System.out.println("dodalem nowy wiersz");
+            //System.out.println("dodalem nowy wiersz");
             insert = true;
         }
 
@@ -2131,7 +2184,19 @@ public class WindowMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_bChangeTrainingNameActionPerformed
 
     private void bSubmitDietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDietActionPerformed
-        System.out.println("trzeba zrobić zapis do bazy");
+        if (tblProducts.getRowCount() > 0) {
+
+            String deleteQuery = "DELETE FROM posilek WHERE data like " + changeDateFormat(jCalendar.getDate().toString());
+            System.out.println(deleteQuery);
+            //dataBase.update(deleteQuery);
+            String insertQuery = generateSubmitFoodQuery();
+            System.out.println(insertQuery);
+            //dataBase.update(insertQuery);
+
+        } else {
+            System.out.println("nie mam nic do dodania!");
+        }
+
     }//GEN-LAST:event_bSubmitDietActionPerformed
 
     private void tblProductsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblProductsPropertyChange
@@ -2165,7 +2230,7 @@ public class WindowMaker extends javax.swing.JFrame {
             String nextNr = "1";
             Integer tmp = 0;
             if (table.getRowCount() > 0) {
-                System.out.println("wchodze w ifa");
+                //System.out.println("wchodze w ifa");
                 nextNr = String.valueOf(table.getValueAt(table.getRowCount() - 1, 0));
                 tmp = Integer.parseInt(nextNr);
                 tmp++;
@@ -2173,11 +2238,11 @@ public class WindowMaker extends javax.swing.JFrame {
             }
 
             String query = "";
-            System.out.println("Nr = " + nextNr);
-            System.out.println("nazwa produktu = " + cbChooseProduct.getSelectedItem().toString());
+            //System.out.println("Nr = " + nextNr);
+            //System.out.println("nazwa produktu = " + cbChooseProduct.getSelectedItem().toString());
             int w = (int) sGrams.getValue();
             float weight = (float) w;
-            System.out.println("waga = " + sGrams.getValue());
+            //System.out.println("waga = " + sGrams.getValue());
             String product2 = cbChooseProduct.getSelectedItem().toString();
             String product = "'" + product2 + "'";
             query = "select round(" + (weight / 100) + "*kcal) from produkty where nazwa like " + product;
@@ -2189,14 +2254,13 @@ public class WindowMaker extends javax.swing.JFrame {
             query = "select round(" + (weight / 100) + "*t) from produkty where nazwa like " + product;
             String fats = dataBase.getAnswer(query);
 
-            System.out.println(nextNr);
-            System.out.println(product2);
-            System.out.println(sGrams.getValue());
-            System.out.println(kcal);
-            System.out.println(carbs);
-            System.out.println(proteins);
-            System.out.println(fats);
-
+            //System.out.println(nextNr);
+            //System.out.println(product2);
+            //System.out.println(sGrams.getValue());
+            //System.out.println(kcal);
+            //System.out.println(carbs);
+            //System.out.println(proteins);
+            //System.out.println(fats);
             vector.add(nextNr);
             vector.add(product2);
             vector.add(sGrams.getValue());
@@ -2237,12 +2301,12 @@ public class WindowMaker extends javax.swing.JFrame {
     private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
         int row = tblProducts.getSelectedRow();
 
-        System.out.println("wyswietlam wiersz nr: " + row);
+        //System.out.println("wyswietlam wiersz nr: " + row);
         if (row >= 0) {
-            System.out.println(tblProducts.getValueAt(row, 0).toString());
-            System.out.println(tblProducts.getValueAt(row, 1).toString());
-            System.out.println(tblProducts.getValueAt(row, 2).toString());
-            System.out.println(tblProducts.getValueAt(row, 3).toString());
+            //System.out.println(tblProducts.getValueAt(row, 0).toString());
+            //System.out.println(tblProducts.getValueAt(row, 1).toString());
+            //System.out.println(tblProducts.getValueAt(row, 2).toString());
+            //System.out.println(tblProducts.getValueAt(row, 3).toString());
 
             needsTblCalculate();
         }
@@ -2251,13 +2315,13 @@ public class WindowMaker extends javax.swing.JFrame {
     private void bDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteProductActionPerformed
         int row = tblProducts.getSelectedRow();
 
-        System.out.println("usuwam wiersz nr: " + row);
+        //System.out.println("usuwam wiersz nr: " + row);
         if (row >= 0) {
             //String strNr = Integer.toString(row);
-            System.out.println(tblProducts.getValueAt(row, 0).toString());
-            System.out.println(tblProducts.getValueAt(row, 1).toString());
-            System.out.println(tblProducts.getValueAt(row, 2).toString());
-            System.out.println(tblProducts.getValueAt(row, 3).toString());
+            //System.out.println(tblProducts.getValueAt(row, 0).toString());
+            //System.out.println(tblProducts.getValueAt(row, 1).toString());
+            //System.out.println(tblProducts.getValueAt(row, 2).toString());
+            //System.out.println(tblProducts.getValueAt(row, 3).toString());
             /*    
              lastDeletedSet.add(nr);
              lastDeletedSet.add(exercise);
@@ -2267,6 +2331,29 @@ public class WindowMaker extends javax.swing.JFrame {
             ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
         }
     }//GEN-LAST:event_bDeleteProductActionPerformed
+
+    private void detectChange() {
+
+        CellEditorListener ChangeNotification = new CellEditorListener() {
+            @SuppressWarnings("override")
+            public void editingCanceled(ChangeEvent e) {
+                System.out.println("The user canceled editing.");
+            }
+
+            @SuppressWarnings("override")
+            public void editingStopped(ChangeEvent e) {
+                System.out.println("The user stopped editing successfully.");
+                //tblProducts.getSelectedRow()
+                updateMacros();
+                needsTblCalculate();
+            }
+        };
+
+        tblProducts.getDefaultEditor(Integer.class).addCellEditorListener(ChangeNotification);
+        //DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
+        //tblProducts.addCellEditorListener(ChangeNotification);
+
+    }
 
     private void listenButton() {
         @SuppressWarnings("Convert2Diamond")
@@ -2413,61 +2500,54 @@ public class WindowMaker extends javax.swing.JFrame {
     }
 
     private void initTbl(int[] columnSizes, javax.swing.JTable tblExercises) {
-        System.out.println("ustalam rozmiar tablicy");
+        //System.out.println("ustalam rozmiar tablicy");
         int columnCount = tblExercises.getColumnCount();
         for (int i = 0; i < columnCount; i++) {
-            System.out.println(i + " = " + columnSizes[i]);
+            //System.out.println(i + " = " + columnSizes[i]);
             tblExercises.getColumnModel().getColumn(i).setPreferredWidth(columnSizes[i]);
         }
     }
 
     private void updateMacros() {
+
+        /*
+         POBIERAMY WIERSZ EDYTOWANEJ KOMÓRKI
+         POBIERAMY INFO O TYM JAKIE MAKRO W 100
+         PRZELICZAMY ILE MAKRO DLA ZMIENIONEJ WARTOŚCI (KOMÓRKI 2 W WYBRANYM WIERSZU)
+         UZUPEŁNIAMY DANE W TABELCE
+         KONIEC
+         */
         int rowlen = tblProducts.getRowCount();
         if (rowlen > 0) {
             int selectedRow = tblProducts.getSelectedRow();
             if (selectedRow > -1) {
-                System.out.println("wybrany wiersz: " + selectedRow);
                 String nazwa = tblProducts.getValueAt(selectedRow, 1).toString();
                 String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
                 ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
                 list = dataBase.getAnswerListofList(query);
-                System.out.println("wyswietlam wynik wyszukiwania po nazwie: ");
-                for (int i = 0; i < list.get(0).size(); i++) {
-                    System.out.println(list.get(0).get(i));
-                }
+                System.out.println("sizeof list: " + list.size());
+                int kcal = Integer.parseInt(list.get(0).get(2));
+                int w = Integer.parseInt(list.get(0).get(3));
+                int b = Integer.parseInt(list.get(0).get(4));
+                int t = Integer.parseInt(list.get(0).get(5));
 
                 int gramatura = Integer.parseInt(tblProducts.getValueAt(selectedRow, 2).toString());
-                System.out.println("wyrzucam wartosc z tabeli (G): " + gramatura);
-                /*
-                 2 - kcal
-                 3 - wegle
-                 4 - bialko
-                 5 - tluszcze
-            
-                 */
+                b = (gramatura * b) / 100;
+                t = (gramatura * t) / 100;
+                w = (gramatura * w) / 100;
+                kcal = (gramatura * kcal) / 100;
+
+                tblProducts.setValueAt(kcal, selectedRow, 3);
+                tblProducts.setValueAt(w, selectedRow, 4);
+                tblProducts.setValueAt(b, selectedRow, 5);
+                tblProducts.setValueAt(t, selectedRow, 6);
             }
         }
-        /*for (int row = 0; row < rowlen; row++) {
-         System.out.println("Nazwa: " + tblProducts.getValueAt(row, 1));
-         System.out.println("Waga: "+ tblProducts.getValueAt(row, 2));
-            
-         }
-         System.out.println("LISTA o dlugosci:"+list.size());
-         System.out.println(list.get(0));
-         */
-
-        /*
-         pobieramy wartosc 'nazwa' z tabelki
-         wczytujemy sobie po tej wartosci z tabeli 'produkty'
-         aktualizujemy tabele (gramy*wartosc_z_tabeli)/100
-        
-         */
     }
 
+    @SuppressWarnings("Convert2Diamond")
     private void needsTblCalculate() {
         int rowlen = tblProducts.getRowCount();
-
-        updateMacros();
 
         int kcal = 0;
         int w = 0;
@@ -2479,11 +2559,37 @@ public class WindowMaker extends javax.swing.JFrame {
             w += Integer.parseInt(tblProducts.getValueAt(row, 4).toString());
             b += Integer.parseInt(tblProducts.getValueAt(row, 5).toString());
             t += Integer.parseInt(tblProducts.getValueAt(row, 6).toString());
-        }
-        System.out.println("Kcal = " + kcal);
-        System.out.println("W = " + w);
-        System.out.println("B = " + b);
-        System.out.println("T = " + t);
+        }//        kcal w b t
+        //dodano, pozostało, zapotrzebowanie
+        tblNeeds.setValueAt(kcal + " kcal", 0, 1);
+        tblNeeds.setValueAt(w + " W", 0, 2);
+        tblNeeds.setValueAt(b + " B", 0, 3);
+        tblNeeds.setValueAt(t + " T", 0, 4);
+        /*
+         robie zapytanie do bazy o obecnego uzytkownika i pytam o kcal, b,w , t i dodaje to do 1 pierwsza
+         odejmuje od zapotrzebowania wartosci dodane i wrzucam do 2 wiersza
+         */
+        //kcal b w t        5678
+        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+        list = dataBase.getAnswerListofList("SELECT * FROM `uzytkownik` WHERE nazwisko like 'Wojtasik'");
+        //System.out.println("rozmiar listy"+list.size());
+        //for (int i = 0; i < list.size(); i++) {
+        //    System.out.println(list.get(i));
+        //}
+
+        tblNeeds.setValueAt(list.get(0).get(5) + " kcal", 2, 1);
+        tblNeeds.setValueAt(list.get(0).get(6) + " W", 2, 2);
+        tblNeeds.setValueAt(list.get(0).get(7) + " B", 2, 3);
+        tblNeeds.setValueAt(list.get(0).get(8) + " T", 2, 4);
+        Integer tmp = 0;
+        tmp = Integer.parseInt(list.get(0).get(5)) - kcal;
+        tblNeeds.setValueAt(tmp.toString() + " kcal", 1, 1);
+        tmp = Integer.parseInt(list.get(0).get(6)) - w;
+        tblNeeds.setValueAt(tmp.toString() + " W", 1, 2);
+        tmp = Integer.parseInt(list.get(0).get(7)) - b;
+        tblNeeds.setValueAt(tmp.toString() + " B", 1, 3);
+        tmp = Integer.parseInt(list.get(0).get(8)) - t;
+        tblNeeds.setValueAt(tmp.toString() + " T", 1, 4);
     }
 
     private void myInitComponents() {
@@ -2512,6 +2618,7 @@ public class WindowMaker extends javax.swing.JFrame {
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
         fillMeasurements(changeDateFormat(jCalendar.getDate().toString()));
         listenButton();
+        detectChange();
     }
 
     @SuppressWarnings({"Convert2Lambda", "static-access"})

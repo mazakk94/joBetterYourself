@@ -21,9 +21,9 @@ final public class DataBaseHandler {
         ResultSetMetaData rsmd = rs.getMetaData();
         String resultString = new String();
         int columnsNumber = rsmd.getColumnCount();
-        //System.out.println("liczba kolumn: " + columnsNumber);
-        //System.out.println("current row: "+rs.getRow()+" ");
-        //System.out.println(rs.next());
+        ////System.out.println("liczba kolumn: " + columnsNumber);
+        ////System.out.println("current row: "+rs.getRow()+" ");
+        ////System.out.println(rs.next());
         while (rs.next()) {
             for (int i = 1; i <= columnsNumber; i++) {
                 if (i > 1) {
@@ -35,7 +35,7 @@ final public class DataBaseHandler {
                 resultString = resultString + rs.getString(i);
             }
             if (columnsNumber > 1) {
-                System.out.println("");
+                //System.out.println("");
                 resultString = resultString + "\n";
             }
         }
@@ -61,7 +61,7 @@ final public class DataBaseHandler {
         stmt = null;
         try {
             stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            System.out.println("Udało się stworzyć Statement");
+            //System.out.println("Udało się stworzyć Statement");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,22 +69,22 @@ final public class DataBaseHandler {
         rset = null;
         try { //"select * from seria"
             rset = stmt.executeQuery(query);                                        // where nr = 1 and cwiczenie LIKE 'Zolnierskie'"); //("SELECT NR, OBCIAZENIE, LICZBA_POWT FROM SERIA"); //RPAD(NAZWISKO, 12, ' ')
-            System.out.println("Udało się stworzyć ResultSet dla query = " + query);
+            //System.out.println("Udało się stworzyć ResultSet dla query = " + query);
             result = getResultString(rset);
-            System.out.println("drukuje result czyli to co wyjdzie z tej funkcji");
-            System.out.println(result);
+            //System.out.println("drukuje result czyli to co wyjdzie z tej funkcji");
+            //System.out.println(result);
 
-            //System.out.println(result); //drukuje result czyli to co wyjdzie z tej funkcji
+            ////System.out.println(result); //drukuje result czyli to co wyjdzie z tej funkcji
             rset.close();
 
         } catch (SQLException ex) {
-            System.out.println("Blad w resultSet");
+            //System.out.println("Blad w resultSet");
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             stmt.close();
-            System.out.println("Rozłączono Statement");
+            //System.out.println("Rozłączono Statement");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,7 +107,7 @@ final public class DataBaseHandler {
             resultListofVector.add(subVector);
         }
 
-        System.out.println("Wykonałem getResultVector !!!");
+        //System.out.println("Wykonałem getResultVector !!!");
         return resultListofVector;
     }
 
@@ -159,7 +159,7 @@ final public class DataBaseHandler {
             resultListofList.add(subList);
         }
 
-        System.out.println("Wykonałem getResultList !!!");
+        //System.out.println("Wykonałem getResultList !!!");
         return resultListofList;
     }
 
@@ -206,7 +206,7 @@ final public class DataBaseHandler {
             String item = new String();
             item = rs.getString(1);
             resultList.add(item);
-            System.out.println("Dodaje: "+item);
+            //System.out.println("Dodaje: "+item);
         }
 
         return resultList;
@@ -248,7 +248,7 @@ final public class DataBaseHandler {
 
         try {
             this.conn.close();
-            System.out.println("Rozłączono z bazą danych");
+            //System.out.println("Rozłączono z bazą danych");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -270,7 +270,7 @@ final public class DataBaseHandler {
             //this.conn = DriverManager.getConnection("jdbc:mysql://95.211.80.4/mazakk_cba_pl", this.connectionProps); // ? 
             //this.conn = DriverManager.getConnection("jdbc:oracle:thin:@//admlab2-main.cs.put.poznan.pl:1521/dblab01.cs.put.poznan.pl", this.connectionProps);        
             this.conn = DriverManager.getConnection("jdbc:mysql://localhost/betteryourself", this.connectionProps);
-            System.out.println("Połączono z bazą danych");
+            //System.out.println("Połączono z bazą danych");
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, "nie udało się połączyć z bazą danych", ex);
             System.exit(-1);
@@ -297,7 +297,7 @@ final public class DataBaseHandler {
  @SuppressWarnings("Convert2Diamond")
  ArrayList<ArrayList<String>> resultList = new ArrayList<ArrayList<String>>();
 
- System.out.println("Zaczynam printResultList ...");
+ //System.out.println("Zaczynam printResultList ...");
  int columnsNumber = rsmd.getColumnCount();
  while (rs.next()) {
  //List subList = new ArrayList();
@@ -314,7 +314,7 @@ final public class DataBaseHandler {
  System.out.print(resultList.get(i).get(j));
  System.out.print(" ");
  }
- System.out.println("");
+ //System.out.println("");
  }
- System.out.println("Kończę printResultList ...");
+ //System.out.println("Kończę printResultList ...");
  }*/
