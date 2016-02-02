@@ -6,23 +6,21 @@ TODO:
 [v] make gui prototype
 [v] use cases 
 [ ] DFD - Data Flow Diagram
-
 [v] jframe tutorial
-
 [v] make tables working with deimos - localhost
 
 [ ] Calendar
     [ ] ma być widać gdzie jest dodana dieta/trening/pomiary
-    [ ] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania 
+    [v] Dieta - tu bedzie trzeba zrobic baze produktów i mase opcji dodawania 
         [v] blokada celli w tabelce
         [v] musi byc tylko liczba gramów do edycji
         [v] null przy usuwaniu ostatniego elementu
         [v] automatycznie daje 100g
         [v] schowaj headery w liczniku zapotrzebowania
-        [ ] zapis do bazy
+        [v] zapis do bazy
         [v] jak zmienię gramaturę to zmienia się calculate - listenera dodać trzeba
         [v] zapotrzebowanie policz needstblcalculate
-  !!!!!![ ] klikanie w kalendarz wczytuje nam diete z danego dnia - fillTblProducts
+        [v] klikanie w kalendarz wczytuje nam diete z danego dnia
     [ ] Trening
         [v] first just view table
         [ ] make table in 'Trening' with option to edit - POTEM DOKOŃCZĘ
@@ -37,7 +35,7 @@ TODO:
             [v] change name of training
             [v] submit changes
         [v] add some example tables to check how table works
-    [ ] Pomiary
+    [ ] Pomiary 
         [v] wyświetla ostatnio dodany pomiar, jak nie ma nic jeszcze dodane to zera
         [V] zapis do bazy wypełnionych pól
         [v] na zmiany spinnera settext przycisku
@@ -46,11 +44,17 @@ TODO:
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
 [ ] Zapytaj trenera
+    [ ]
+
 [ ] Okno logowania na początku !
+    [ ]
+
 [ ] Konto
     [ ] Dane osobowe:
-        [ ] dodać zapotrzebowanie WBT
-        [ ] backend cały
+        [v] wczytanie obecnych danych
+        [v] sprawdzenie przed kliknieciem czy dane są OK
+        [v] dodać zapotrzebowanie WBT
+        [ ] dodawanie do bazy
     [ ] Cel - dodawanie tylko chyba
       
 [ ] Synchronicznie musi być wszystko na kilku apkach

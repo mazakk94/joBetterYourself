@@ -4,10 +4,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /*import java.sql.ResultSet;
  import java.sql.SQLException;
  import java.util.logging.Level;
@@ -19,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -61,13 +67,14 @@ public class WindowMaker extends javax.swing.JFrame {
 
         DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
         table.setRowCount(0);
-        
+
         for (int i = 0; i < arrayList.size(); i++) {
-            table.addRow(new String[]{"","","","","","",""});
+            table.addRow(new String[]{"", "", "", "", "", "", ""});
+            table.setValueAt(i + 1, i, 0);
             table.setValueAt(arrayList.get(i).get(0), i, 1);
             table.setValueAt(arrayList.get(i).get(1), i, 2);
         }
-        updateMacros();
+        updateMacros(false);
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -86,85 +93,6 @@ public class WindowMaker extends javax.swing.JFrame {
             }
             setText(value.toString());
             return this;
-        }
-    }
-
-    class ButtonEditor extends DefaultCellEditor {
-
-        protected JButton button;
-
-        private String label;
-        private boolean pushed = true;
-        private boolean isPushed;
-
-        public ButtonEditor(JCheckBox checkBox) {
-            super(checkBox);
-            button = new JButton();
-            button.setOpaque(true);
-            button.addActionListener(new ActionListener() {
-                @SuppressWarnings("override")
-                public void actionPerformed(ActionEvent e) {
-                    fireEditingStopped();
-                }
-            });
-        }
-
-        @SuppressWarnings("override")
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                boolean isSelected, int row, int column) {
-            label = "Usuń";
-            button.setText(label);
-            isPushed = true;
-            return button;
-        }
-
-        @SuppressWarnings({"override", "RedundantStringConstructorCall"})
-        public Object getCellEditorValue() {
-            if (isPushed) {
-
-                int row = tblProducts.getSelectedRow();
-                //System.out.println("jest " + tblProducts.getRowCount() + " wierszy");
-                //System.out.println("usuwam wiersz nr: " + row);
-                if (row >= 0) {
-                    //System.out.println(tblProducts.getValueAt(row, 0).toString());
-                    //System.out.println(tblProducts.getValueAt(row, 1).toString());
-                    //System.out.println(tblProducts.getValueAt(row, 2).toString());
-                    //System.out.println(tblProducts.getValueAt(row, 3).toString());
-                    /*    
-                     lastDeletedSet.add(nr);
-                     lastDeletedSet.add(exercise);
-                     lastDeletedSet.add(strWeight);
-                     lastDeletedSet.add(strReps);
-                     */
-                    ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
-                }
-                /*
-                 if (tblProducts.getRowCount() > 0 && tblProducts.getSelectedRow() != -1) {
-                 ////System.out.println("1");
-                 ////System.out.println("Usuwam " + (tblProducts.getSelectedRow()));
-                 ////System.out.println("2");
-                 DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
-                 //System.out.println("\n" + model.getRowCount());
-                 //System.out.println(tblProducts.getSelectedRow());
-                 model.removeRow(tblProducts.getSelectedRow());
-                 //System.out.println(tblProducts.getSelectedRow());
-                 //////System.out.println("3");
-                 }
-                 */
-            }
-            isPushed = false;
-            return new String("Usuń");
-        }
-
-        @SuppressWarnings("override")
-        public boolean stopCellEditing() {
-            isPushed = false;
-            return super.stopCellEditing();
-        }
-
-        @SuppressWarnings("override")
-        protected void fireEditingStopped() {
-            super.fireEditingStopped();
         }
     }
 
@@ -298,6 +226,12 @@ public class WindowMaker extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         bSubmitPrivate = new javax.swing.JButton();
+        sProteins = new javax.swing.JSpinner();
+        sCarbs = new javax.swing.JSpinner();
+        sFats = new javax.swing.JSpinner();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
@@ -1291,6 +1225,7 @@ public class WindowMaker extends javax.swing.JFrame {
         pAccount.addTab("Edytuj swój cel", pTarget);
 
         eLastName.setToolTipText("");
+        eLastName.setEnabled(false);
 
         rbGender.add(rbMale);
         rbMale.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -1351,6 +1286,15 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
+        jLabel24.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel24.setText("Białko");
+
+        jLabel25.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel25.setText("Węglowodany");
+
+        jLabel26.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel26.setText("Tłuszcze");
+
         javax.swing.GroupLayout pPrivateLayout = new javax.swing.GroupLayout(pPrivate);
         pPrivate.setLayout(pPrivateLayout);
         pPrivateLayout.setHorizontalGroup(
@@ -1358,44 +1302,50 @@ public class WindowMaker extends javax.swing.JFrame {
             .addGroup(pPrivateLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(eFirstName, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+                    .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(eBirthDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(eLastName, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+                    .addGroup(pPrivateLayout.createSequentialGroup()
+                        .addComponent(eHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pPrivateLayout.createSequentialGroup()
                         .addComponent(rbMale)
                         .addGap(18, 18, 18)
-                        .addComponent(rbFemale))
+                        .addComponent(rbFemale)))
+                .addGap(75, 75, 75)
+                .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bSubmitPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(eNeed, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pPrivateLayout.createSequentialGroup()
+                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(eBodyFat)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(eFirstName, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-                            .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(eBirthDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(eLastName, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-                            .addGroup(pPrivateLayout.createSequentialGroup()
-                                .addComponent(eHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(103, 103, 103)
-                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bSubmitPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
-                            .addComponent(eNeed, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pPrivateLayout.createSequentialGroup()
-                                .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(eBodyFat, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bBodyFat)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                                .addComponent(sFats, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(sCarbs, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(sProteins, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bBodyFat))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
                 .addComponent(iBodyFat, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
         pPrivateLayout.setVerticalGroup(
             pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPrivateLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(22, 22, 22)
                 .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pPrivateLayout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -1405,21 +1355,13 @@ public class WindowMaker extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eNeed, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
-                .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pPrivateLayout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pPrivateLayout.createSequentialGroup()
-                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(bBodyFat))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eBodyFat, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32)
-                .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pPrivateLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(eLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
                         .addComponent(jLabel6)
                         .addGap(11, 11, 11)
                         .addComponent(eBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1433,10 +1375,29 @@ public class WindowMaker extends javax.swing.JFrame {
                         .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(eHeight, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(bSubmitPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPrivateLayout.createSequentialGroup()
+                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sProteins, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sCarbs, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel25))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sFats, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(bBodyFat))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eBodyFat, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bSubmitPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPrivateLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(34, 112, Short.MAX_VALUE)
                 .addComponent(iBodyFat, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
         );
@@ -1462,6 +1423,49 @@ public class WindowMaker extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loadPersonInfo(String secondName) {
+
+        String query = "SELECT * FROM `uzytkownik`";
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+        list = dataBase.getAnswerListofList(query);
+        System.out.println(list.get(0));
+
+        eFirstName.setText(list.get(0).get(0));
+        eLastName.setText(list.get(0).get(1));
+
+        String birthDate = list.get(0).get(2);
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
+            eBirthDate.setDate(date);
+        } catch (ParseException ex) {
+            Logger.getLogger(WindowMaker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (list.get(0).get(3).equals("M")) {
+            rbMale.setSelected(true);
+        } else {
+            rbFemale.setSelected(true);
+        }
+        eHeight.setValue(Integer.parseInt(list.get(0).get(4)));
+        eNeed.setValue(Integer.parseInt(list.get(0).get(5)));
+        sProteins.setValue(Integer.parseInt(list.get(0).get(6)));
+        sCarbs.setValue(Integer.parseInt(list.get(0).get(7)));
+        sFats.setValue(Integer.parseInt(list.get(0).get(8)));
+        eBodyFat.setValue(Integer.parseInt(list.get(0).get(9)));
+    }
+
+    private void personInfoListener(javax.swing.JTabbedPane tabbedPanel) {
+        tabbedPanel.addChangeListener(new ChangeListener() {
+            @SuppressWarnings("override")
+            public void stateChanged(ChangeEvent e) {
+                loadPersonInfo("");
+                //System.out.println("Tab: " + tabbedPanel.getSelectedIndex());
+            }
+        });
+    }
 
     private void updateMeasurement(String date, String typPomiaru, javax.swing.JSpinner sWeight) {
         //System.out.println("JESTEM W UPDATE MEASUREMENT");
@@ -1634,8 +1638,63 @@ public class WindowMaker extends javax.swing.JFrame {
         iBodyFat.setVisible(flag);
     }//GEN-LAST:event_bBodyFatActionPerformed
 
+    private boolean validateInfo() {
+        /*
+         imię i nazwisko nie puste
+         data urodzenia < obecna data
+         jak mężczyzna to M itd
+         wzrost między 100 a 250
+         zapotrzebowanie 4-cyfrowe
+         bwt min 2 lub 3 cyfrowe
+         bodyfat między 1 a 60
+         */
+        int len = 0;
+        if (eFirstName.getText().length() == 0) {
+            return false;
+        }
+        if (eBirthDate.getDate().after(new Date())) {
+            return false;
+        }
+        if (Integer.parseInt(eHeight.getValue().toString()) < 100 || Integer.parseInt(eHeight.getValue().toString()) > 250) {
+            return false;
+        }
+        len = eNeed.getValue().toString().length();
+        if (len != 4) {
+            return false;
+        }
+        len = sProteins.getValue().toString().length();
+        if (len > 3 || len < 2) {
+            return false;
+        }
+        len = sCarbs.getValue().toString().length();
+        if (len > 3 || len < 2) {
+            return false;
+        }
+        len = sFats.getValue().toString().length();
+        if (len > 3 || len < 2) {
+            return false;
+        }
+        int bf = Integer.parseInt(eBodyFat.getValue().toString());
+        if (bf <= 0 || bf > 60) {
+            return false;
+        }
+        return true;
+    }
+
     private void bSubmitPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitPrivateActionPerformed
-        // TODO add your handling code here:
+        //trzeba sprawdzić czy dane są spoko:
+        if (validateInfo()) {
+            ///String nazwisko = eFirstName.getText();
+            //System.out.println(nazwisko);
+            //String query = "";
+            /*
+             wrzucamy do bazy, czyli usuwamy wiersz po nazwisku i dodajemy nowy z info z editów
+             */
+            JOptionPane.showMessageDialog(null, "Dane zaktualizowane pomyślnie!", "", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Dane niepoprawne!", "", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_bSubmitPrivateActionPerformed
 
     private void printArray(ArrayList<String> list) {
@@ -1983,6 +2042,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         //DLA DIETY
         fillTblProducts(tmpDate);
+        needsTblCalculate();
 
 
     }//GEN-LAST:event_jCalendarPropertyChange
@@ -2188,10 +2248,10 @@ public class WindowMaker extends javax.swing.JFrame {
 
             String deleteQuery = "DELETE FROM posilek WHERE data like " + changeDateFormat(jCalendar.getDate().toString());
             System.out.println(deleteQuery);
-            //dataBase.update(deleteQuery);
+            dataBase.update(deleteQuery);
             String insertQuery = generateSubmitFoodQuery();
             System.out.println(insertQuery);
-            //dataBase.update(insertQuery);
+            dataBase.update(insertQuery);
 
         } else {
             System.out.println("nie mam nic do dodania!");
@@ -2312,23 +2372,24 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblProductsMouseClicked
 
+    private void fixID() {
+        int rowcount = tblProducts.getRowCount();
+        System.out.println("ile wierszy: " + rowcount);
+        if (rowcount > 1) {
+            for (int row = 0; row < rowcount; row++) {
+                System.out.println(tblProducts.getValueAt(row, 0));
+                tblProducts.setValueAt(row + 1, row, 0);
+            }
+        }
+    }
+
     private void bDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteProductActionPerformed
         int row = tblProducts.getSelectedRow();
 
-        //System.out.println("usuwam wiersz nr: " + row);
         if (row >= 0) {
-            //String strNr = Integer.toString(row);
-            //System.out.println(tblProducts.getValueAt(row, 0).toString());
-            //System.out.println(tblProducts.getValueAt(row, 1).toString());
-            //System.out.println(tblProducts.getValueAt(row, 2).toString());
-            //System.out.println(tblProducts.getValueAt(row, 3).toString());
-            /*    
-             lastDeletedSet.add(nr);
-             lastDeletedSet.add(exercise);
-             lastDeletedSet.add(strWeight);
-             lastDeletedSet.add(strReps);
-             */
             ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
+            needsTblCalculate();
+            fixID();
         }
     }//GEN-LAST:event_bDeleteProductActionPerformed
 
@@ -2344,7 +2405,7 @@ public class WindowMaker extends javax.swing.JFrame {
             public void editingStopped(ChangeEvent e) {
                 System.out.println("The user stopped editing successfully.");
                 //tblProducts.getSelectedRow()
-                updateMacros();
+                updateMacros(true);
                 needsTblCalculate();
             }
         };
@@ -2508,7 +2569,27 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
-    private void updateMacros() {
+    private int[] prepareToAddMacros(int row) {
+        int[] array = new int[4];
+
+        String nazwa = tblProducts.getValueAt(row, 1).toString();
+        String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+        list = dataBase.getAnswerListofList(query);
+        //System.out.println("sizeof list: " + list.size());
+        int gramatura = Integer.parseInt(tblProducts.getValueAt(row, 2).toString());
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = Integer.parseInt(list.get(0).get(i + 2));
+            array[i] *= gramatura;
+            array[i] /= 100;
+        }
+
+        return array;
+    }
+
+    private void updateMacros(boolean selected) {
 
         /*
          POBIERAMY WIERSZ EDYTOWANEJ KOMÓRKI
@@ -2518,29 +2599,25 @@ public class WindowMaker extends javax.swing.JFrame {
          KONIEC
          */
         int rowlen = tblProducts.getRowCount();
+        //System.out.println("rowcount " + rowlen);
         if (rowlen > 0) {
-            int selectedRow = tblProducts.getSelectedRow();
-            if (selectedRow > -1) {
-                String nazwa = tblProducts.getValueAt(selectedRow, 1).toString();
-                String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
-                ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-                list = dataBase.getAnswerListofList(query);
-                System.out.println("sizeof list: " + list.size());
-                int kcal = Integer.parseInt(list.get(0).get(2));
-                int w = Integer.parseInt(list.get(0).get(3));
-                int b = Integer.parseInt(list.get(0).get(4));
-                int t = Integer.parseInt(list.get(0).get(5));
-
-                int gramatura = Integer.parseInt(tblProducts.getValueAt(selectedRow, 2).toString());
-                b = (gramatura * b) / 100;
-                t = (gramatura * t) / 100;
-                w = (gramatura * w) / 100;
-                kcal = (gramatura * kcal) / 100;
-
-                tblProducts.setValueAt(kcal, selectedRow, 3);
-                tblProducts.setValueAt(w, selectedRow, 4);
-                tblProducts.setValueAt(b, selectedRow, 5);
-                tblProducts.setValueAt(t, selectedRow, 6);
+            if (selected == true) {
+                int selectedRow = tblProducts.getSelectedRow();
+                System.out.println(" selected row " + selectedRow);
+                if (selectedRow > -1) {
+                    int[] array = prepareToAddMacros(selectedRow);
+                    for (int i = 0; i < array.length; i++) {
+                        tblProducts.setValueAt(array[i], selectedRow, i + 3);
+                    }
+                }
+            } else {
+                int[] array = new int[4];
+                for (int row = 0; row < rowlen; row++) {
+                    array = prepareToAddMacros(row);
+                    for (int col = 0; col < array.length; col++) {
+                        tblProducts.setValueAt(array[col], row, col + 3);
+                    }
+                }
             }
         }
     }
@@ -2619,6 +2696,9 @@ public class WindowMaker extends javax.swing.JFrame {
         fillMeasurements(changeDateFormat(jCalendar.getDate().toString()));
         listenButton();
         detectChange();
+        fillTblProducts(changeDateFormat(jCalendar.getDate().toString()));
+        needsTblCalculate();
+        personInfoListener(pAccount);
     }
 
     @SuppressWarnings({"Convert2Lambda", "static-access"})
@@ -2719,6 +2799,9 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2774,9 +2857,12 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.ButtonGroup rbWhichBody;
     private javax.swing.JSpinner sBiceps;
     private javax.swing.JSpinner sCalf;
+    private javax.swing.JSpinner sCarbs;
     private javax.swing.JSpinner sChest;
+    private javax.swing.JSpinner sFats;
     private javax.swing.JSpinner sForearm;
     private javax.swing.JSpinner sGrams;
+    private javax.swing.JSpinner sProteins;
     private javax.swing.JSpinner sReps;
     private javax.swing.JSpinner sSetWeight;
     private javax.swing.JSpinner sTargetBiceps;

@@ -31,7 +31,7 @@ final public class DataBaseHandler {
                     resultString = resultString + " ";
                 }
                 //System.out.print(rs.getInt(i));
-                System.out.print(rs.getString(i));
+                //System.out.print(rs.getString(i));
                 resultString = resultString + rs.getString(i);
             }
             if (columnsNumber > 1) {
