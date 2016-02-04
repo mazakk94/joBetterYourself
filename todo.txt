@@ -49,13 +49,13 @@ TODO:
 [ ] Okno logowania na początku !
     [ ]
 
-[ ] Konto
-    [ ] Dane osobowe:
+[v] Konto
+    [v] Dane osobowe:
         [v] wczytanie obecnych danych
         [v] sprawdzenie przed kliknieciem czy dane są OK
         [v] dodać zapotrzebowanie WBT
-        [ ] dodawanie do bazy
-    [ ] Cel - dodawanie tylko chyba
+        [v] dodawanie do bazy
+    [v] Cel - dodawanie tylko chyba
       
 [ ] Synchronicznie musi być wszystko na kilku apkach
 

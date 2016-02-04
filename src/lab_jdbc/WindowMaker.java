@@ -1510,7 +1510,29 @@ public class WindowMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_bSubmitDailyMeasurementActionPerformed
 
     private void bSubmitTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitTargetActionPerformed
-        // TODO add your handling code here:
+        /*
+         po kliknieciu zapisujemy wartosci z editów i nadpisujemy dla danego nazwiska
+         */
+        String firstName = dataBase.getAnswer("SELECT `imie` FROM `uzytkownik`");
+        String lastName = dataBase.getAnswer("SELECT `nazwisko` FROM `uzytkownik`");
+        String query = "DELETE FROM `cel` WHERE `imie` like '"+ firstName +"' and `nazwisko` like '"+lastName + "'";
+        System.out.println(query);
+        dataBase.update(query);
+        
+        query = "INSERT INTO `cel`(`Imie`, `Nazwisko`, `Udo`, `Lydka`, `Przedramie`, `Klatka`, `Biceps`, `Waga`, `Pas`) VALUES (";
+        query += "'" + firstName + "'";
+        query += ", '" + lastName + "'";
+        query += ", " + sTargetThigh.getValue();
+        query += ", " + sTargetCalf.getValue();
+        query += ", " + sTargetForearm.getValue();
+        query += ", " + sTargetChest.getValue();
+        query += ", " + sTargetBiceps.getValue();
+        query += ", " + sTargetWeight.getValue();
+        query += ", " + sTargetWaist.getValue() + ");";
+        System.out.println(query);
+        dataBase.update(query);
+        
+
     }//GEN-LAST:event_bSubmitTargetActionPerformed
 
     private void bAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAdvancedActionPerformed
@@ -1638,7 +1660,7 @@ public class WindowMaker extends javax.swing.JFrame {
         iBodyFat.setVisible(flag);
     }//GEN-LAST:event_bBodyFatActionPerformed
 
-    private boolean validateInfo() {
+    private String validateInfo() {
         /*
          imię i nazwisko nie puste
          data urodzenia < obecna data
@@ -1648,45 +1670,77 @@ public class WindowMaker extends javax.swing.JFrame {
          bwt min 2 lub 3 cyfrowe
          bodyfat między 1 a 60
          */
+        String query = "";
+
         int len = 0;
         if (eFirstName.getText().length() == 0) {
-            return false;
+            System.out.println("1");
+            return query;
         }
         if (eBirthDate.getDate().after(new Date())) {
-            return false;
+            System.out.println("2");
+            return query;
         }
         if (Integer.parseInt(eHeight.getValue().toString()) < 100 || Integer.parseInt(eHeight.getValue().toString()) > 250) {
-            return false;
+            System.out.println("3");
+            return query;
         }
         len = eNeed.getValue().toString().length();
         if (len != 4) {
-            return false;
+            System.out.println("4");
+            return query;
         }
         len = sProteins.getValue().toString().length();
         if (len > 3 || len < 2) {
-            return false;
+            System.out.println("5");
+            return query;
         }
         len = sCarbs.getValue().toString().length();
         if (len > 3 || len < 2) {
-            return false;
+            System.out.println("6");
+            return query;
         }
         len = sFats.getValue().toString().length();
         if (len > 3 || len < 2) {
-            return false;
+            System.out.println("7");
+            return query;
         }
         int bf = Integer.parseInt(eBodyFat.getValue().toString());
         if (bf <= 0 || bf > 60) {
-            return false;
+            System.out.println("8");
+            return query;
         }
-        return true;
+        query += "INSERT INTO `uzytkownik`(`Imie`, `Nazwisko`, `Data_urodzenia`, `Plec`, `Wzrost`, `kcal`, `B`, `W`, `T`, `BF`) VALUES (";
+        query += "'" + eFirstName.getText() + "'";
+        query += ", '" + eLastName.getText() + "'";
+        query += ", " + changeDateFormat(eBirthDate.getDate().toString());
+        if (rbMale.isSelected()) {
+            query += ", '" + "M" + "'";
+        } else {
+            query += ", '" + "K" + "'";
+        }
+        query += ", " + eHeight.getValue();
+        query += ", " + eNeed.getValue();
+        query += ", " + sProteins.getValue();
+        query += ", " + sCarbs.getValue();
+        query += ", " + sFats.getValue();
+        query += ", " + eBodyFat.getValue();
+        query += " );";
+
+        return query;
     }
 
     private void bSubmitPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitPrivateActionPerformed
         //trzeba sprawdzić czy dane są spoko:
-        if (validateInfo()) {
+        if (validateInfo().length() > 0) {
             ///String nazwisko = eFirstName.getText();
             //System.out.println(nazwisko);
-            //String query = "";
+            String query = new String();
+            query = "DELETE FROM `uzytkownik` WHERE nazwisko like '" + eLastName.getText() + "'";
+            dataBase.update(query);
+            query = validateInfo();
+            dataBase.update(query);
+
             /*
              wrzucamy do bazy, czyli usuwamy wiersz po nazwisku i dodajemy nowy z info z editów
              */
@@ -2669,6 +2723,17 @@ public class WindowMaker extends javax.swing.JFrame {
         tblNeeds.setValueAt(tmp.toString() + " T", 1, 4);
     }
 
+    private void initTarget() {
+        iPudzian.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
+        sTargetBiceps.setValue(56);
+        sTargetCalf.setValue(50);
+        sTargetChest.setValue(148);
+        sTargetForearm.setValue(45);
+        sTargetThigh.setValue(80);
+        sTargetWaist.setValue(92);
+        sTargetWeight.setValue(142);
+    }
+
     private void myInitComponents() {
         // boolean fAdvanced = false;
         ImageIcon tab1 = new ImageIcon("img/b1.jpg");
@@ -2699,6 +2764,8 @@ public class WindowMaker extends javax.swing.JFrame {
         fillTblProducts(changeDateFormat(jCalendar.getDate().toString()));
         needsTblCalculate();
         personInfoListener(pAccount);
+        initTarget();
+
     }
 
     @SuppressWarnings({"Convert2Lambda", "static-access"})
