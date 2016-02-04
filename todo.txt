@@ -43,7 +43,7 @@ TODO:
 
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
-[ ] Zapytaj trenera
+]TUTAJ !!! TUTAJ !!! [ ] Zapytaj trenera
     [ ]
 
 [ ] Okno logowania na początku !
