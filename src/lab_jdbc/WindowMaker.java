@@ -103,9 +103,6 @@ public class WindowMaker extends javax.swing.JFrame {
         rbWhichBody = new javax.swing.ButtonGroup();
         rbGender = new javax.swing.ButtonGroup();
         pMainPanel = new javax.swing.JTabbedPane();
-        pAsk = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         pCalendar = new javax.swing.JPanel();
         lChooseDay = new javax.swing.JLabel();
         jCalendar = new com.toedter.calendar.JCalendar();
@@ -232,6 +229,9 @@ public class WindowMaker extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
+        pAsk = new javax.swing.JTabbedPane();
+        pNew = new javax.swing.JPanel();
+        pMailbox = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 204, 255));
@@ -247,36 +247,6 @@ public class WindowMaker extends javax.swing.JFrame {
         pMainPanel.setMaximumSize(new java.awt.Dimension(900, 476));
         pMainPanel.setMinimumSize(new java.awt.Dimension(900, 476));
         pMainPanel.setPreferredSize(new java.awt.Dimension(900, 476));
-
-        pAsk.setBackground(new java.awt.Color(153, 204, 255));
-        pAsk.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel3.setText("jLabel2");
-
-        jLabel4.setText("jLabel2");
-
-        javax.swing.GroupLayout pAskLayout = new javax.swing.GroupLayout(pAsk);
-        pAsk.setLayout(pAskLayout);
-        pAskLayout.setHorizontalGroup(
-            pAskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pAskLayout.createSequentialGroup()
-                .addContainerGap(470, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(147, 147, 147)
-                .addComponent(jLabel4)
-                .addGap(352, 352, 352))
-        );
-        pAskLayout.setVerticalGroup(
-            pAskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pAskLayout.createSequentialGroup()
-                .addGap(306, 306, 306)
-                .addGroup(pAskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
-                .addContainerGap(233, Short.MAX_VALUE))
-        );
-
-        pMainPanel.addTab("", pAsk);
 
         pCalendar.setBackground(new java.awt.Color(153, 204, 255));
         pCalendar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1406,6 +1376,40 @@ public class WindowMaker extends javax.swing.JFrame {
 
         pMainPanel.addTab("", pAccount);
 
+        pAsk.setBackground(new java.awt.Color(153, 204, 255));
+
+        pNew.setBackground(new java.awt.Color(153, 204, 255));
+
+        javax.swing.GroupLayout pNewLayout = new javax.swing.GroupLayout(pNew);
+        pNew.setLayout(pNewLayout);
+        pNewLayout.setHorizontalGroup(
+            pNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1031, Short.MAX_VALUE)
+        );
+        pNewLayout.setVerticalGroup(
+            pNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 536, Short.MAX_VALUE)
+        );
+
+        pAsk.addTab("Nowa wiadomość", pNew);
+
+        pMailbox.setBackground(new java.awt.Color(153, 204, 255));
+
+        javax.swing.GroupLayout pMailboxLayout = new javax.swing.GroupLayout(pMailbox);
+        pMailbox.setLayout(pMailboxLayout);
+        pMailboxLayout.setHorizontalGroup(
+            pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1031, Short.MAX_VALUE)
+        );
+        pMailboxLayout.setVerticalGroup(
+            pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 536, Short.MAX_VALUE)
+        );
+
+        pAsk.addTab("Skrzynka odbiorcza", pMailbox);
+
+        pMainPanel.addTab("", pAsk);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1424,6 +1428,576 @@ public class WindowMaker extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bSubmitPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitPrivateActionPerformed
+        //trzeba sprawdzić czy dane są spoko:
+        if (validateInfo().length() > 0) {
+            ///String nazwisko = eFirstName.getText();
+            //System.out.println(nazwisko);
+            String query = new String();
+            query = "DELETE FROM `uzytkownik` WHERE nazwisko like '" + eLastName.getText() + "'";
+            dataBase.update(query);
+            query = validateInfo();
+            dataBase.update(query);
+
+            /*
+            wrzucamy do bazy, czyli usuwamy wiersz po nazwisku i dodajemy nowy z info z editów
+            */
+            JOptionPane.showMessageDialog(null, "Dane zaktualizowane pomyślnie!", "", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Dane niepoprawne!", "", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_bSubmitPrivateActionPerformed
+
+    private void bBodyFatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBodyFatActionPerformed
+        boolean flag = true;
+        if (bBodyFat.isSelected()) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+
+        iBodyFat.setVisible(flag);
+    }//GEN-LAST:event_bBodyFatActionPerformed
+
+    private void rbMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMaleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbMaleActionPerformed
+
+    private void iChudzianMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iChudzianMouseReleased
+        boolean flag = true;
+        rbChudzian.setSelected(flag);
+    }//GEN-LAST:event_iChudzianMouseReleased
+
+    private void iSportowiecMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iSportowiecMouseReleased
+        boolean flag = true;
+        rbSportowiec.setSelected(flag);
+    }//GEN-LAST:event_iSportowiecMouseReleased
+
+    private void iOwcaWKMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOwcaWKMouseReleased
+        boolean flag = true;
+        rbOwcaWK.setSelected(flag);
+    }//GEN-LAST:event_iOwcaWKMouseReleased
+
+    private void rbArnoldStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbArnoldStateChanged
+        if (rbArnold.isSelected()) {
+            iArnold.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
+            sTargetBiceps.setValue(56);
+            sTargetCalf.setValue(51);
+            sTargetChest.setValue(147);
+            sTargetForearm.setValue(45);
+            sTargetThigh.setValue(73);
+            sTargetWaist.setValue(86);
+            sTargetWeight.setValue(115);
+        } else {
+            iArnold.setBorder(null);
+        }
+    }//GEN-LAST:event_rbArnoldStateChanged
+
+    private void rbPudzianStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbPudzianStateChanged
+        if (rbPudzian.isSelected()) {
+            iPudzian.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
+            sTargetBiceps.setValue(56);
+            sTargetCalf.setValue(50);
+            sTargetChest.setValue(148);
+            sTargetForearm.setValue(45);
+            sTargetThigh.setValue(80);
+            sTargetWaist.setValue(92);
+            sTargetWeight.setValue(142);
+        } else {
+            iPudzian.setBorder(null);
+        }
+    }//GEN-LAST:event_rbPudzianStateChanged
+
+    private void rbSportowiecStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbSportowiecStateChanged
+        if (rbSportowiec.isSelected()) {
+            iSportowiec.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
+            sTargetBiceps.setValue(40);
+            sTargetCalf.setValue(40);
+            sTargetChest.setValue(111);
+            sTargetForearm.setValue(33);
+            sTargetThigh.setValue(60);
+            sTargetWaist.setValue(83);
+            sTargetWeight.setValue(75);
+        } else {
+            iSportowiec.setBorder(null);
+        }
+    }//GEN-LAST:event_rbSportowiecStateChanged
+
+    private void rbOwcaWKStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbOwcaWKStateChanged
+        if (rbOwcaWK.isSelected()) {
+            iOwcaWK.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
+            sTargetBiceps.setValue(45);
+            sTargetCalf.setValue(42);
+            sTargetChest.setValue(120);
+            sTargetForearm.setValue(40);
+            sTargetThigh.setValue(65);
+            sTargetWaist.setValue(85);
+            sTargetWeight.setValue(95);
+        } else {
+            iOwcaWK.setBorder(null);
+        }
+    }//GEN-LAST:event_rbOwcaWKStateChanged
+
+    private void rbChudzianStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbChudzianStateChanged
+        if (rbChudzian.isSelected()) {
+            iChudzian.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
+            sTargetBiceps.setValue(25);
+            sTargetCalf.setValue(20);
+            sTargetChest.setValue(70);
+            sTargetForearm.setValue(20);
+            sTargetThigh.setValue(30);
+            sTargetWaist.setValue(50);
+            sTargetWeight.setValue(45);
+        } else {
+            iChudzian.setBorder(null);
+        }
+    }//GEN-LAST:event_rbChudzianStateChanged
+
+    private void iArnoldMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iArnoldMouseReleased
+        boolean flag = true;
+        rbArnold.setSelected(flag);
+    }//GEN-LAST:event_iArnoldMouseReleased
+
+    private void iPudzianMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iPudzianMouseReleased
+        boolean flag = true;
+        rbPudzian.setSelected(flag);
+    }//GEN-LAST:event_iPudzianMouseReleased
+
+    private void bSubmitTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitTargetActionPerformed
+        /*
+        po kliknieciu zapisujemy wartosci z editów i nadpisujemy dla danego nazwiska
+        */
+        String firstName = dataBase.getAnswer("SELECT `imie` FROM `uzytkownik`");
+        String lastName = dataBase.getAnswer("SELECT `nazwisko` FROM `uzytkownik`");
+        String query = "DELETE FROM `cel` WHERE `imie` like '"+ firstName +"' and `nazwisko` like '"+lastName + "'";
+        //System.out.println(query);
+        dataBase.update(query);
+
+        query = "INSERT INTO `cel`(`Imie`, `Nazwisko`, `Udo`, `Lydka`, `Przedramie`, `Klatka`, `Biceps`, `Waga`, `Pas`) VALUES (";
+        query += "'" + firstName + "'";
+        query += ", '" + lastName + "'";
+        query += ", " + sTargetThigh.getValue();
+        query += ", " + sTargetCalf.getValue();
+        query += ", " + sTargetForearm.getValue();
+        query += ", " + sTargetChest.getValue();
+        query += ", " + sTargetBiceps.getValue();
+        query += ", " + sTargetWeight.getValue();
+        query += ", " + sTargetWaist.getValue() + ");";
+        System.out.println(query);
+        dataBase.update(query);
+
+    }//GEN-LAST:event_bSubmitTargetActionPerformed
+
+    private void bAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAdvancedActionPerformed
+        boolean flag = true;
+        if (bAdvanced.isSelected()) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        pAdvanced.setVisible(flag);
+    }//GEN-LAST:event_bAdvancedActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //System.out.println("CLICK");
+        String wynik = new String();
+        wynik = dataBase.getAnswer("select * from cwiczenie");
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> list = dataBase.getAnswerList("select nazwa from cwiczenie");
+        //ArrayList<String> list = new ArrayList<String>();
+        //list = dataBase.getAnswerList("select nazwa from cwiczenie");
+
+        //System.out.println("WINDOWMAKER:");
+        printArray(list);
+        ////System.out.println(wynik);
+        jTextArea1.setText(wynik);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void pDailyUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pDailyUpdateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pDailyUpdateMouseClicked
+
+    private void bUndoDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoDeleteSetActionPerformed
+
+        //jak uda sie cofnac to:
+        jSubmitTraining.setText("Zapisz zmiany");
+
+        /*
+        dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
+        usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
+        */
+
+        /*
+        //System.out.println("chce przywrócić dane:");
+        DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+        //table.addRow(lastDeletedSet);
+        table.insertRow(deletedRow, lastDeletedSet);
+        //System.out.println(lastDeletedSet);
+        for (int i = 0; i < 4; i++) {
+            lastDeletedSet.removeElementAt(0);
+        }
+
+        bUndoDeleteSet.setEnabled(false);
+        //System.out.println("kończę przywracać dane");*/
+        //System.out.println("narazie nie zrobione");
+    }//GEN-LAST:event_bUndoDeleteSetActionPerformed
+
+    private void jSubmitSetEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitSetEditActionPerformed
+
+        int row = tblExercises.getSelectedRow();
+
+        if (row != -1) {
+            if (isReadyToSubmit()) {
+                jSubmitTraining.setText("Zapisz zmiany");
+                jTextArea1.setText("SUBMIT!");
+
+                DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+
+                String nr = (String) tblExercises.getValueAt(row, 0);
+
+                @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
+                Vector vector = new Vector();
+
+                //System.out.println("Nr = " + nr);
+                //System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
+                //System.out.println("obciazenie = " + sSetWeight.getValue());
+                //System.out.println("liczba powtorzen  = " + sReps.getValue());
+                vector.add(nr);
+                vector.add(cbChooseExercise.getSelectedItem().toString());
+                vector.add(sSetWeight.getValue());
+                vector.add(sReps.getValue());
+                table.insertRow(row, vector);
+                table.removeRow(row + 1);
+
+                jSubmitSetEdit.setEnabled(false);
+                cbChooseBodyPart.setSelectedIndex(0);
+                cbChooseExercise.setSelectedIndex(0);
+                sSetWeight.setValue(0);
+                sReps.setValue(0);
+            } else {
+                jTextArea1.setText("NOPE!");
+
+                cbChooseBodyPart.setSelectedItem(getBodyPart((String) tblExercises.getValueAt(row, 1)));
+                cbChooseExercise.setSelectedItem(tblExercises.getValueAt(row, 1));
+
+                String strWeight = tblExercises.getValueAt(row, 2).toString();
+                String strReps = tblExercises.getValueAt(row, 3).toString();
+                int intWeight = Integer.parseInt(strWeight);
+                int intReps = Integer.parseInt(strReps);
+                sSetWeight.setValue(intWeight);
+                sReps.setValue(intReps);
+
+                // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
+            }
+        }
+
+        //czycimy edity i blokujemy guzik - done
+    }//GEN-LAST:event_jSubmitSetEditActionPerformed
+
+    private void jDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteSetActionPerformed
+        int row = tblExercises.getSelectedRow();
+
+        //System.out.println("usuwam wiersz nr: " + row);
+        if (row >= 0) {
+            jSubmitTraining.setText("Zapisz zmiany");
+            //String strNr = Integer.toString(row);
+            String nr = tblExercises.getValueAt(row, 0).toString();
+            String exercise = (String) tblExercises.getValueAt(row, 1);
+            String strWeight = tblExercises.getValueAt(row, 2).toString();
+            String strReps = tblExercises.getValueAt(row, 3).toString();
+            /*
+            lastDeletedSet.add(nr);
+            lastDeletedSet.add(exercise);
+            lastDeletedSet.add(strWeight);
+            lastDeletedSet.add(strReps);
+            */
+            ((DefaultTableModel) tblExercises.getModel()).removeRow(row);
+            deletedRow = row;
+            bUndoDeleteSet.setEnabled(true);
+        }
+    }//GEN-LAST:event_jDeleteSetActionPerformed
+
+    private void bChangeTrainingNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeTrainingNameActionPerformed
+        /*
+        jak nie istnieje taki wiersz to tworzymy nowy
+        jak istnieje to zmieniamy nazwe
+        */
+        updateTrainingName();
+    }//GEN-LAST:event_bChangeTrainingNameActionPerformed
+
+    private void jSubmitTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitTrainingActionPerformed
+        /*
+        - usuwamy poprzednia tabelke z bazy danych
+        - dodajemy wszystko z bieżącej tabeli z bieżącą datą
+        - aktualizaujemy nazwe treningu
+        */
+        if (tblExercises.getRowCount() > 0) {
+
+            String deleteQuery = "DELETE FROM seria WHERE data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
+            //System.out.println(deleteQuery);
+            dataBase.update(deleteQuery);
+            String insertQuery = generateSubmitQuery();
+            //System.out.println(insertQuery);
+            dataBase.update(insertQuery);
+
+            updateTrainingName();
+        } else {
+            //System.out.println("nie mam nic do dodania!");
+        }
+    }//GEN-LAST:event_jSubmitTrainingActionPerformed
+
+    private void cbChooseExerciseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseExerciseActionPerformed
+        lSetWeight.setForeground(Color.black);
+        lReps.setForeground(Color.black);
+        sSetWeight.setEnabled(true);
+        sReps.setEnabled(true);
+    }//GEN-LAST:event_cbChooseExerciseActionPerformed
+
+    private void cbChooseBodyPartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseBodyPartActionPerformed
+        String part = cbChooseBodyPart.getSelectedItem().toString();
+        // initCbChooseExercise(part)
+        cbChooseExercise.setEnabled(true);
+        lChooseExercise.setForeground(Color.black);
+        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseExercise(part)));
+    }//GEN-LAST:event_cbChooseBodyPartActionPerformed
+
+    private void bSubmitSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitSetActionPerformed
+        //insert wszystko
+        if (isReadyToSubmit()) {
+            jTextArea1.setText("SUBMIT!");
+            jSubmitTraining.setText("Zapisz zmiany");
+
+            DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+
+            //czyszcze tabele
+            //table.setRowCount(0);
+            @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
+            Vector vector = new Vector();
+            /*
+            1. bierzemy ostatni element tabelki i nasz numer to numer tego elementu + 1
+            - jak nie ma nic to dodajemy nowy element z indeksem 1
+            2. "nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString()
+            */
+
+            String nextNr = "1";
+            Integer tmp = 0;
+            if (table.getRowCount() > 0) {
+                //System.out.println("wchodze w ifa");
+                nextNr = (String) table.getValueAt(table.getRowCount() - 1, 0);
+                tmp = Integer.parseInt(nextNr);
+                tmp++;
+                nextNr = tmp.toString();
+            }
+
+            //System.out.println("Nr = " + nextNr);
+            //System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
+            //System.out.println("obciazenie = " + sSetWeight.getValue());
+            //System.out.println("liczba powtorzen  = " + sReps.getValue());
+            vector.add(nextNr);
+            vector.add(cbChooseExercise.getSelectedItem().toString());
+            vector.add(sSetWeight.getValue());
+            vector.add(sReps.getValue());
+            table.addRow(vector);
+
+        } else {
+            jTextArea1.setText("NOPE!");
+
+            // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
+        }
+
+        /*
+        na klik dodajemy do bazy danych i odświeżamy listę na tabelce, czyli usuwamy wszystkie wiersze i dodajemy je na nowo
+        */
+    }//GEN-LAST:event_bSubmitSetActionPerformed
+
+    private void tblExercisesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExercisesMouseReleased
+        int row = tblExercises.getSelectedRow();
+        jSubmitTraining.setText("Zapisz zmiany");
+        if (row >= 0) {
+            jSubmitSetEdit.setEnabled(true);
+        }
+        cbChooseBodyPart.setSelectedItem(getBodyPart((String) tblExercises.getValueAt(row, 1)));
+        cbChooseExercise.setSelectedItem(tblExercises.getValueAt(row, 1));
+
+        String strWeight = tblExercises.getValueAt(row, 2).toString();
+        String strReps = tblExercises.getValueAt(row, 3).toString();
+        int intWeight = Integer.parseInt(strWeight);
+        int intReps = Integer.parseInt(strReps);
+        sSetWeight.setValue(intWeight);
+        sReps.setValue(intReps);
+
+        //sSetWeight.setValue((Integer) tblExercises.getValueAt(row, 2));
+        //sReps.setValue((Integer) tblExercises.getValueAt(row, 3));
+        //
+        //String tblExercises.getValueAt(row, col);
+    }//GEN-LAST:event_tblExercisesMouseReleased
+
+    private void bSubmitDailyMeasurementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDailyMeasurementActionPerformed
+
+        String query = new String();
+        String date = changeDateFormat(jCalendar.getDate().toString());
+
+        updateMeasurement(date, "'Waga'", sWeight);
+        updateMeasurement(date, "'Pas'", sWaist);
+        updateMeasurement(date, "'Biceps'", sBiceps);
+        updateMeasurement(date, "'Klatka'", sChest);
+        updateMeasurement(date, "'Udo'", sThigh);
+        updateMeasurement(date, "'Łydka'", sCalf);
+        updateMeasurement(date, "'Przedramię'", sForearm);
+        //jak sie udalo dodac to:
+        bSubmitDailyMeasurement.setText("Zmiany wprowadzone!");
+
+    }//GEN-LAST:event_bSubmitDailyMeasurementActionPerformed
+
+    private void bDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteProductActionPerformed
+        int row = tblProducts.getSelectedRow();
+
+        if (row >= 0) {
+            ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
+            needsTblCalculate();
+            fixID();
+        }
+    }//GEN-LAST:event_bDeleteProductActionPerformed
+
+    private void sGramsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sGramsPropertyChange
+        bAddProduct.setEnabled(true);
+    }//GEN-LAST:event_sGramsPropertyChange
+
+    private void cbChooseProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseProductActionPerformed
+        // lSetWeight.setForeground(Color.black);
+        //lReps.setForeground(Color.black);
+        sGrams.setEnabled(true);
+    }//GEN-LAST:event_cbChooseProductActionPerformed
+
+    private void cbChooseCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseCategoryActionPerformed
+        String category = cbChooseCategory.getSelectedItem().toString();
+        cbChooseProduct.setEnabled(true);
+        //lChooseExercise.setForeground(Color.black);
+        cbChooseProduct.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseProduct(category)));
+    }//GEN-LAST:event_cbChooseCategoryActionPerformed
+
+    private void bAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddProductActionPerformed
+        //insert wszystko
+        if (isReadyToAddProduct()) {
+            jTextArea1.setText("SUBMIT!");
+            //jSubmitTraining.setText("Zapisz zmiany");
+
+            DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
+
+            //czyszcze tabele
+            //table.setRowCount(0);
+            @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
+            Vector vector = new Vector();
+
+            String nextNr = "1";
+            Integer tmp = 0;
+            if (table.getRowCount() > 0) {
+                //System.out.println("wchodze w ifa");
+                nextNr = String.valueOf(table.getValueAt(table.getRowCount() - 1, 0));
+                tmp = Integer.parseInt(nextNr);
+                tmp++;
+                nextNr = tmp.toString();
+            }
+
+            String query = "";
+            //System.out.println("Nr = " + nextNr);
+            //System.out.println("nazwa produktu = " + cbChooseProduct.getSelectedItem().toString());
+            int w = (int) sGrams.getValue();
+            float weight = (float) w;
+            //System.out.println("waga = " + sGrams.getValue());
+            String product2 = cbChooseProduct.getSelectedItem().toString();
+            String product = "'" + product2 + "'";
+            query = "select round(" + (weight / 100) + "*kcal) from produkty where nazwa like " + product;
+            String kcal = dataBase.getAnswer(query);
+            query = "select round(" + (weight / 100) + "*w) from produkty where nazwa like " + product;
+            String carbs = dataBase.getAnswer(query);
+            query = "select round(" + (weight / 100) + "*b) from produkty where nazwa like " + product;
+            String proteins = dataBase.getAnswer(query);
+            query = "select round(" + (weight / 100) + "*t) from produkty where nazwa like " + product;
+            String fats = dataBase.getAnswer(query);
+
+            //System.out.println(nextNr);
+            //System.out.println(product2);
+            //System.out.println(sGrams.getValue());
+            //System.out.println(kcal);
+            //System.out.println(carbs);
+            //System.out.println(proteins);
+            //System.out.println(fats);
+            vector.add(nextNr);
+            vector.add(product2);
+            vector.add(sGrams.getValue());
+            vector.add(kcal);
+            vector.add(carbs);
+            vector.add(proteins);
+            vector.add(fats);
+            vector.add(new String("Usuń"));
+            table.addRow(vector);
+
+            needsTblCalculate();
+
+        } else {
+            jTextArea1.setText("NOPE!");
+
+            // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
+        }
+    }//GEN-LAST:event_bAddProductActionPerformed
+
+    private void bSubmitDietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDietActionPerformed
+        if (tblProducts.getRowCount() > 0) {
+
+            String deleteQuery = "DELETE FROM posilek WHERE data like " + changeDateFormat(jCalendar.getDate().toString());
+            //System.out.println(deleteQuery);
+            dataBase.update(deleteQuery);
+            String insertQuery = generateSubmitFoodQuery();
+            //System.out.println(insertQuery);
+            dataBase.update(insertQuery);
+
+        } else {
+            //System.out.println("nie mam nic do dodania!");
+        }
+    }//GEN-LAST:event_bSubmitDietActionPerformed
+
+    private void tblProductsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblProductsPropertyChange
+        bSubmitDiet.setText("Zapisz zmiany");
+    }//GEN-LAST:event_tblProductsPropertyChange
+
+    private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
+        int row = tblProducts.getSelectedRow();
+
+        //System.out.println("wyswietlam wiersz nr: " + row);
+        if (row >= 0) {
+            //System.out.println(tblProducts.getValueAt(row, 0).toString());
+            //System.out.println(tblProducts.getValueAt(row, 1).toString());
+            //System.out.println(tblProducts.getValueAt(row, 2).toString());
+            //System.out.println(tblProducts.getValueAt(row, 3).toString());
+
+            needsTblCalculate();
+        }
+    }//GEN-LAST:event_tblProductsMouseClicked
+
+    private void jCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarPropertyChange
+        /*
+        -opcjonalnie - jak nic nie ma to wyświetlamy komunikat, że nic nie ma
+        kolorujemy te miejsca w kalendarzu, które mają jakiś trening lub dietę (obwódka i kolor)
+        */
+        //System.out.println("ZACZYNAM PROPERTYCHANGE");
+        String tmpDate = changeDateFormat(jCalendar.getDate().toString());
+
+        // DLA TRENINGU
+        String query = "select nazwa from trening where data_treningu like " + tmpDate;
+        String trainingName = dataBase.getAnswer(query);
+        eTrainingName.setText(trainingName);
+        fillTblExercises(tmpDate);
+        fillMeasurements(tmpDate);
+        bSubmitDailyMeasurement.setText("Zatwierdź");
+        jSubmitTraining.setText("Zapisz zmiany");
+
+        //DLA DIETY
+        fillTblProducts(tmpDate);
+        needsTblCalculate();
+
+    }//GEN-LAST:event_jCalendarPropertyChange
+
     private void loadPersonInfo(String secondName) {
 
         String query = "SELECT * FROM `uzytkownik`";
@@ -1431,7 +2005,7 @@ public class WindowMaker extends javax.swing.JFrame {
         @SuppressWarnings("Convert2Diamond")
         ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
         list = dataBase.getAnswerListofList(query);
-        System.out.println(list.get(0));
+        //System.out.println(list.get(0));
 
         eFirstName.setText(list.get(0).get(0));
         eLastName.setText(list.get(0).get(1));
@@ -1490,175 +2064,6 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
-
-    private void bSubmitDailyMeasurementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDailyMeasurementActionPerformed
-
-        String query = new String();
-        String date = changeDateFormat(jCalendar.getDate().toString());
-
-        updateMeasurement(date, "'Waga'", sWeight);
-        updateMeasurement(date, "'Pas'", sWaist);
-        updateMeasurement(date, "'Biceps'", sBiceps);
-        updateMeasurement(date, "'Klatka'", sChest);
-        updateMeasurement(date, "'Udo'", sThigh);
-        updateMeasurement(date, "'Łydka'", sCalf);
-        updateMeasurement(date, "'Przedramię'", sForearm);
-        //jak sie udalo dodac to:
-        bSubmitDailyMeasurement.setText("Zmiany wprowadzone!");
-
-
-    }//GEN-LAST:event_bSubmitDailyMeasurementActionPerformed
-
-    private void bSubmitTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitTargetActionPerformed
-        /*
-         po kliknieciu zapisujemy wartosci z editów i nadpisujemy dla danego nazwiska
-         */
-        String firstName = dataBase.getAnswer("SELECT `imie` FROM `uzytkownik`");
-        String lastName = dataBase.getAnswer("SELECT `nazwisko` FROM `uzytkownik`");
-        String query = "DELETE FROM `cel` WHERE `imie` like '"+ firstName +"' and `nazwisko` like '"+lastName + "'";
-        System.out.println(query);
-        dataBase.update(query);
-        
-        query = "INSERT INTO `cel`(`Imie`, `Nazwisko`, `Udo`, `Lydka`, `Przedramie`, `Klatka`, `Biceps`, `Waga`, `Pas`) VALUES (";
-        query += "'" + firstName + "'";
-        query += ", '" + lastName + "'";
-        query += ", " + sTargetThigh.getValue();
-        query += ", " + sTargetCalf.getValue();
-        query += ", " + sTargetForearm.getValue();
-        query += ", " + sTargetChest.getValue();
-        query += ", " + sTargetBiceps.getValue();
-        query += ", " + sTargetWeight.getValue();
-        query += ", " + sTargetWaist.getValue() + ");";
-        System.out.println(query);
-        dataBase.update(query);
-        
-
-    }//GEN-LAST:event_bSubmitTargetActionPerformed
-
-    private void bAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAdvancedActionPerformed
-        boolean flag = true;
-        if (bAdvanced.isSelected()) {
-            flag = true;
-        } else {
-            flag = false;
-        }
-        pAdvanced.setVisible(flag);
-    }//GEN-LAST:event_bAdvancedActionPerformed
-
-    private void rbChudzianStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbChudzianStateChanged
-        if (rbChudzian.isSelected()) {
-            iChudzian.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
-            sTargetBiceps.setValue(25);
-            sTargetCalf.setValue(20);
-            sTargetChest.setValue(70);
-            sTargetForearm.setValue(20);
-            sTargetThigh.setValue(30);
-            sTargetWaist.setValue(50);
-            sTargetWeight.setValue(45);
-        } else {
-            iChudzian.setBorder(null);
-        }
-    }//GEN-LAST:event_rbChudzianStateChanged
-
-    private void rbSportowiecStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbSportowiecStateChanged
-        if (rbSportowiec.isSelected()) {
-            iSportowiec.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
-            sTargetBiceps.setValue(40);
-            sTargetCalf.setValue(40);
-            sTargetChest.setValue(111);
-            sTargetForearm.setValue(33);
-            sTargetThigh.setValue(60);
-            sTargetWaist.setValue(83);
-            sTargetWeight.setValue(75);
-        } else {
-            iSportowiec.setBorder(null);
-        }
-    }//GEN-LAST:event_rbSportowiecStateChanged
-
-    private void rbOwcaWKStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbOwcaWKStateChanged
-        if (rbOwcaWK.isSelected()) {
-            iOwcaWK.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
-            sTargetBiceps.setValue(45);
-            sTargetCalf.setValue(42);
-            sTargetChest.setValue(120);
-            sTargetForearm.setValue(40);
-            sTargetThigh.setValue(65);
-            sTargetWaist.setValue(85);
-            sTargetWeight.setValue(95);
-        } else {
-            iOwcaWK.setBorder(null);
-        }
-    }//GEN-LAST:event_rbOwcaWKStateChanged
-
-    private void iPudzianMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iPudzianMouseReleased
-        boolean flag = true;
-        rbPudzian.setSelected(flag);
-    }//GEN-LAST:event_iPudzianMouseReleased
-
-    private void iArnoldMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iArnoldMouseReleased
-        boolean flag = true;
-        rbArnold.setSelected(flag);
-    }//GEN-LAST:event_iArnoldMouseReleased
-
-    private void iOwcaWKMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOwcaWKMouseReleased
-        boolean flag = true;
-        rbOwcaWK.setSelected(flag);
-    }//GEN-LAST:event_iOwcaWKMouseReleased
-
-    private void iSportowiecMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iSportowiecMouseReleased
-        boolean flag = true;
-        rbSportowiec.setSelected(flag);
-    }//GEN-LAST:event_iSportowiecMouseReleased
-
-    private void iChudzianMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iChudzianMouseReleased
-        boolean flag = true;
-        rbChudzian.setSelected(flag);
-    }//GEN-LAST:event_iChudzianMouseReleased
-
-    private void rbPudzianStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbPudzianStateChanged
-        if (rbPudzian.isSelected()) {
-            iPudzian.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
-            sTargetBiceps.setValue(56);
-            sTargetCalf.setValue(50);
-            sTargetChest.setValue(148);
-            sTargetForearm.setValue(45);
-            sTargetThigh.setValue(80);
-            sTargetWaist.setValue(92);
-            sTargetWeight.setValue(142);
-        } else {
-            iPudzian.setBorder(null);
-        }
-    }//GEN-LAST:event_rbPudzianStateChanged
-
-    private void rbArnoldStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbArnoldStateChanged
-        if (rbArnold.isSelected()) {
-            iArnold.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
-            sTargetBiceps.setValue(56);
-            sTargetCalf.setValue(51);
-            sTargetChest.setValue(147);
-            sTargetForearm.setValue(45);
-            sTargetThigh.setValue(73);
-            sTargetWaist.setValue(86);
-            sTargetWeight.setValue(115);
-        } else {
-            iArnold.setBorder(null);
-        }
-    }//GEN-LAST:event_rbArnoldStateChanged
-
-    private void rbMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMaleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbMaleActionPerformed
-
-    private void bBodyFatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBodyFatActionPerformed
-        boolean flag = true;
-        if (bBodyFat.isSelected()) {
-            flag = true;
-        } else {
-            flag = false;
-        }
-
-        iBodyFat.setVisible(flag);
-    }//GEN-LAST:event_bBodyFatActionPerformed
 
     private String validateInfo() {
         /*
@@ -1730,27 +2135,6 @@ public class WindowMaker extends javax.swing.JFrame {
         return query;
     }
 
-    private void bSubmitPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitPrivateActionPerformed
-        //trzeba sprawdzić czy dane są spoko:
-        if (validateInfo().length() > 0) {
-            ///String nazwisko = eFirstName.getText();
-            //System.out.println(nazwisko);
-            String query = new String();
-            query = "DELETE FROM `uzytkownik` WHERE nazwisko like '" + eLastName.getText() + "'";
-            dataBase.update(query);
-            query = validateInfo();
-            dataBase.update(query);
-
-            /*
-             wrzucamy do bazy, czyli usuwamy wiersz po nazwisku i dodajemy nowy z info z editów
-             */
-            JOptionPane.showMessageDialog(null, "Dane zaktualizowane pomyślnie!", "", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Dane niepoprawne!", "", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-    }//GEN-LAST:event_bSubmitPrivateActionPerformed
-
     private void printArray(ArrayList<String> list) {
         ////System.out.println("list.size()");
         ////System.out.println(list.size());
@@ -1758,89 +2142,6 @@ public class WindowMaker extends javax.swing.JFrame {
             //System.out.println(list.get(i));
         }
     }
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //System.out.println("CLICK");
-        String wynik = new String();
-        wynik = dataBase.getAnswer("select * from cwiczenie");
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> list = dataBase.getAnswerList("select nazwa from cwiczenie");
-        //ArrayList<String> list = new ArrayList<String>();
-        //list = dataBase.getAnswerList("select nazwa from cwiczenie");
-
-        //System.out.println("WINDOWMAKER:");
-        printArray(list);
-        ////System.out.println(wynik);
-        jTextArea1.setText(wynik);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void cbChooseBodyPartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseBodyPartActionPerformed
-        String part = cbChooseBodyPart.getSelectedItem().toString();
-        // initCbChooseExercise(part)
-        cbChooseExercise.setEnabled(true);
-        lChooseExercise.setForeground(Color.black);
-        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseExercise(part)));
-    }//GEN-LAST:event_cbChooseBodyPartActionPerformed
-
-    private void cbChooseExerciseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseExerciseActionPerformed
-        lSetWeight.setForeground(Color.black);
-        lReps.setForeground(Color.black);
-        sSetWeight.setEnabled(true);
-        sReps.setEnabled(true);
-    }//GEN-LAST:event_cbChooseExerciseActionPerformed
-
-    private void bSubmitSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitSetActionPerformed
-        //insert wszystko
-        if (isReadyToSubmit()) {
-            jTextArea1.setText("SUBMIT!");
-            jSubmitTraining.setText("Zapisz zmiany");
-
-            DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
-
-            //czyszcze tabele
-            //table.setRowCount(0);
-            @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
-            Vector vector = new Vector();
-            /*
-             1. bierzemy ostatni element tabelki i nasz numer to numer tego elementu + 1
-             - jak nie ma nic to dodajemy nowy element z indeksem 1
-             2. "nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString()
-             */
-
-            String nextNr = "1";
-            Integer tmp = 0;
-            if (table.getRowCount() > 0) {
-                //System.out.println("wchodze w ifa");
-                nextNr = (String) table.getValueAt(table.getRowCount() - 1, 0);
-                tmp = Integer.parseInt(nextNr);
-                tmp++;
-                nextNr = tmp.toString();
-            }
-
-            //System.out.println("Nr = " + nextNr);
-            //System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
-            //System.out.println("obciazenie = " + sSetWeight.getValue());
-            //System.out.println("liczba powtorzen  = " + sReps.getValue());
-            vector.add(nextNr);
-            vector.add(cbChooseExercise.getSelectedItem().toString());
-            vector.add(sSetWeight.getValue());
-            vector.add(sReps.getValue());
-            table.addRow(vector);
-
-        } else {
-            jTextArea1.setText("NOPE!");
-
-            // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
-        }
-
-        /*
-         na klik dodajemy do bazy danych i odświeżamy listę na tabelce, czyli usuwamy wszystkie wiersze i dodajemy je na nowo
-         */
-    }//GEN-LAST:event_bSubmitSetActionPerformed
-
-    private void pDailyUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pDailyUpdateMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pDailyUpdateMouseClicked
 
     private void fillMeasurements(String date) {
         //System.out.println(date);
@@ -2077,30 +2378,6 @@ public class WindowMaker extends javax.swing.JFrame {
         return resultDate; //resultDate
     }
 
-    private void jCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarPropertyChange
-        /*
-         -opcjonalnie - jak nic nie ma to wyświetlamy komunikat, że nic nie ma
-         kolorujemy te miejsca w kalendarzu, które mają jakiś trening lub dietę (obwódka i kolor)
-         */
-        //System.out.println("ZACZYNAM PROPERTYCHANGE");
-        String tmpDate = changeDateFormat(jCalendar.getDate().toString());
-
-        // DLA TRENINGU
-        String query = "select nazwa from trening where data_treningu like " + tmpDate;
-        String trainingName = dataBase.getAnswer(query);
-        eTrainingName.setText(trainingName);
-        fillTblExercises(tmpDate);
-        fillMeasurements(tmpDate);
-        bSubmitDailyMeasurement.setText("Zatwierdź");
-        jSubmitTraining.setText("Zapisz zmiany");
-
-        //DLA DIETY
-        fillTblProducts(tmpDate);
-        needsTblCalculate();
-
-
-    }//GEN-LAST:event_jCalendarPropertyChange
-
     private int[] getColumnsWidths(javax.swing.JTable tblExercises) {
         int[] sizes = new int[tblExercises.getColumnCount()];
         for (int i = 0; i < sizes.length; i++) {
@@ -2122,150 +2399,6 @@ public class WindowMaker extends javax.swing.JFrame {
         //System.out.println("bodypart = " + bodyPart);
         return bodyPart;
     }
-
-    private void jSubmitTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitTrainingActionPerformed
-        /*
-         - usuwamy poprzednia tabelke z bazy danych 
-         - dodajemy wszystko z bieżącej tabeli z bieżącą datą 
-         - aktualizaujemy nazwe treningu
-         */
-        if (tblExercises.getRowCount() > 0) {
-
-            String deleteQuery = "DELETE FROM seria WHERE data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
-            //System.out.println(deleteQuery);
-            dataBase.update(deleteQuery);
-            String insertQuery = generateSubmitQuery();
-            //System.out.println(insertQuery);
-            dataBase.update(insertQuery);
-
-            updateTrainingName();
-        } else {
-            //System.out.println("nie mam nic do dodania!");
-        }
-    }//GEN-LAST:event_jSubmitTrainingActionPerformed
-
-    private void tblExercisesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExercisesMouseReleased
-        int row = tblExercises.getSelectedRow();
-        jSubmitTraining.setText("Zapisz zmiany");
-        if (row >= 0) {
-            jSubmitSetEdit.setEnabled(true);
-        }
-        cbChooseBodyPart.setSelectedItem(getBodyPart((String) tblExercises.getValueAt(row, 1)));
-        cbChooseExercise.setSelectedItem(tblExercises.getValueAt(row, 1));
-
-        String strWeight = tblExercises.getValueAt(row, 2).toString();
-        String strReps = tblExercises.getValueAt(row, 3).toString();
-        int intWeight = Integer.parseInt(strWeight);
-        int intReps = Integer.parseInt(strReps);
-        sSetWeight.setValue(intWeight);
-        sReps.setValue(intReps);
-
-        //sSetWeight.setValue((Integer) tblExercises.getValueAt(row, 2));
-        //sReps.setValue((Integer) tblExercises.getValueAt(row, 3));
-        //
-        //String tblExercises.getValueAt(row, col);
-
-    }//GEN-LAST:event_tblExercisesMouseReleased
-
-    private void jSubmitSetEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitSetEditActionPerformed
-
-        int row = tblExercises.getSelectedRow();
-
-        if (row != -1) {
-            if (isReadyToSubmit()) {
-                jSubmitTraining.setText("Zapisz zmiany");
-                jTextArea1.setText("SUBMIT!");
-
-                DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
-
-                String nr = (String) tblExercises.getValueAt(row, 0);
-
-                @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
-                Vector vector = new Vector();
-
-                //System.out.println("Nr = " + nr);
-                //System.out.println("nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString());
-                //System.out.println("obciazenie = " + sSetWeight.getValue());
-                //System.out.println("liczba powtorzen  = " + sReps.getValue());
-                vector.add(nr);
-                vector.add(cbChooseExercise.getSelectedItem().toString());
-                vector.add(sSetWeight.getValue());
-                vector.add(sReps.getValue());
-                table.insertRow(row, vector);
-                table.removeRow(row + 1);
-
-                jSubmitSetEdit.setEnabled(false);
-                cbChooseBodyPart.setSelectedIndex(0);
-                cbChooseExercise.setSelectedIndex(0);
-                sSetWeight.setValue(0);
-                sReps.setValue(0);
-            } else {
-                jTextArea1.setText("NOPE!");
-
-                cbChooseBodyPart.setSelectedItem(getBodyPart((String) tblExercises.getValueAt(row, 1)));
-                cbChooseExercise.setSelectedItem(tblExercises.getValueAt(row, 1));
-
-                String strWeight = tblExercises.getValueAt(row, 2).toString();
-                String strReps = tblExercises.getValueAt(row, 3).toString();
-                int intWeight = Integer.parseInt(strWeight);
-                int intReps = Integer.parseInt(strReps);
-                sSetWeight.setValue(intWeight);
-                sReps.setValue(intReps);
-
-                // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
-            }
-        }
-
-        //czycimy edity i blokujemy guzik - done
-    }//GEN-LAST:event_jSubmitSetEditActionPerformed
-
-    private void jDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteSetActionPerformed
-        int row = tblExercises.getSelectedRow();
-
-        //System.out.println("usuwam wiersz nr: " + row);
-        if (row >= 0) {
-            jSubmitTraining.setText("Zapisz zmiany");
-            //String strNr = Integer.toString(row);
-            String nr = tblExercises.getValueAt(row, 0).toString();
-            String exercise = (String) tblExercises.getValueAt(row, 1);
-            String strWeight = tblExercises.getValueAt(row, 2).toString();
-            String strReps = tblExercises.getValueAt(row, 3).toString();
-            /*    
-             lastDeletedSet.add(nr);
-             lastDeletedSet.add(exercise);
-             lastDeletedSet.add(strWeight);
-             lastDeletedSet.add(strReps);
-             */
-            ((DefaultTableModel) tblExercises.getModel()).removeRow(row);
-            deletedRow = row;
-            bUndoDeleteSet.setEnabled(true);
-        }
-    }//GEN-LAST:event_jDeleteSetActionPerformed
-
-    private void bUndoDeleteSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUndoDeleteSetActionPerformed
-
-        //jak uda sie cofnac to:
-        jSubmitTraining.setText("Zapisz zmiany");
-
-        /*
-         dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
-         usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
-         */
-
-        /*
-         //System.out.println("chce przywrócić dane:");
-         DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
-         //table.addRow(lastDeletedSet);
-         table.insertRow(deletedRow, lastDeletedSet);
-         //System.out.println(lastDeletedSet);
-         for (int i = 0; i < 4; i++) {
-         lastDeletedSet.removeElementAt(0);
-         }
-        
-         bUndoDeleteSet.setEnabled(false);
-         //System.out.println("kończę przywracać dane");*/
-        //System.out.println("narazie nie zrobione");
-    }//GEN-LAST:event_bUndoDeleteSetActionPerformed
 
     private void updateTrainingName() {
         String query = "SELECT nazwa FROM `trening` where data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
@@ -2289,35 +2422,6 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
-    private void bChangeTrainingNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeTrainingNameActionPerformed
-        /*
-         jak nie istnieje taki wiersz to tworzymy nowy
-         jak istnieje to zmieniamy nazwe
-         */
-        updateTrainingName();
-    }//GEN-LAST:event_bChangeTrainingNameActionPerformed
-
-    private void bSubmitDietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitDietActionPerformed
-        if (tblProducts.getRowCount() > 0) {
-
-            String deleteQuery = "DELETE FROM posilek WHERE data like " + changeDateFormat(jCalendar.getDate().toString());
-            System.out.println(deleteQuery);
-            dataBase.update(deleteQuery);
-            String insertQuery = generateSubmitFoodQuery();
-            System.out.println(insertQuery);
-            dataBase.update(insertQuery);
-
-        } else {
-            System.out.println("nie mam nic do dodania!");
-        }
-
-    }//GEN-LAST:event_bSubmitDietActionPerformed
-
-    private void tblProductsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblProductsPropertyChange
-        bSubmitDiet.setText("Zapisz zmiany");
-
-    }//GEN-LAST:event_tblProductsPropertyChange
-
     private boolean isReadyToAddProduct() {
         if ((Integer) sGrams.getValue() >= 0
                 && !cbChooseProduct.getSelectedItem().toString().equals("--wybierz produkt--")
@@ -2328,124 +2432,16 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }
 
-    private void bAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddProductActionPerformed
-        //insert wszystko
-        if (isReadyToAddProduct()) {
-            jTextArea1.setText("SUBMIT!");
-            //jSubmitTraining.setText("Zapisz zmiany");
-
-            DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
-
-            //czyszcze tabele
-            //table.setRowCount(0);
-            @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
-            Vector vector = new Vector();
-
-            String nextNr = "1";
-            Integer tmp = 0;
-            if (table.getRowCount() > 0) {
-                //System.out.println("wchodze w ifa");
-                nextNr = String.valueOf(table.getValueAt(table.getRowCount() - 1, 0));
-                tmp = Integer.parseInt(nextNr);
-                tmp++;
-                nextNr = tmp.toString();
-            }
-
-            String query = "";
-            //System.out.println("Nr = " + nextNr);
-            //System.out.println("nazwa produktu = " + cbChooseProduct.getSelectedItem().toString());
-            int w = (int) sGrams.getValue();
-            float weight = (float) w;
-            //System.out.println("waga = " + sGrams.getValue());
-            String product2 = cbChooseProduct.getSelectedItem().toString();
-            String product = "'" + product2 + "'";
-            query = "select round(" + (weight / 100) + "*kcal) from produkty where nazwa like " + product;
-            String kcal = dataBase.getAnswer(query);
-            query = "select round(" + (weight / 100) + "*w) from produkty where nazwa like " + product;
-            String carbs = dataBase.getAnswer(query);
-            query = "select round(" + (weight / 100) + "*b) from produkty where nazwa like " + product;
-            String proteins = dataBase.getAnswer(query);
-            query = "select round(" + (weight / 100) + "*t) from produkty where nazwa like " + product;
-            String fats = dataBase.getAnswer(query);
-
-            //System.out.println(nextNr);
-            //System.out.println(product2);
-            //System.out.println(sGrams.getValue());
-            //System.out.println(kcal);
-            //System.out.println(carbs);
-            //System.out.println(proteins);
-            //System.out.println(fats);
-            vector.add(nextNr);
-            vector.add(product2);
-            vector.add(sGrams.getValue());
-            vector.add(kcal);
-            vector.add(carbs);
-            vector.add(proteins);
-            vector.add(fats);
-            vector.add(new String("Usuń"));
-            table.addRow(vector);
-
-            needsTblCalculate();
-
-        } else {
-            jTextArea1.setText("NOPE!");
-
-            // TUTAJ TRZEBA DODAC INFO ZE NIEPOPRAWNE DANE
-        }
-
-    }//GEN-LAST:event_bAddProductActionPerformed
-
-    private void cbChooseCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseCategoryActionPerformed
-        String category = cbChooseCategory.getSelectedItem().toString();
-        cbChooseProduct.setEnabled(true);
-        //lChooseExercise.setForeground(Color.black);
-        cbChooseProduct.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseProduct(category)));
-    }//GEN-LAST:event_cbChooseCategoryActionPerformed
-
-    private void cbChooseProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChooseProductActionPerformed
-        // lSetWeight.setForeground(Color.black);
-        //lReps.setForeground(Color.black);
-        sGrams.setEnabled(true);
-    }//GEN-LAST:event_cbChooseProductActionPerformed
-
-    private void sGramsPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sGramsPropertyChange
-        bAddProduct.setEnabled(true);
-    }//GEN-LAST:event_sGramsPropertyChange
-
-    private void tblProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductsMouseClicked
-        int row = tblProducts.getSelectedRow();
-
-        //System.out.println("wyswietlam wiersz nr: " + row);
-        if (row >= 0) {
-            //System.out.println(tblProducts.getValueAt(row, 0).toString());
-            //System.out.println(tblProducts.getValueAt(row, 1).toString());
-            //System.out.println(tblProducts.getValueAt(row, 2).toString());
-            //System.out.println(tblProducts.getValueAt(row, 3).toString());
-
-            needsTblCalculate();
-        }
-    }//GEN-LAST:event_tblProductsMouseClicked
-
     private void fixID() {
         int rowcount = tblProducts.getRowCount();
-        System.out.println("ile wierszy: " + rowcount);
+        //System.out.println("ile wierszy: " + rowcount);
         if (rowcount > 1) {
             for (int row = 0; row < rowcount; row++) {
-                System.out.println(tblProducts.getValueAt(row, 0));
+                //System.out.println(tblProducts.getValueAt(row, 0));
                 tblProducts.setValueAt(row + 1, row, 0);
             }
         }
     }
-
-    private void bDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteProductActionPerformed
-        int row = tblProducts.getSelectedRow();
-
-        if (row >= 0) {
-            ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
-            needsTblCalculate();
-            fixID();
-        }
-    }//GEN-LAST:event_bDeleteProductActionPerformed
 
     private void detectChange() {
 
@@ -2869,8 +2865,6 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2904,13 +2898,15 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel lWhichBodyPart;
     private javax.swing.JTabbedPane pAccount;
     private javax.swing.JPanel pAdvanced;
-    private javax.swing.JPanel pAsk;
+    private javax.swing.JTabbedPane pAsk;
     private javax.swing.JPanel pCalendar;
     private javax.swing.JPanel pDailyDiet;
     private javax.swing.JPanel pDailyMeasurement;
     private javax.swing.JPanel pDailyTraining;
     private javax.swing.JTabbedPane pDailyUpdate;
+    private javax.swing.JPanel pMailbox;
     private javax.swing.JTabbedPane pMainPanel;
+    private javax.swing.JPanel pNew;
     private javax.swing.JPanel pPrivate;
     private javax.swing.JPanel pTarget;
     private javax.swing.JRadioButton rbArnold;
