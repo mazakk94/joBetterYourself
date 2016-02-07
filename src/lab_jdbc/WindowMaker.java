@@ -239,8 +239,10 @@ public class WindowMaker extends javax.swing.JFrame {
         eSentTextArea = new javax.swing.JTextPane();
         bSentDelete = new javax.swing.JButton();
         lTopic1 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        bInboxChoose = new javax.swing.JToggleButton();
+        bSentChoose = new javax.swing.JToggleButton();
         pNew = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -1430,10 +1432,15 @@ public class WindowMaker extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblSent.setTableHeader(null);
         scrollPanelTblSent.setViewportView(tblSent);
 
+        eTopic1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         eTopic1.setEnabled(false);
 
+        eSentTextArea.setBackground(new java.awt.Color(255, 255, 255));
+        eSentTextArea.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        eSentTextArea.setEnabled(false);
         scrollPanelTextArea1.setViewportView(eSentTextArea);
 
         bSentDelete.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -1442,6 +1449,12 @@ public class WindowMaker extends javax.swing.JFrame {
         lTopic1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         lTopic1.setText("Temat:");
 
+        jLabel28.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel28.setText("Od:");
+
+        jLabel29.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel29.setText("Data:");
+
         javax.swing.GroupLayout pSentLayout = new javax.swing.GroupLayout(pSent);
         pSent.setLayout(pSentLayout);
         pSentLayout.setHorizontalGroup(
@@ -1449,65 +1462,84 @@ public class WindowMaker extends javax.swing.JFrame {
             .addGroup(pSentLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(pSentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPanelTblSent, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSentDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                    .addComponent(bSentDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrollPanelTblSent, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pSentLayout.createSequentialGroup()
+                        .addComponent(jLabel28)
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel29)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pSentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrollPanelTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pSentLayout.createSequentialGroup()
                         .addComponent(lTopic1)
                         .addGap(18, 18, 18)
-                        .addComponent(eTopic1, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(scrollPanelTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75))
+                        .addComponent(eTopic1)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pSentLayout.setVerticalGroup(
             pSentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pSentLayout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pSentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pSentLayout.createSequentialGroup()
                         .addGroup(pSentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(eTopic1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lTopic1))
                         .addGap(18, 18, 18)
-                        .addComponent(scrollPanelTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(scrollPanelTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pSentLayout.createSequentialGroup()
-                        .addComponent(scrollPanelTblSent, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addGroup(pSentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel29))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPanelTblSent, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bSentDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(47, 47, 47))
+                .addGap(57, 57, 57))
         );
 
-        jToggleButton1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jToggleButton1.setText("Odebrane");
+        bInboxChoose.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        bInboxChoose.setText("Odebrane");
+        bInboxChoose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInboxChooseActionPerformed(evt);
+            }
+        });
 
-        jToggleButton2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jToggleButton2.setText("Wysłane");
+        bSentChoose.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        bSentChoose.setText("Wysłane");
+        bSentChoose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSentChooseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pMailboxLayout = new javax.swing.GroupLayout(pMailbox);
         pMailbox.setLayout(pMailboxLayout);
         pMailboxLayout.setHorizontalGroup(
             pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pMailboxLayout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addGroup(pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pSent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pMailboxLayout.createSequentialGroup()
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGap(72, 72, 72)
+                .addGroup(pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pSent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pMailboxLayout.createSequentialGroup()
+                        .addComponent(bInboxChoose, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bSentChoose, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         pMailboxLayout.setVerticalGroup(
             pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pMailboxLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pMailboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bInboxChoose, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                    .addComponent(bSentChoose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pSent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addComponent(pSent, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91))
         );
 
         pAsk.addTab("Skrzynka odbiorcza", pMailbox);
@@ -1639,8 +1671,8 @@ public class WindowMaker extends javax.swing.JFrame {
             dataBase.update(query);
 
             /*
-            wrzucamy do bazy, czyli usuwamy wiersz po nazwisku i dodajemy nowy z info z editów
-            */
+             wrzucamy do bazy, czyli usuwamy wiersz po nazwisku i dodajemy nowy z info z editów
+             */
             JOptionPane.showMessageDialog(null, "Dane zaktualizowane pomyślnie!", "", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Dane niepoprawne!", "", JOptionPane.INFORMATION_MESSAGE);
@@ -1764,11 +1796,11 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private void bSubmitTargetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitTargetActionPerformed
         /*
-        po kliknieciu zapisujemy wartosci z editów i nadpisujemy dla danego nazwiska
-        */
+         po kliknieciu zapisujemy wartosci z editów i nadpisujemy dla danego nazwiska
+         */
         String firstName = dataBase.getAnswer("SELECT `imie` FROM `uzytkownik`");
         String lastName = dataBase.getAnswer("SELECT `nazwisko` FROM `uzytkownik`");
-        String query = "DELETE FROM `cel` WHERE `imie` like '"+ firstName +"' and `nazwisko` like '"+lastName + "'";
+        String query = "DELETE FROM `cel` WHERE `imie` like '" + firstName + "' and `nazwisko` like '" + lastName + "'";
         //System.out.println(query);
         dataBase.update(query);
 
@@ -1822,22 +1854,22 @@ public class WindowMaker extends javax.swing.JFrame {
         jSubmitTraining.setText("Zapisz zmiany");
 
         /*
-        dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
-        usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
-        */
+         dodanie:  >= row - nic nie rób, < row - trzeba inkrementowac
+         usuniecie: >= row - nic nie rób, < row - trzeba dekrementować
+         */
 
         /*
-        //System.out.println("chce przywrócić dane:");
-        DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
-        //table.addRow(lastDeletedSet);
-        table.insertRow(deletedRow, lastDeletedSet);
-        //System.out.println(lastDeletedSet);
-        for (int i = 0; i < 4; i++) {
-            lastDeletedSet.removeElementAt(0);
-        }
+         //System.out.println("chce przywrócić dane:");
+         DefaultTableModel table = (DefaultTableModel) tblExercises.getModel();
+         //table.addRow(lastDeletedSet);
+         table.insertRow(deletedRow, lastDeletedSet);
+         //System.out.println(lastDeletedSet);
+         for (int i = 0; i < 4; i++) {
+         lastDeletedSet.removeElementAt(0);
+         }
 
-        bUndoDeleteSet.setEnabled(false);
-        //System.out.println("kończę przywracać dane");*/
+         bUndoDeleteSet.setEnabled(false);
+         //System.out.println("kończę przywracać dane");*/
         //System.out.println("narazie nie zrobione");
     }//GEN-LAST:event_bUndoDeleteSetActionPerformed
 
@@ -1905,11 +1937,11 @@ public class WindowMaker extends javax.swing.JFrame {
             String strWeight = tblExercises.getValueAt(row, 2).toString();
             String strReps = tblExercises.getValueAt(row, 3).toString();
             /*
-            lastDeletedSet.add(nr);
-            lastDeletedSet.add(exercise);
-            lastDeletedSet.add(strWeight);
-            lastDeletedSet.add(strReps);
-            */
+             lastDeletedSet.add(nr);
+             lastDeletedSet.add(exercise);
+             lastDeletedSet.add(strWeight);
+             lastDeletedSet.add(strReps);
+             */
             ((DefaultTableModel) tblExercises.getModel()).removeRow(row);
             deletedRow = row;
             bUndoDeleteSet.setEnabled(true);
@@ -1918,18 +1950,18 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private void bChangeTrainingNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChangeTrainingNameActionPerformed
         /*
-        jak nie istnieje taki wiersz to tworzymy nowy
-        jak istnieje to zmieniamy nazwe
-        */
+         jak nie istnieje taki wiersz to tworzymy nowy
+         jak istnieje to zmieniamy nazwe
+         */
         updateTrainingName();
     }//GEN-LAST:event_bChangeTrainingNameActionPerformed
 
     private void jSubmitTrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSubmitTrainingActionPerformed
         /*
-        - usuwamy poprzednia tabelke z bazy danych
-        - dodajemy wszystko z bieżącej tabeli z bieżącą datą
-        - aktualizaujemy nazwe treningu
-        */
+         - usuwamy poprzednia tabelke z bazy danych
+         - dodajemy wszystko z bieżącej tabeli z bieżącą datą
+         - aktualizaujemy nazwe treningu
+         */
         if (tblExercises.getRowCount() > 0) {
 
             String deleteQuery = "DELETE FROM seria WHERE data_treningu like " + changeDateFormat(jCalendar.getDate().toString());
@@ -1973,10 +2005,10 @@ public class WindowMaker extends javax.swing.JFrame {
             @SuppressWarnings({"UseOfObsoleteCollectionType", "MismatchedQueryAndUpdateOfCollection"})
             Vector vector = new Vector();
             /*
-            1. bierzemy ostatni element tabelki i nasz numer to numer tego elementu + 1
-            - jak nie ma nic to dodajemy nowy element z indeksem 1
-            2. "nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString()
-            */
+             1. bierzemy ostatni element tabelki i nasz numer to numer tego elementu + 1
+             - jak nie ma nic to dodajemy nowy element z indeksem 1
+             2. "nazwa cwiczenia = " + cbChooseExercise.getSelectedItem().toString()
+             */
 
             String nextNr = "1";
             Integer tmp = 0;
@@ -2005,8 +2037,8 @@ public class WindowMaker extends javax.swing.JFrame {
         }
 
         /*
-        na klik dodajemy do bazy danych i odświeżamy listę na tabelce, czyli usuwamy wszystkie wiersze i dodajemy je na nowo
-        */
+         na klik dodajemy do bazy danych i odświeżamy listę na tabelce, czyli usuwamy wszystkie wiersze i dodajemy je na nowo
+         */
     }//GEN-LAST:event_bSubmitSetActionPerformed
 
     private void tblExercisesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExercisesMouseReleased
@@ -2176,9 +2208,9 @@ public class WindowMaker extends javax.swing.JFrame {
 
     private void jCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarPropertyChange
         /*
-        -opcjonalnie - jak nic nie ma to wyświetlamy komunikat, że nic nie ma
-        kolorujemy te miejsca w kalendarzu, które mają jakiś trening lub dietę (obwódka i kolor)
-        */
+         -opcjonalnie - jak nic nie ma to wyświetlamy komunikat, że nic nie ma
+         kolorujemy te miejsca w kalendarzu, które mają jakiś trening lub dietę (obwódka i kolor)
+         */
         //System.out.println("ZACZYNAM PROPERTYCHANGE");
         String tmpDate = changeDateFormat(jCalendar.getDate().toString());
 
@@ -2196,6 +2228,26 @@ public class WindowMaker extends javax.swing.JFrame {
         needsTblCalculate();
 
     }//GEN-LAST:event_jCalendarPropertyChange
+
+    private void bInboxChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInboxChooseActionPerformed
+        if (bInboxChoose.isSelected()) {
+            bSentChoose.setSelected(false);
+            jLabel28.setText("Od:");
+        } else {
+            bSentChoose.setSelected(true);
+            jLabel28.setText("Do:");
+        }
+    }//GEN-LAST:event_bInboxChooseActionPerformed
+
+    private void bSentChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSentChooseActionPerformed
+        if (bSentChoose.isSelected()) {
+            bInboxChoose.setSelected(false);
+            jLabel28.setText("Do:");
+        } else {
+            bInboxChoose.setSelected(true);
+            jLabel28.setText("Od:");
+        }
+    }//GEN-LAST:event_bSentChooseActionPerformed
 
     private void loadPersonInfo(String secondName) {
 
@@ -2262,7 +2314,6 @@ public class WindowMaker extends javax.swing.JFrame {
             dataBase.update(query);
         }
     }
-
 
     private String validateInfo() {
         /*
@@ -3019,6 +3070,8 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JToggleButton bBodyFat;
     private javax.swing.JButton bChangeTrainingName;
     private javax.swing.JButton bDeleteProduct;
+    private javax.swing.JToggleButton bInboxChoose;
+    private javax.swing.JToggleButton bSentChoose;
     private javax.swing.JButton bSentDelete;
     private javax.swing.JButton bSubmitDailyMeasurement;
     private javax.swing.JButton bSubmitDiet;
@@ -3071,6 +3124,8 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -3091,8 +3146,6 @@ public class WindowMaker extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JLabel lArnold;
     private javax.swing.JLabel lBiceps;
     private javax.swing.JLabel lCalf;
