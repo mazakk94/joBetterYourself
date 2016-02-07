@@ -373,7 +373,7 @@
                     <Component class="javax.swing.JComboBox" name="cbChooseCategory">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                          <Connection code="new javax.swing.DefaultComboBoxModel(initCbChooseCategory())" type="code"/>
+                          <Connection code="new javax.swing.DefaultComboBoxModel(CalendarDiet.initCbChooseCategory(dataBase))" type="code"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -882,7 +882,7 @@
                     <Component class="javax.swing.JComboBox" name="cbChooseBodyPart">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                          <Connection code="new javax.swing.DefaultComboBoxModel(initCbChooseBodyPart())" type="code"/>
+                          <Connection code="new javax.swing.DefaultComboBoxModel(CalendarTraining.initCbChooseBodyPart(dataBase))" type="code"/>
                         </Property>
                       </Properties>
                       <Events>

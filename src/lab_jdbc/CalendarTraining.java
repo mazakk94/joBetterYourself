@@ -34,11 +34,8 @@ public class CalendarTraining {
             //bUndoDeleteSet.setEnabled(true);
         }
     }
-    
-    
-    
 
-     private static void fillTblExercises(String date, DataBaseHandler dataBase, JTable tblExercises) {
+    private static void fillTblExercises(String date, DataBaseHandler dataBase, JTable tblExercises) {
         String dateString = date;
         //System.out.println(dateString);
         String query = new String();
@@ -60,7 +57,7 @@ public class CalendarTraining {
 
         }
     }
-    
+
     private static String generateSubmitQuery(JTable tblExercises, JCalendar jCalendar) {
         /*
          zbieramy wszystko z tabelki i trzeba zrobić od razu kod sql
@@ -109,6 +106,36 @@ public class CalendarTraining {
         return bodyPart;
     }
 
+    static String[] initCbChooseBodyPart(DataBaseHandler dataBase) {
+
+        ArrayList<String> arraylist = new ArrayList<>();
+        arraylist = dataBase.getAnswerList("select distinct partia from cwiczenie order by partia");
+
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add("--wybierz partię--");
+
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
+        return list;
+    }
+
+    static String[] initCbChooseExercise(String bodyPart, DataBaseHandler dataBase) {
+        String query = "'" + bodyPart + "'";
+        ArrayList<String> arraylist = new ArrayList<>();
+        arraylist = dataBase.getAnswerList("select nazwa from cwiczenie where partia like" + query);
+
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add("--wybierz ćwiczenie--");
+
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
+        return list;
+    }
+
     static boolean isReadyToSubmit(JSpinner sSetWeight, JSpinner sReps, JComboBox cbChooseBodyPart, JComboBox cbChooseExercise) {
         if ((Integer) sSetWeight.getValue() >= 0
                 && (Integer) sReps.getValue() > 0
@@ -120,9 +147,9 @@ public class CalendarTraining {
         }
     }
 
-    static void insertSet(JSpinner sSetWeight, JSpinner sReps, JComboBox cbChooseBodyPart, 
-            JComboBox cbChooseExercise, JButton jSubmitTraining, JTable tblExercises ){
-                //insert wszystko
+    static void insertSet(JSpinner sSetWeight, JSpinner sReps, JComboBox cbChooseBodyPart,
+            JComboBox cbChooseExercise, JButton jSubmitTraining, JTable tblExercises) {
+        //insert wszystko
         if (CalendarTraining.isReadyToSubmit(sSetWeight, sReps, cbChooseBodyPart, cbChooseExercise)) {
             jSubmitTraining.setText("Zapisz zmiany");
 
@@ -166,10 +193,10 @@ public class CalendarTraining {
          na klik dodajemy do bazy danych i odświeżamy listę na tabelce, czyli usuwamy wszystkie wiersze i dodajemy je na nowo
          */
     }
-    
-    static void listenTable(JTable tblExercises, JButton jSubmitTraining, JButton jSubmitSetEdit, 
-            JComboBox cbChooseBodyPart, JComboBox cbChooseExercise, JSpinner sSetWeight, 
-            JSpinner sReps, DataBaseHandler dataBase){
+
+    static void listenTable(JTable tblExercises, JButton jSubmitTraining, JButton jSubmitSetEdit,
+            JComboBox cbChooseBodyPart, JComboBox cbChooseExercise, JSpinner sSetWeight,
+            JSpinner sReps, DataBaseHandler dataBase) {
         int row = tblExercises.getSelectedRow();
         jSubmitTraining.setText("Zapisz zmiany");
         if (row >= 0) {
@@ -190,16 +217,16 @@ public class CalendarTraining {
         //
         //String tblExercises.getValueAt(row, col);
     }
-    
-    static void show(String tmpDate, DataBaseHandler dataBase, JTextField eTrainingName, JTable tblExercises, JButton jSubmitTraining){
+
+    static void show(String tmpDate, DataBaseHandler dataBase, JTextField eTrainingName, JTable tblExercises, JButton jSubmitTraining) {
         String query = "select nazwa from trening where data_treningu like " + tmpDate;
         String trainingName = dataBase.getAnswer(query);
         eTrainingName.setText(trainingName);
-        fillTblExercises(tmpDate,  dataBase,  tblExercises);
+        fillTblExercises(tmpDate, dataBase, tblExercises);
 
         jSubmitTraining.setText("Zapisz zmiany");
     }
-    
+
     static void submitSet(JTable tblExercises, JButton jSubmitTraining, JSpinner sSetWeight,
             JSpinner sReps, JComboBox cbChooseBodyPart, JComboBox cbChooseExercise, JButton jSubmitSetEdit,
             DataBaseHandler dataBase) {
@@ -249,7 +276,7 @@ public class CalendarTraining {
         }
     }
 
-    static void submitTraining(JTable tblExercises, JCalendar jCalendar, DataBaseHandler dataBase, 
+    static void submitTraining(JTable tblExercises, JCalendar jCalendar, DataBaseHandler dataBase,
             JTextField eTrainingName, JButton jSubmitTraining) {
         /*
          - usuwamy poprzednia tabelke z bazy danych

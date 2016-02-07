@@ -60,4 +60,27 @@ public class CalendarMeasurements {
     }
 
 
+     static void updateMeasurement(String date, String typPomiaru, javax.swing.JSpinner sWeight, DataBaseHandler dataBase) {
+        //System.out.println("JESTEM W UPDATE MEASUREMENT");
+        String query = "SELECT wartosc FROM `pomiar` where data_dodania like " + date + " and typ_pomiaru like " + typPomiaru;//'waga'";
+        //System.out.println(query);
+        @SuppressWarnings("LocalVariableHidesMemberVariable")
+        String result = dataBase.getAnswer(query);
+        boolean insert = false;
+        if (result.length() > 0) { //istnieje
+            query = "UPDATE pomiar SET wartosc='" + sWeight.getValue() + "' WHERE data_dodania like " + date + "and typ_pomiaru like " + typPomiaru;// 'Waga'";
+            //System.out.println(query);
+            insert = true;
+        } else {
+            query = "INSERT INTO `pomiar` (`typ_pomiaru`, `wartosc`, `data_dodania`) "
+                    + "VALUES (" + typPomiaru + ", " + sWeight.getValue() + ", "
+                    + date + ")";
+            //System.out.println(query);
+            insert = true;
+        }
+        if (insert) {
+            dataBase.update(query);
+        }
+    }
+    
 }

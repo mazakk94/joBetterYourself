@@ -1,5 +1,6 @@
 package lab_jdbc;
 
+import com.toedter.calendar.JCalendar;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JComboBox;
@@ -75,6 +76,74 @@ public class CalendarDiet {
         }
     }
 
+    static void fixID(JTable tblProducts) {
+        int rowcount = tblProducts.getRowCount();
+        //System.out.println("ile wierszy: " + rowcount);
+        if (rowcount > 1) {
+            for (int row = 0; row < rowcount; row++) {
+                //System.out.println(tblProducts.getValueAt(row, 0));
+                tblProducts.setValueAt(row + 1, row, 0);
+            }
+        }
+    }
+
+    static String generateSubmitFoodQuery(JTable tblProducts, JCalendar jCalendar) {
+        String query = "INSERT INTO `posilek` (`ILOSC`, `DATA`, `NAZWA`) VALUES\n";
+        String rowQuery = new String();
+        String finalQuery = new String();
+        finalQuery += query;
+
+        for (int row = 0; row < tblProducts.getRowCount(); row++) {
+
+            rowQuery = "(";
+            rowQuery += tblProducts.getValueAt(row, 2).toString(); //ilosc kcal
+            rowQuery += ", ";
+            rowQuery += DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar);
+            rowQuery += ", '";
+            rowQuery += tblProducts.getValueAt(row, 1).toString(); //nazwa
+            rowQuery += "'"; //nazwa
+
+            if (row != tblProducts.getRowCount() - 1) {
+                rowQuery += "),\n";
+            } else {
+                rowQuery += ");";
+            }
+
+            finalQuery += rowQuery;
+        }
+        return finalQuery;
+    }
+    
+    static String[] initCbChooseCategory(DataBaseHandler dataBase) {
+        ArrayList<String> arraylist = new ArrayList<>();
+        arraylist = dataBase.getAnswerList("SELECT distinct kategoria FROM produkty order by kategoria asc");
+
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.add("--wybierz kategorię--");
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
+        return list;
+    }
+
+    static String[] initCbChooseProduct(String category, DataBaseHandler dataBase) {
+
+        String query = "'" + category + "'";
+        ArrayList<String> arraylist = new ArrayList<>();
+        arraylist = dataBase.getAnswerList("select nazwa from produkty where kategoria like" + query + " order by nazwa");
+
+        @SuppressWarnings("Convert2Diamond")
+        ArrayList<String> tmp = new ArrayList<String>();
+        tmp.add("--wybierz produkt--");
+
+        tmp.addAll(arraylist);
+
+        String[] list = new String[tmp.size()];
+        list = tmp.toArray(list);
+        return list;
+    }
+    
     static boolean isReadyToAddProduct(JSpinner sGrams, JComboBox cbChooseProduct, JComboBox cbChooseCategory) {
         if ((Integer) sGrams.getValue() >= 0
                 && !cbChooseProduct.getSelectedItem().toString().equals("--wybierz produkt--")
@@ -175,11 +244,11 @@ public class CalendarDiet {
         tblNeeds.setValueAt(tmp.toString() + " T", 1, 4);
     }
 
-    static void show(String tmpDate, DataBaseHandler dataBase, JTable tblProducts, JTable tblNeeds){
+    static void show(String tmpDate, DataBaseHandler dataBase, JTable tblProducts, JTable tblNeeds) {
         CalendarDiet.fillTblProducts(tmpDate, dataBase, tblProducts);
         CalendarDiet.needsTblCalculate(tblProducts, tblNeeds, dataBase);
     }
-    
+
     static void updateMacros(boolean selected, JTable tblProducts, DataBaseHandler dataBase) {
 
         /*

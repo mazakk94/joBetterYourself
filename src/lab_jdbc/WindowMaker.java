@@ -291,7 +291,7 @@ public class WindowMaker extends javax.swing.JFrame {
         tblNeeds.setTableHeader(null);
         jScrollPane4.setViewportView(tblNeeds);
 
-        cbChooseCategory.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseCategory()));
+        cbChooseCategory.setModel(new javax.swing.DefaultComboBoxModel(CalendarDiet.initCbChooseCategory(dataBase)));
         cbChooseCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbChooseCategoryActionPerformed(evt);
@@ -585,7 +585,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         jLabel1.setText("Nazwa treningu");
 
-        cbChooseBodyPart.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseBodyPart()));
+        cbChooseBodyPart.setModel(new javax.swing.DefaultComboBoxModel(CalendarTraining.initCbChooseBodyPart(dataBase)));
         cbChooseBodyPart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbChooseBodyPartActionPerformed(evt);
@@ -1740,7 +1740,7 @@ public class WindowMaker extends javax.swing.JFrame {
         // initCbChooseExercise(part)
         cbChooseExercise.setEnabled(true);
         lChooseExercise.setForeground(Color.black);
-        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseExercise(part)));
+        cbChooseExercise.setModel(new javax.swing.DefaultComboBoxModel(CalendarTraining.initCbChooseExercise(part, dataBase)));
     }//GEN-LAST:event_cbChooseBodyPartActionPerformed
 
     private void bSubmitSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSubmitSetActionPerformed
@@ -1759,13 +1759,13 @@ public class WindowMaker extends javax.swing.JFrame {
         String query = new String();
         String date = DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar);
 
-        updateMeasurement(date, "'Waga'", sWeight);
-        updateMeasurement(date, "'Pas'", sWaist);
-        updateMeasurement(date, "'Biceps'", sBiceps);
-        updateMeasurement(date, "'Klatka'", sChest);
-        updateMeasurement(date, "'Udo'", sThigh);
-        updateMeasurement(date, "'Łydka'", sCalf);
-        updateMeasurement(date, "'Przedramię'", sForearm);
+        CalendarMeasurements.updateMeasurement(date, "'Waga'", sWeight, dataBase);
+        CalendarMeasurements.updateMeasurement(date, "'Pas'", sWaist, dataBase);
+        CalendarMeasurements.updateMeasurement(date, "'Biceps'", sBiceps, dataBase);
+        CalendarMeasurements.updateMeasurement(date, "'Klatka'", sChest, dataBase);
+        CalendarMeasurements.updateMeasurement(date, "'Udo'", sThigh, dataBase);
+        CalendarMeasurements.updateMeasurement(date, "'Łydka'", sCalf, dataBase);
+        CalendarMeasurements.updateMeasurement(date, "'Przedramię'", sForearm, dataBase);
         //jak sie udalo dodac to:
         bSubmitDailyMeasurement.setText("Zmiany wprowadzone!");
 
@@ -1777,7 +1777,7 @@ public class WindowMaker extends javax.swing.JFrame {
         if (row >= 0) {
             ((DefaultTableModel) tblProducts.getModel()).removeRow(row);
             CalendarDiet.needsTblCalculate(tblProducts, tblNeeds, dataBase);
-            fixID();
+            CalendarDiet.fixID(tblProducts);
         }
     }//GEN-LAST:event_bDeleteProductActionPerformed
 
@@ -1795,7 +1795,7 @@ public class WindowMaker extends javax.swing.JFrame {
         String category = cbChooseCategory.getSelectedItem().toString();
         cbChooseProduct.setEnabled(true);
         //lChooseExercise.setForeground(Color.black);
-        cbChooseProduct.setModel(new javax.swing.DefaultComboBoxModel(initCbChooseProduct(category)));
+        cbChooseProduct.setModel(new javax.swing.DefaultComboBoxModel(CalendarDiet.initCbChooseProduct(category, dataBase)));
     }//GEN-LAST:event_cbChooseCategoryActionPerformed
 
     private void bAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddProductActionPerformed
@@ -1811,7 +1811,7 @@ public class WindowMaker extends javax.swing.JFrame {
             String deleteQuery = "DELETE FROM posilek WHERE data like " + DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar);
             //System.out.println(deleteQuery);
             dataBase.update(deleteQuery);
-            String insertQuery = generateSubmitFoodQuery();
+            String insertQuery = CalendarDiet.generateSubmitFoodQuery(tblProducts, jCalendar);
             //System.out.println(insertQuery);
             dataBase.update(insertQuery);
 
@@ -1865,155 +1865,27 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bSentChooseActionPerformed
 
-    private void loadPersonInfo(String secondName) {
-
-        String query = "SELECT * FROM `uzytkownik`";
-
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-        list = dataBase.getAnswerListofList(query);
-        //System.out.println(list.get(0));
-
-        eFirstName.setText(list.get(0).get(0));
-        eLastName.setText(list.get(0).get(1));
-
-        String birthDate = list.get(0).get(2);
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
-            eBirthDate.setDate(date);
-        } catch (ParseException ex) {
-            Logger.getLogger(WindowMaker.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (list.get(0).get(3).equals("M")) {
-            rbMale.setSelected(true);
-        } else {
-            rbFemale.setSelected(true);
-        }
-        eHeight.setValue(Integer.parseInt(list.get(0).get(4)));
-        eNeed.setValue(Integer.parseInt(list.get(0).get(5)));
-        sProteins.setValue(Integer.parseInt(list.get(0).get(6)));
-        sCarbs.setValue(Integer.parseInt(list.get(0).get(7)));
-        sFats.setValue(Integer.parseInt(list.get(0).get(8)));
-        eBodyFat.setValue(Integer.parseInt(list.get(0).get(9)));
-    }
-
-    private void personInfoListener(javax.swing.JTabbedPane tabbedPanel) {
-        tabbedPanel.addChangeListener(new ChangeListener() {
-            @SuppressWarnings("override")
-            public void stateChanged(ChangeEvent e) {
-                loadPersonInfo("");
-                //System.out.println("Tab: " + tabbedPanel.getSelectedIndex());
-            }
-        });
-    }
-
-    private void updateMeasurement(String date, String typPomiaru, javax.swing.JSpinner sWeight) {
-        //System.out.println("JESTEM W UPDATE MEASUREMENT");
-        String query = "SELECT wartosc FROM `pomiar` where data_dodania like " + date + " and typ_pomiaru like " + typPomiaru;//'waga'";
-        //System.out.println(query);
-        @SuppressWarnings("LocalVariableHidesMemberVariable")
-        String result = dataBase.getAnswer(query);
-        boolean insert = false;
-        if (result.length() > 0) { //istnieje
-            query = "UPDATE pomiar SET wartosc='" + sWeight.getValue() + "' WHERE data_dodania like " + date + "and typ_pomiaru like " + typPomiaru;// 'Waga'";
-            //System.out.println(query);
-            insert = true;
-        } else {
-            query = "INSERT INTO `pomiar` (`typ_pomiaru`, `wartosc`, `data_dodania`) "
-                    + "VALUES (" + typPomiaru + ", " + sWeight.getValue() + ", "
-                    + date + ")";
-            //System.out.println(query);
-            insert = true;
-        }
-        if (insert) {
-            dataBase.update(query);
-        }
-    }
-
     private void printArray(ArrayList<String> list) {
-        ////System.out.println("list.size()");
-        ////System.out.println(list.size());
+        System.out.println("list.size()");
+        System.out.println(list.size());
         for (int i = 0; i < list.size(); i++) {
-            //System.out.println(list.get(i));
+            System.out.println(list.get(i));
         }
     }
 
-    private String generateSubmitFoodQuery() {
-        String query = "INSERT INTO `posilek` (`ILOSC`, `DATA`, `NAZWA`) VALUES\n";
-        String rowQuery = new String();
-        String finalQuery = new String();
-        finalQuery += query;
-
-        for (int row = 0; row < tblProducts.getRowCount(); row++) {
-
-            rowQuery = "(";
-            rowQuery += tblProducts.getValueAt(row, 2).toString(); //ilosc kcal
-            rowQuery += ", ";
-            rowQuery += DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar);
-            rowQuery += ", '";
-            rowQuery += tblProducts.getValueAt(row, 1).toString(); //nazwa
-            rowQuery += "'"; //nazwa
-
-            if (row != tblProducts.getRowCount() - 1) {
-                rowQuery += "),\n";
-            } else {
-                rowQuery += ");";
-            }
-
-            finalQuery += rowQuery;
-        }
-        return finalQuery;
-    }
-
-    private int[] getColumnsWidths(javax.swing.JTable tblExercises) {
-        int[] sizes = new int[tblExercises.getColumnCount()];
+    private int[] getColumnsWidths(JTable tbl) {
+        int[] sizes = new int[tbl.getColumnCount()];
         for (int i = 0; i < sizes.length; i++) {
             System.out.print(i + ": ");
-            System.out.print(tblExercises.getColumnModel().getColumn(i).getWidth());
+            System.out.print(tbl.getColumnModel().getColumn(i).getWidth());
             System.out.print("\t");
         }
         //System.out.println("");
         return sizes;
     }
 
-    private void fixID() {
-        int rowcount = tblProducts.getRowCount();
-        //System.out.println("ile wierszy: " + rowcount);
-        if (rowcount > 1) {
-            for (int row = 0; row < rowcount; row++) {
-                //System.out.println(tblProducts.getValueAt(row, 0));
-                tblProducts.setValueAt(row + 1, row, 0);
-            }
-        }
-    }
-
-    /* private void detectChange() {
-
-     CellEditorListener ChangeNotification = new CellEditorListener() {
-     @SuppressWarnings("override")
-     public void editingCanceled(ChangeEvent e) {
-     System.out.println("The user canceled editing.");
-     }
-
-     @SuppressWarnings("override")
-     public void editingStopped(ChangeEvent e) {
-     System.out.println("The user stopped editing successfully.");
-     //tblProducts.getSelectedRow()
-     updateMacros(true);
-     needsTblCalculate();
-     }
-     };
-
-     tblProducts.getDefaultEditor(Integer.class).addCellEditorListener(ChangeNotification);
-     //DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
-     //tblProducts.addCellEditorListener(ChangeNotification);
-
-     }
-     */
     private void listenButton() {
-        @SuppressWarnings("Convert2Diamond")
-        List<JComponent> compList = new ArrayList<JComponent>();
+        List<JComponent> compList = new ArrayList<>();
 
         compList.add(sWeight.getEditor());
         compList.add(sWaist.getEditor());
@@ -2023,9 +1895,8 @@ public class WindowMaker extends javax.swing.JFrame {
         compList.add(sCalf.getEditor());
         compList.add(sForearm.getEditor());
 
-        @SuppressWarnings("Convert2Diamond")
-        List<JFormattedTextField> fieldList = new ArrayList<JFormattedTextField>();
-        List<DefaultFormatter> formatters = new ArrayList<DefaultFormatter>();
+        List<JFormattedTextField> fieldList = new ArrayList<>();
+        List<DefaultFormatter> formatters = new ArrayList<>();
         for (int i = 0; i < compList.size(); i++) {
             fieldList.add((JFormattedTextField) compList.get(i).getComponent(0));
             formatters.add((DefaultFormatter) fieldList.get(i).getFormatter());
@@ -2077,81 +1948,13 @@ public class WindowMaker extends javax.swing.JFrame {
 
     }
 
-    private String[] initCbChooseCategory() {
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> arraylist = new ArrayList<String>();
-        arraylist = dataBase.getAnswerList("SELECT distinct kategoria FROM produkty order by kategoria asc");
-
-        @SuppressWarnings({"Convert2Diamond", "MismatchedQueryAndUpdateOfCollection"})
-        ArrayList<String> tmp = new ArrayList<String>();
-        tmp.add("--wybierz kategorię--");
-        tmp.addAll(arraylist);
-
-        String[] list = new String[tmp.size()];
-        list = tmp.toArray(list);
-        return list;
-    }
-
-    private String[] initCbChooseProduct(String category) {
-
-        String query = "'" + category + "'";
-        ArrayList<String> arraylist = new ArrayList<>();
-        arraylist = dataBase.getAnswerList("select nazwa from produkty where kategoria like" + query + " order by nazwa");
-
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> tmp = new ArrayList<String>();
-        tmp.add("--wybierz produkt--");
-
-        tmp.addAll(arraylist);
-
-        String[] list = new String[tmp.size()];
-        list = tmp.toArray(list);
-        return list;
-    }
-
-    private String[] initCbChooseBodyPart() {
-
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> arraylist = new ArrayList<String>();
-        arraylist = dataBase.getAnswerList("select distinct partia from cwiczenie order by partia");
-
-        @SuppressWarnings({"Convert2Diamond", "MismatchedQueryAndUpdateOfCollection"})
-        ArrayList<String> tmp = new ArrayList<String>();
-        tmp.add("--wybierz partię--");
-
-        tmp.addAll(arraylist);
-
-        String[] list = new String[tmp.size()];
-        list = tmp.toArray(list);
-        return list;
-    }
-
-    private String[] initCbChooseExercise(String bodyPart) {
-        String query = "'" + bodyPart + "'";
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> arraylist = new ArrayList<String>();
-        arraylist = dataBase.getAnswerList("select nazwa from cwiczenie where partia like" + query);
-
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> tmp = new ArrayList<String>();
-        tmp.add("--wybierz ćwiczenie--");
-
-        tmp.addAll(arraylist);
-
-        String[] list = new String[tmp.size()];
-        list = tmp.toArray(list);
-        return list;
-    }
-
-    private void initTbl(int[] columnSizes, javax.swing.JTable tblExercises) {
+    private void initTbl(int[] columnSizes, JTable tbl) {
         //System.out.println("ustalam rozmiar tablicy");
-        int columnCount = tblExercises.getColumnCount();
+        int columnCount = tbl.getColumnCount();
         for (int i = 0; i < columnCount; i++) {
-            //System.out.println(i + " = " + columnSizes[i]);
-            tblExercises.getColumnModel().getColumn(i).setPreferredWidth(columnSizes[i]);
+            tbl.getColumnModel().getColumn(i).setPreferredWidth(columnSizes[i]);
         }
     }
-    
 
     private void initTarget() {
         iPudzian.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED));
@@ -2164,19 +1967,7 @@ public class WindowMaker extends javax.swing.JFrame {
         sTargetWeight.setValue(142);
     }
 
-    private void myInitComponents() {
-        ImageIcon tab1 = new ImageIcon("img/b1.jpg");
-        ImageIcon tab2 = new ImageIcon("img/b2.jpg");
-        ImageIcon tab3 = new ImageIcon("img/b3.jpg");
-        pMainPanel.addTab("", tab1, pCalendar,
-                "Does nothing");
-        pMainPanel.addTab("", tab2, pAsk,
-                "Does nothing");
-        pMainPanel.addTab("", tab3, pAccount,
-                "Does nothing");
-        pAdvanced.setVisible(false);
-        iBodyFat.setVisible(false);
-
+    private void initTables() {
         int exerciseSizes[] = {40, 150, 60, 70};
         initTbl(exerciseSizes, tblExercises);
         int productSizes[] = {10, 100, 20, 20, 20, 20, 20, 20};
@@ -2185,19 +1976,38 @@ public class WindowMaker extends javax.swing.JFrame {
         int needsSizes[] = {100, 30, 30, 30, 30};
         initTbl(needsSizes, tblNeeds);
         tblExercises.getColumnModel().getColumn(0).setPreferredWidth(10);
-        CalendarMeasurements.fillMeasurements(DateHandler.changeDateFormat(jCalendar.getDate().toString(),jCalendar), 
-          dataBase,  sWeight,  sWaist,  sBiceps,  sThigh,  sCalf,  sForearm,  sChest);
-        
-        listenButton();
+    }
+
+    private void initCalendar() {
+        CalendarMeasurements.fillMeasurements(DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar),
+                dataBase, sWeight, sWaist, sBiceps, sThigh, sCalf, sForearm, sChest);
         CalendarDiet.detectChange(tblProducts, tblNeeds, dataBase);
         CalendarDiet.fillTblProducts(DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar), dataBase, tblProducts);
         CalendarDiet.needsTblCalculate(tblProducts, tblNeeds, dataBase);
-        personInfoListener(pAccount);
+    }
+
+    private void initTabs() {
+        ImageIcon tab1 = new ImageIcon("img/b1.jpg");
+        ImageIcon tab2 = new ImageIcon("img/b2.jpg");
+        ImageIcon tab3 = new ImageIcon("img/b3.jpg");
+        pMainPanel.addTab("", tab1, pCalendar, "");
+        pMainPanel.addTab("", tab2, pAsk, "");
+        pMainPanel.addTab("", tab3, pAccount, "");
+        pAdvanced.setVisible(false);
+        iBodyFat.setVisible(false);
+    }
+
+    private void myInitComponents() {
+        initTabs();
+        initTables();
+        initCalendar();
+        listenButton();
+        UserPrivate.personInfoListener(pAccount, "", dataBase, eFirstName, eLastName, eBirthDate, rbMale, rbFemale,
+                eHeight, eNeed, sProteins, sCarbs, sFats, eBodyFat);
         initTarget();
 
     }
 
-    @SuppressWarnings({"Convert2Lambda", "static-access"})
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -2216,8 +2026,6 @@ public class WindowMaker extends javax.swing.JFrame {
                 new WindowMaker().setVisible(true);
             }
         });
-        //
-        //dataBase.closeEverything();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
