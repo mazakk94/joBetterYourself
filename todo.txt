@@ -43,11 +43,15 @@ TODO:
 
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
+[ ] Podzial na 2 okna
+
 [ ] Zapytaj trenera
     [ ]
 
 [ ] Okno logowania na początku !
     [ ]
+
+[ ] Rejestracja
 
 [v] Konto
     [v] Dane osobowe:
@@ -59,10 +63,6 @@ TODO:
       
 [ ] Synchronicznie musi być wszystko na kilku apkach
 
-[ ] gui for trainer
-    [ ] create diet 
-    [ ] create training plan
-[ ] podzial na 2 okna w zaleznosci od uzytkownika - 2 panele?
 
 extra:
 [ ] on exit close db
