@@ -1837,9 +1837,9 @@ public class WindowMaker extends javax.swing.JFrame {
          kolorujemy te miejsca w kalendarzu, które mają jakiś trening lub dietę (obwódka i kolor)
          */
         String tmpDate = DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar);
-        CalendarMeasurements.show(jCalendar.getDate().toString(), dataBase, sWeight,
+        CalendarMeasurements.show(tmpDate, dataBase, sWeight,
                 sWaist, sBiceps, sThigh, sCalf, sForearm, sChest, bSubmitDailyMeasurement);
-        CalendarTraining.show(jCalendar.getDate().toString(), dataBase, eTrainingName, tblExercises, jSubmitTraining);
+        CalendarTraining.show(tmpDate, dataBase, eTrainingName, tblExercises, jSubmitTraining);
         CalendarDiet.show(tmpDate, dataBase, tblProducts, tblNeeds);
 
 
