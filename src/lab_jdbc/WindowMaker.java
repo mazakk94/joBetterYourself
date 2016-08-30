@@ -1,9 +1,7 @@
 package lab_jdbc;
 
 import java.awt.Color;
-import java.text.*;
 import java.util.*;
-import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.event.*;
@@ -22,6 +20,14 @@ public class WindowMaker extends javax.swing.JFrame {
         initComponents();
         myInitComponents();
     }
+    
+    public WindowMaker(String dbName, String dbUser, String dbPass) {
+        dataBase = new DataBaseHandler(dbName, dbUser, dbPass);
+        initComponents();
+        myInitComponents();
+    }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1331,7 +1337,6 @@ public class WindowMaker extends javax.swing.JFrame {
         eTopic1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         eTopic1.setEnabled(false);
 
-        eSentTextArea.setBackground(new java.awt.Color(255, 255, 255));
         eSentTextArea.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         eSentTextArea.setEnabled(false);
         scrollPanelTextArea1.setViewportView(eSentTextArea);

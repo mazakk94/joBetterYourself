@@ -235,6 +235,7 @@ public class CalendarDiet {
         tblNeeds.setValueAt(list.get(0).get(8) + " T", 2, 4);
         Integer tmp = 0;
         tmp = Integer.parseInt(list.get(0).get(5)) - kcal;
+        //System.out.println(tmp);
         tblNeeds.setValueAt(tmp.toString() + " kcal", 1, 1);
         tmp = Integer.parseInt(list.get(0).get(6)) - w;
         tblNeeds.setValueAt(tmp.toString() + " W", 1, 2);

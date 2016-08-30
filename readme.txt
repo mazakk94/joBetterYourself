@@ -1,0 +1,1 @@
+betteryourself.sql - skrypt tworzy baze na localhoscie, trzeba mieæ phpmyadmin albo co innego

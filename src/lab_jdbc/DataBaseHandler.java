@@ -17,6 +17,52 @@ final public class DataBaseHandler {
     //Statement stmt;
     //ResultSet rs;
 
+    
+    
+    public DataBaseHandler() { //init and make connection (for localhost at the moment)
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.conn = null;
+        this.connectionProps = new Properties();
+        this.connectionProps.put("user", "root");
+        this.connectionProps.put("password", "");
+
+        try {  
+            //this.conn = DriverManager.getConnection("jdbc:mysql://localhost/betteryourself", this.connectionProps);
+            this.conn = DriverManager.getConnection("jdbc:mysql://sql7.freesqldatabase.com/sql7133294", this.connectionProps);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, "nie udało się połączyć z bazą danych", ex);
+            System.exit(-1);
+        }
+    }
+    
+    
+    DataBaseHandler(String dbName, String dbUser, String dbPass) {        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.conn = null;
+        this.connectionProps = new Properties();
+        this.connectionProps.put("user", dbUser);
+        this.connectionProps.put("password", dbPass);
+
+        try {            
+            //this.conn = DriverManager.getConnection("jdbc:mysql://localhost/betteryourself", this.connectionProps);
+            this.conn = DriverManager.getConnection("jdbc:mysql://sql7.freesqldatabase.com/" + dbName, this.connectionProps);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, "nie udało się połączyć z bazą danych", ex);
+            System.exit(-1);
+        }
+    }
+    
+    
     final public static String getResultString(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         String resultString = new String();
@@ -42,7 +88,8 @@ final public class DataBaseHandler {
         return resultString;
     }
 
-    @SuppressWarnings("null")
+    
+
     public String getAnswer(String query) {
         /*
          Tworzymy statement
@@ -94,13 +141,11 @@ final public class DataBaseHandler {
     final public static ArrayList<Vector<String>> getResultListofVector(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<Vector<String>> resultListofVector = new ArrayList<Vector<String>>();
+        ArrayList<Vector<String>> resultListofVector = new ArrayList<>();
         int columnsNumber = rsmd.getColumnCount();
 
         while (rs.next()) {
-            @SuppressWarnings("Convert2Diamond")
-            Vector<String> subVector = new Vector<String>();
+            Vector<String> subVector = new Vector<>();
             for (int i = 1; i <= columnsNumber; i++) {
                 subVector.add(rs.getString(i));
             }
@@ -111,11 +156,9 @@ final public class DataBaseHandler {
         return resultListofVector;
     }
 
-    @SuppressWarnings({"null", "UseOfObsoleteCollectionType"})
     public ArrayList<Vector<String>> getAnswerListofVector(String query) {
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<Vector<String>> resultListofVector = new ArrayList<Vector<String>>();
+        ArrayList<Vector<String>> resultListofVector = new ArrayList<>();
         Statement stmt;
         ResultSet rset;
 
@@ -146,13 +189,11 @@ final public class DataBaseHandler {
     final public static ArrayList<ArrayList<String>> getResultListofList(ResultSet rs) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<ArrayList<String>> resultListofList = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> resultListofList = new ArrayList<>();
         int columnsNumber = rsmd.getColumnCount();
 
         while (rs.next()) {
-            @SuppressWarnings("Convert2Diamond")
-            ArrayList<String> subList = new ArrayList<String>();
+            ArrayList<String> subList = new ArrayList<>();
             for (int i = 1; i <= columnsNumber; i++) {
                 subList.add(rs.getString(i));
             }
@@ -163,11 +204,9 @@ final public class DataBaseHandler {
         return resultListofList;
     }
 
-    @SuppressWarnings("null")
     public ArrayList<ArrayList<String>> getAnswerListofList(String query) {
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<ArrayList<String>> resultListofList = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> resultListofList = new ArrayList<>();
         Statement stmt;
         ResultSet rset;
 
@@ -198,8 +237,7 @@ final public class DataBaseHandler {
     final public static ArrayList<String> getResultList(ResultSet rs) throws SQLException {
         //ResultSetMetaData rsmd = rs.getMetaData();
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> resultList = new ArrayList<String>();
+        ArrayList<String> resultList = new ArrayList<>();
         //int columnsNumber = rsmd.getColumnCount();
 
         while (rs.next()) {
@@ -212,11 +250,9 @@ final public class DataBaseHandler {
         return resultList;
     }
 
-    @SuppressWarnings("null")
     public ArrayList<String> getAnswerList(String query) {
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> resultList = new ArrayList<String>();
+        ArrayList<String> resultList = new ArrayList<>();
         Statement stmt;
         ResultSet rset;
 
@@ -254,30 +290,7 @@ final public class DataBaseHandler {
         }
     }
 
-    public DataBaseHandler() { //init and make connection (for localhost at the moment)
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        this.conn = null;
-        this.connectionProps = new Properties();
-        this.connectionProps.put("user", "root");
-        this.connectionProps.put("password", "");
-
-        try {
-            //this.conn = DriverManager.getConnection("jdbc:mysql://95.211.80.4/mazakk_cba_pl", this.connectionProps); // ? 
-            //this.conn = DriverManager.getConnection("jdbc:oracle:thin:@//admlab2-main.cs.put.poznan.pl:1521/dblab01.cs.put.poznan.pl", this.connectionProps);        
-            this.conn = DriverManager.getConnection("jdbc:mysql://localhost/betteryourself", this.connectionProps);
-            //System.out.println("Połączono z bazą danych");
-        } catch (SQLException ex) {
-            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, "nie udało się połączyć z bazą danych", ex);
-            System.exit(-1);
-        }
-    }
-
-    @SuppressWarnings("null")
+    
     void update(String query) {
         Statement stmt = null;
 

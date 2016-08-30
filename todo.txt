@@ -43,15 +43,17 @@ TODO:
 
 [v] pozmieniać kolumny bazy danych, bo jest słaba fhui 
 
-[ ] Podzial na 2 okna
-
 [ ] Zapytaj trenera
     [ ]
 
 [ ] Okno logowania na początku !
-    [ ]
+    [ ] Rejestracja
+    [ ] Logowanie
+        [ ] Przesyła zalogowanego uzytkownika (zmienna gdzieśtam)
 
-[ ] Rejestracja
+[ ] Interfejs trenera
+    [ ] Odpowiedz na wiadomości
+    [ ] Skrzynka odbiorcza
 
 [v] Konto
     [v] Dane osobowe:
