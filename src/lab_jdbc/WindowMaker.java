@@ -1,6 +1,7 @@
 package lab_jdbc;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.text.*;
@@ -193,7 +194,7 @@ public class WindowMaker extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(900, 476));
 
         pMainPanel.setBackground(new java.awt.Color(153, 204, 255));
-        pMainPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pMainPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pMainPanel.setToolTipText("");
         pMainPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pMainPanel.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
@@ -202,7 +203,7 @@ public class WindowMaker extends javax.swing.JFrame {
         pMainPanel.setPreferredSize(new java.awt.Dimension(900, 476));
 
         pCalendar.setBackground(new java.awt.Color(153, 204, 255));
-        pCalendar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pCalendar.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pCalendar.setForeground(new java.awt.Color(153, 204, 255));
         pCalendar.setToolTipText("");
         pCalendar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -211,7 +212,7 @@ public class WindowMaker extends javax.swing.JFrame {
         lChooseDay.setText("Wybierz dzień w kalendarzu");
 
         jCalendar.setBackground(new java.awt.Color(255, 255, 255));
-        jCalendar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jCalendar.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         jCalendar.setDecorationBackgroundColor(new java.awt.Color(255, 255, 255));
         jCalendar.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jCalendar.setWeekOfYearVisible(false);
@@ -221,7 +222,7 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        pDailyUpdate.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pDailyUpdate.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pDailyUpdate.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
@@ -316,7 +317,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         jLabel22.setText("Produkt");
 
-        sGrams.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(100), Integer.valueOf(0), null, Integer.valueOf(1)));
+        sGrams.setModel(new javax.swing.SpinnerNumberModel(100, 0, null, 1));
         sGrams.setEnabled(false);
         sGrams.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -786,7 +787,7 @@ public class WindowMaker extends javax.swing.JFrame {
                         .addComponent(lChooseDay, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pMainPanel.addTab("", pCalendar);
@@ -801,7 +802,7 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        pAdvanced.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pAdvanced.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         jLabel12.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel12.setText("Waga");
@@ -925,7 +926,6 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        iPudzian.setIcon(new javax.swing.ImageIcon("C:\\Users\\Mazi\\Documents\\NetBeansProjects\\lab_JDBC\\img\\pudzian.jpg")); // NOI18N
         iPudzian.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         iPudzian.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iPudzian.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -934,7 +934,6 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        iArnold.setIcon(new javax.swing.ImageIcon("C:\\Users\\Mazi\\Documents\\NetBeansProjects\\lab_JDBC\\img\\arnold.jpg")); // NOI18N
         iArnold.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iArnold.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -998,7 +997,6 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        iOwcaWK.setIcon(new javax.swing.ImageIcon("C:\\Users\\Mazi\\Documents\\NetBeansProjects\\lab_JDBC\\img\\owcawk.jpg")); // NOI18N
         iOwcaWK.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iOwcaWK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1006,7 +1004,6 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        iSportowiec.setIcon(new javax.swing.ImageIcon("C:\\Users\\Mazi\\Documents\\NetBeansProjects\\lab_JDBC\\img\\sportowiec.jpg")); // NOI18N
         iSportowiec.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iSportowiec.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1014,7 +1011,6 @@ public class WindowMaker extends javax.swing.JFrame {
             }
         });
 
-        iChudzian.setIcon(new javax.swing.ImageIcon("C:\\Users\\Mazi\\Documents\\NetBeansProjects\\lab_JDBC\\img\\chudzian.jpg")); // NOI18N
         iChudzian.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iChudzian.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1140,8 +1136,6 @@ public class WindowMaker extends javax.swing.JFrame {
         eBodyFat.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         eNeed.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-
-        iBodyFat.setIcon(new javax.swing.ImageIcon("C:\\Users\\Mazi\\Documents\\NetBeansProjects\\lab_JDBC\\img\\bodyfat.jpg")); // NOI18N
 
         bBodyFat.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         bBodyFat.setText("Co to?");
@@ -1305,7 +1299,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         pMailbox.setBackground(new java.awt.Color(153, 204, 255));
 
-        pSent.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pSent.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         tblSent.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         tblSent.setModel(new javax.swing.table.DefaultTableModel(
@@ -1444,7 +1438,7 @@ public class WindowMaker extends javax.swing.JFrame {
 
         pNew.setBackground(new java.awt.Color(153, 204, 255));
 
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(0));
 
         jButton2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton2.setText("Wyślij");
@@ -1846,6 +1840,8 @@ public class WindowMaker extends javax.swing.JFrame {
                 sWaist, sBiceps, sThigh, sCalf, sForearm, sChest, bSubmitDailyMeasurement);
         CalendarTraining.show(tmpDate, dataBase, eTrainingName, tblExercises, jSubmitTraining);
         CalendarDiet.show(tmpDate, dataBase, tblProducts, tblNeeds);
+        //jCalendar.setBorder(BorderFactory.createLineBorder(Color.red));
+        
 
 
     }//GEN-LAST:event_jCalendarPropertyChange
@@ -1989,6 +1985,7 @@ public class WindowMaker extends javax.swing.JFrame {
         CalendarDiet.detectChange(tblProducts, tblNeeds, dataBase);
         CalendarDiet.fillTblProducts(DateHandler.changeDateFormat(jCalendar.getDate().toString(), jCalendar), dataBase, tblProducts);
         CalendarDiet.needsTblCalculate(tblProducts, tblNeeds, dataBase);
+        
     }
 
     private void initTabs() {
@@ -2009,7 +2006,8 @@ public class WindowMaker extends javax.swing.JFrame {
         listenButton();
         UserPrivate.personInfoListener(pAccount, "", dataBase, eFirstName, eLastName, eBirthDate, rbMale, rbFemale,
                 eHeight, eNeed, sProteins, sCarbs, sFats, eBodyFat);
-        initTarget();
+        initTarget(); 
+        //jCalendar.add(new Graphics().drawRect(5, 5, 105, 105));
 
     }
 
@@ -2026,7 +2024,7 @@ public class WindowMaker extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @SuppressWarnings("override")
+            @Override
             public void run() {
                 new WindowMaker().setVisible(true);
             }

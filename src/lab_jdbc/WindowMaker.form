@@ -139,7 +139,7 @@
                               <Component id="jCalendar" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="23" max="32767" attributes="0"/>
+                      <EmptySpace pref="20" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1394,9 +1394,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="iPudzian">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Mazi\Documents\NetBeansProjects\lab_JDBC\img\pudzian.jpg"/>
-                    </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder>
@@ -1414,9 +1411,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="iArnold">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Mazi\Documents\NetBeansProjects\lab_JDBC\img\arnold.jpg"/>
-                    </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>
@@ -1538,9 +1532,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="iOwcaWK">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Mazi\Documents\NetBeansProjects\lab_JDBC\img\owcawk.jpg"/>
-                    </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>
@@ -1551,9 +1542,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="iSportowiec">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Mazi\Documents\NetBeansProjects\lab_JDBC\img\sportowiec.jpg"/>
-                    </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>
@@ -1564,9 +1552,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="iChudzian">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Mazi\Documents\NetBeansProjects\lab_JDBC\img\chudzian.jpg"/>
-                    </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>
@@ -1775,11 +1760,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="iBodyFat">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Mazi\Documents\NetBeansProjects\lab_JDBC\img\bodyfat.jpg"/>
-                    </Property>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="bBodyFat">
                   <Properties>

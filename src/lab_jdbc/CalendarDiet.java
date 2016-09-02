@@ -310,8 +310,8 @@ public class CalendarDiet {
 
         String nazwa = tblProducts.getValueAt(row, 1).toString();
         String query = "SELECT * FROM `produkty` WHERE nazwa like '" + nazwa + "'";
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+        
+        ArrayList<ArrayList<String>> list = new ArrayList<>();
         list = dataBase.getAnswerListofList(query);
         //System.out.println("sizeof list: " + list.size());
         int gramatura = Integer.parseInt(tblProducts.getValueAt(row, 2).toString());

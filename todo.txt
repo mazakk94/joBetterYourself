@@ -5,7 +5,7 @@ TODO:
 [v] move some code to connector
 [v] make gui prototype
 [v] use cases 
-[ ] DFD - Data Flow Diagram
+[v] DFD - Data Flow Diagram
 [v] jframe tutorial
 [v] make tables working with deimos - localhost
 

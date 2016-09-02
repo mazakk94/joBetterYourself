@@ -92,17 +92,13 @@ public class DateHandler {
     }
 
     static String changeDateFormat(String date, JCalendar jCalendar) {
-        String resultDate = new String();
+        String resultDate;
 
         String tmpDate = jCalendar.getDate().toString();
-        ////System.out.println(tmpDate);
         String tmpYear = tmpDate.substring(tmpDate.length() - 4, tmpDate.length());
         String tmpMonth = castMonth(tmpDate.substring(4, 7));
         String tmpDay = tmpDate.substring(8, 10);
         resultDate = "'" + tmpYear + "-" + tmpMonth + "-" + tmpDay + "'";
-        ////System.out.println(tmpYear);
-
-        ////System.out.println(tmpDay);
         return resultDate; //resultDate
     }
     
