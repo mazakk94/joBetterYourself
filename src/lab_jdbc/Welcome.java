@@ -235,7 +235,6 @@ public class Welcome extends javax.swing.JFrame {
         this.setVisible(false); //you can't see me!
         this.dispose(); //Destroy the JFrame object
         new WindowMaker(dbName, dbUser, dbPass).setVisible(true);
-        //uruchamiam formatke, wysylam jej credentiale i zamykam tą
     }//GEN-LAST:event_bLoginActionPerformed
 
     
@@ -265,6 +264,7 @@ public class Welcome extends javax.swing.JFrame {
 
         
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Welcome().setVisible(true);
             }

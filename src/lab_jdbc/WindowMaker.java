@@ -93,6 +93,7 @@ public class WindowMaker extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jSubmitSetEdit = new javax.swing.JButton();
         bUndoDeleteSet = new javax.swing.JButton();
+        bAddOwn = new javax.swing.JButton();
         pAccount = new javax.swing.JTabbedPane();
         pTarget = new javax.swing.JPanel();
         bAdvanced = new javax.swing.JToggleButton();
@@ -355,17 +356,17 @@ public class WindowMaker extends javax.swing.JFrame {
                                     .addComponent(cbChooseCategory, 0, 156, Short.MAX_VALUE))
                                 .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pDailyDietLayout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addComponent(jLabel22))
-                                    .addGroup(pDailyDietLayout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(cbChooseProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(sGrams, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(10, 10, 10)
-                                        .addComponent(jLabel23)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jLabel23))
+                                    .addGroup(pDailyDietLayout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jLabel22)))
+                                .addGap(5, 5, 5)
+                                .addComponent(bAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pDailyDietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(pDailyDietLayout.createSequentialGroup()
                                     .addContainerGap()
@@ -462,7 +463,7 @@ public class WindowMaker extends javax.swing.JFrame {
         pDailyMeasurementLayout.setHorizontalGroup(
             pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDailyMeasurementLayout.createSequentialGroup()
-                .addContainerGap(396, Short.MAX_VALUE)
+                .addContainerGap(136, Short.MAX_VALUE)
                 .addGroup(pDailyMeasurementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pDailyMeasurementLayout.createSequentialGroup()
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -763,17 +764,29 @@ public class WindowMaker extends javax.swing.JFrame {
 
         pDailyUpdate.addTab("Trening", pDailyTraining);
 
+        bAddOwn.setText("Dodaj własny");
+        bAddOwn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAddOwnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pCalendarLayout = new javax.swing.GroupLayout(pCalendar);
         pCalendar.setLayout(pCalendarLayout);
         pCalendarLayout.setHorizontalGroup(
             pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pCalendarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lChooseDay, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pDailyUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+                .addGroup(pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pCalendarLayout.createSequentialGroup()
+                        .addGroup(pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lChooseDay, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCalendarLayout.createSequentialGroup()
+                        .addComponent(bAddOwn)
+                        .addGap(95, 95, 95)))
+                .addComponent(pDailyUpdate)
                 .addContainerGap())
         );
         pCalendarLayout.setVerticalGroup(
@@ -781,12 +794,16 @@ public class WindowMaker extends javax.swing.JFrame {
             .addGroup(pCalendarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pCalendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pDailyUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pCalendarLayout.createSequentialGroup()
+                        .addComponent(pDailyUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(23, Short.MAX_VALUE))
                     .addGroup(pCalendarLayout.createSequentialGroup()
                         .addComponent(lChooseDay, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(jCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bAddOwn)
+                        .addGap(100, 100, 100))))
         );
 
         pMainPanel.addTab("", pCalendar);
@@ -1870,6 +1887,10 @@ public class WindowMaker extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bSentChooseActionPerformed
 
+    private void bAddOwnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddOwnActionPerformed
+        new NewProduct(this, true, dataBase).setVisible(true);
+    }//GEN-LAST:event_bAddOwnActionPerformed
+
     private void printArray(ArrayList<String> list) {
         System.out.println("list.size()");
         System.out.println(list.size());
@@ -2034,6 +2055,7 @@ public class WindowMaker extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAddOwn;
     private javax.swing.JButton bAddProduct;
     private javax.swing.JToggleButton bAdvanced;
     private javax.swing.JToggleButton bBodyFat;
