@@ -133,8 +133,8 @@ public class CalendarDiet {
         ArrayList<String> arraylist = new ArrayList<>();
         arraylist = dataBase.getAnswerList("select nazwa from produkty where kategoria like" + query + " order by nazwa");
 
-        @SuppressWarnings("Convert2Diamond")
-        ArrayList<String> tmp = new ArrayList<String>();
+        
+        ArrayList<String> tmp = new ArrayList<>();
         tmp.add("--wybierz produkt--");
 
         tmp.addAll(arraylist);
@@ -182,8 +182,8 @@ public class CalendarDiet {
         String query = new String();
         query = "SELECT nazwa, ilosc FROM `posilek` where data like " + dateString;
 
-        @SuppressWarnings({"UseOfObsoleteCollectionType", "Convert2Diamond"})
-        ArrayList<Vector<String>> arrayList = new ArrayList<Vector<String>>();
+        
+        ArrayList<Vector<String>> arrayList = new ArrayList<>();
         arrayList = dataBase.getAnswerListofVector(query);
 
         DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();
@@ -222,7 +222,7 @@ public class CalendarDiet {
          odejmuje od zapotrzebowania wartosci dodane i wrzucam do 2 wiersza
          */
         //kcal b w t        5678
-        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> list = new ArrayList<>();
         list = dataBase.getAnswerListofList("SELECT * FROM `uzytkownik` WHERE nazwisko like 'Wojtasik'");
         //System.out.println("rozmiar listy"+list.size());
         //for (int i = 0; i < list.size(); i++) {
@@ -289,8 +289,8 @@ public class CalendarDiet {
         String query = new String();
         query = "SELECT nazwa, ilosc FROM `posilek` where data like " + dateString;
 
-        @SuppressWarnings({"UseOfObsoleteCollectionType", "Convert2Diamond"})
-        ArrayList<Vector<String>> arrayList = new ArrayList<Vector<String>>();
+        
+        ArrayList<Vector<String>> arrayList = new ArrayList<>();
         arrayList = dataBase.getAnswerListofVector(query);
 
         DefaultTableModel table = (DefaultTableModel) tblProducts.getModel();

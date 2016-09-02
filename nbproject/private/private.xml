@@ -9,6 +9,7 @@
             <file>file:/C:/Users/Mazi/Documents/NetBeansProjects/lab_JDBC/src/lab_jdbc/AskInbox.java</file>
             <file>file:/C:/Users/Mazi/Documents/NetBeansProjects/lab_JDBC/src/lab_jdbc/WindowMaker.java</file>
         </group>
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/m.wojtasik/Documents/joBetterYourself/src/lab_jdbc/CalendarTraining.java</file>
             <file>file:/C:/Users/m.wojtasik/Documents/joBetterYourself/src/lab_jdbc/DateHandler.java</file>
@@ -17,6 +18,15 @@
             <file>file:/C:/Users/m.wojtasik/Documents/joBetterYourself/src/lab_jdbc/CalendarMeasurements.java</file>
             <file>file:/C:/Users/m.wojtasik/Documents/joBetterYourself/src/lab_jdbc/DataBaseHandler.java</file>
             <file>file:/C:/Users/m.wojtasik/Documents/joBetterYourself/todo.txt</file>
+=======
+        <group name="LWJGL2">
+            <file>file:/M:/studia/s5/Systemy%20Baz%20Danych%202/lab_JDBC/todo.txt</file>
+            <file>file:/M:/studia/s5/Systemy%20Baz%20Danych%202/lab_JDBC/src/lab_jdbc/WindowMaker.java</file>
+            <file>file:/M:/studia/s5/Systemy%20Baz%20Danych%202/lab_JDBC/src/lab_jdbc/NewProduct.java</file>
+            <file>file:/M:/studia/s5/Systemy%20Baz%20Danych%202/lab_JDBC/src/lab_jdbc/DataBaseHandler.java</file>
+            <file>file:/M:/studia/s5/Systemy%20Baz%20Danych%202/lab_JDBC/src/lab_jdbc/CalendarDiet.java</file>
+            <file>file:/M:/studia/s5/Systemy%20Baz%20Danych%202/lab_JDBC/src/lab_jdbc/Welcome.java</file>
+>>>>>>> 4a54c3d90e6ce75b0b5a7bbdbaf073ba24f76062
         </group>
     </open-files>
 </project-private>
